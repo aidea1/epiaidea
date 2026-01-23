@@ -26,12 +26,15 @@
       --max:1100px;
     }
     .wordmark{
+  display:inline-flex;
+  align-items:baseline;
   font-weight: 800;
   letter-spacing: 2px;
-  font-size: 26px;
+  font-size: 22px;
   line-height: 1;
   white-space: nowrap;
 }
+.wordmark .w{ color: var(--text); }
 .wordmark .ai{ color: var(--accent); }
 
     *{box-sizing:border-box}
@@ -146,7 +149,7 @@
     <div class="topbar">
       <div class="brand">
         <div class="wordmark" aria-label="EPIAIDEA">
-  <span>EPI</span><span class="ai">AI</span><span>DEA</span>
+  <span class="w">EPI</span><span class="ai">AI</span><span class="w">DEA</span>
 </div>
         <div class="name">EPIAIDEA</div>
       </div>
