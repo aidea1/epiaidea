@@ -25,6 +25,15 @@
       --accent:#f2c94c;
       --max:1100px;
     }
+    .wordmark{
+  font-weight: 800;
+  letter-spacing: 2px;
+  font-size: 26px;
+  line-height: 1;
+  white-space: nowrap;
+}
+.wordmark .ai{ color: var(--accent); }
+
     *{box-sizing:border-box}
     body{
       margin:0;
@@ -136,7 +145,9 @@
   <div class="wrap">
     <div class="topbar">
       <div class="brand">
-        <img src="assets/logo.svg" alt="EPIAIDEA logo" />
+        <div class="wordmark" aria-label="EPIAIDEA">
+  <span>EPI</span><span class="ai">AI</span><span>DEA</span>
+</div>
         <div class="name">EPIAIDEA</div>
       </div>
       <nav aria-label="Primary navigation">
