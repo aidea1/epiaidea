@@ -25,17 +25,6 @@
       --accent:#f2c94c;
       --max:1100px;
     }
-    .wordmark{
-  display:inline-flex;
-  align-items:baseline;
-  font-weight: 800;
-  letter-spacing: 2px;
-  font-size: 22px;
-  line-height: 1;
-  white-space: nowrap;
-}
-.wordmark .w{ color: var(--text); }
-.wordmark .ai{ color: var(--accent); position: relative; top: 1px; }
 
     *{box-sizing:border-box}
     body{
@@ -48,14 +37,45 @@
       line-height:1.55;
     }
     a{color:inherit; text-decoration:none}
+
     .wrap{max-width:var(--max); margin:0 auto; padding:28px 18px 60px;}
+
     .topbar{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:18px; padding:10px 0 18px; border-bottom:1px solid var(--line);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:18px;
+      padding:10px 0 18px;
+      border-bottom:1px solid var(--line);
     }
-    .brand{display:flex; align-items:center; gap:12px; min-width:0}
-    .brand img{height:44px; width:auto; display:block}
-    .brand .name{font-weight:800; letter-spacing:.6px}
+
+    .brand{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+      gap:6px;
+      min-width:0;
+    }
+
+    .wordmark{
+      display:inline-flex;
+      align-items:baseline;
+      font-weight: 800;
+      letter-spacing: 2px;
+      font-size: 22px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .wordmark .w{ color: var(--text); }
+    .wordmark .ai{ color: var(--accent); position: relative; top: 1px; }
+
+    .brand-tagline{
+      font-size:12px;
+      letter-spacing:.6px;
+      color:var(--muted);
+      margin-top:4px;
+    }
+
     nav{display:flex; gap:16px; flex-wrap:wrap}
     nav a{
       color:var(--muted);
@@ -63,19 +83,18 @@
       border-radius:10px;
       border:1px solid transparent;
     }
-    nav a:hover{color:var(--text); border-color:var(--line); background:rgba(255,255,255,.04)}
-    .hero{padding:40px 0 18px}
-    .kicker{
-      display:inline-flex; align-items:center; gap:8px;
-      color:var(--muted);
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.03);
-      padding:8px 12px; border-radius:999px;
-      font-size:13px;
+    nav a:hover{
+      color:var(--text);
+      border-color:var(--line);
+      background:rgba(255,255,255,.04)
     }
-    .dot{width:9px; height:9px; background:var(--accent); border-radius:50%}
+
+    .hero{padding:40px 0 18px}
+
     h1{
-      font-size:44px; line-height:1.08; margin:16px 0 10px;
+      font-size:44px;
+      line-height:1.08;
+      margin:0 0 10px;
       letter-spacing:-.6px;
     }
     .sub{
@@ -84,6 +103,7 @@
       margin:0 0 20px;
       max-width:900px;
     }
+
     .cta{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px}
     .btn{
       display:inline-flex; align-items:center; justify-content:center;
@@ -98,6 +118,7 @@
       border-color: rgba(242,201,76,.35);
     }
     .btn:hover{transform:translateY(-1px)}
+
     .grid{
       display:grid;
       grid-template-columns: repeat(12, 1fr);
@@ -112,14 +133,17 @@
     }
     .card h3{margin:0 0 8px; font-size:16px}
     .card p{margin:0; color:var(--muted); font-size:14px}
+
     .span4{grid-column: span 4}
     .span6{grid-column: span 6}
     .span12{grid-column: span 12}
+
     @media (max-width: 900px){
       h1{font-size:36px}
       .span4,.span6{grid-column:span 12}
-      .brand img{height:40px}
+      .topbar{align-items:flex-start}
     }
+
     .section{margin-top:22px}
     .section-title{
       display:flex; align-items:baseline; justify-content:space-between; gap:12px;
@@ -127,14 +151,17 @@
     }
     .section-title h2{margin:0; font-size:18px}
     .section-title .hint{color:var(--muted); font-size:13px}
+
     .list{display:grid; grid-template-columns: repeat(12,1fr); gap:14px}
     .item{grid-column: span 6}
     @media (max-width:900px){ .item{grid-column: span 12} }
+
     .pill{
       display:inline-block; font-size:12px; color:var(--muted);
       border:1px solid var(--line); padding:5px 9px; border-radius:999px;
       margin-bottom:10px;
     }
+
     footer{
       margin-top:38px; padding-top:18px; border-top:1px solid var(--line);
       color:var(--muted); font-size:13px;
@@ -149,9 +176,11 @@
     <div class="topbar">
       <div class="brand">
         <div class="wordmark" aria-label="EPIAIDEA">
-  <span class="w">EPI</span><span class="ai">AI</span><span class="w">DEA</span>
-</div>
+          <span class="w">EPI</span><span class="ai">AI</span><span class="w">DEA</span>
+        </div>
+        <div class="brand-tagline">Epidemiology + AI + Data + Evidence + Action</div>
       </div>
+
       <nav aria-label="Primary navigation">
         <a href="about.html">About</a>
         <a href="research.html">Research</a>
@@ -161,12 +190,12 @@
     </div>
 
     <section class="hero">
-      <div class="kicker"><span class="dot"></span> Epidemiology + AI + Data + Evidence + Action</div>
       <h1>Digital epidemiology and population analytics<br/>built for inference and real-world decisions.</h1>
       <p class="sub">
         EPIAIDEA integrates epidemiologic theory with AI-enabled methods to translate large-scale digital,
         clinical, and administrative data into validated evidence for public health action.
       </p>
+
       <div class="cta">
         <a class="btn primary" href="research.html">Explore Research</a>
         <a class="btn" href="dashboards.html">View Dashboards</a>
