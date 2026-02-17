@@ -1,7 +1,131 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dashboards | EPIAIDEA</title></head><body style="font-family:Arial,Helvetica,sans-serif;max-width:900px;margin:40px;">
-<h1>Dashboards</h1>
-<p>Interactive maps and analytics will be hosted here (Plotly/Folium HTML). Each dashboard will include data source and time coverage.</p>
-<p><a href="index.html">← Back to home</a></p>
-</body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboards | EPIAIDEA</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --accent: #ffcc00; /* AI Yellow */
+            --text: #e6edf3;
+            --dim-text: #8b949e;
+            --link: #58a6ff;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            max-width: 1100px;
+            margin: 60px auto;
+            padding: 0 20px;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        h1 { font-size: 2.5rem; color: #fff; margin-bottom: 10px; }
+        .section-tag { color: var(--accent); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; margin-top: 40px; display: block; border-bottom: 1px solid #30363d; padding-bottom: 5px; }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
 
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .card h3 { margin: 0 0 10px 0; font-size: 1.25rem; color: #fff; }
+        .card p { font-size: 0.95rem; color: var(--dim-text); flex-grow: 1; margin-bottom: 20px; }
+        
+        .tech-stack { font-size: 0.75rem; color: var(--link); margin-bottom: 15px; font-family: monospace; }
+
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: #000;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            text-align: center;
+            transition: opacity 0.2s;
+        }
+        .btn:hover { opacity: 0.9; }
+
+        .back-link { margin-top: 60px; display: block; color: var(--link); text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <h1>Interactive Platforms</h1>
+    <p>Translation of digital population signals and geospatial data into decision-support tools for public health action.</p>
+
+    <span class="section-tag">Digital Epidemiology & APSO</span>
+    <div class="grid">
+        <div class="card">
+            <h3>APSO: Fibroid Care Access</h3>
+            <div class="tech-stack">Google Search API • Geospatial Modeling • Stanford Pilot</div>
+            <p>Linking digital demand signals (search behavior) with structural care capacity to detect geographic unmet need in California.</p>
+            <a href="https://aidea1.github.io/aspo-fibroid-california/" target="_blank" class="btn">View Platform</a>
+        </div>
+
+        <div class="card">
+            <h3>Infodemiology: Weight-Loss Misinformation</h3>
+            <div class="tech-stack">ClaimReview API • Narrative Taxonomy • GLP-1 Analysis</div>
+            <p>API-driven surveillance of fact-checked misinformation across GLP-1 therapies and unregulated supplement markets.</p>
+            <a href="https://aidea1.github.io/weightloss-misinformation-dashboard/" target="_blank" class="btn">View Surveillance</a>
+        </div>
+    </div>
+
+    <span class="section-tag">Policy Surveillance & Health Systems</span>
+    <div class="grid">
+        <div class="card">
+            <h3>Telehealth & Payment Parity Dashboard</h3>
+            <div class="tech-stack">Policy Surveillance • 14-Feature Intensity Index • U.S. State-Level</div>
+            <p>Quantifying telehealth utilization alongside service rates and policy payment parity for Medicaid planning.</p>
+            <a href="https://aidea1.github.io/telehealth-sud-payment-parity-dashboard/" target="_blank" class="btn">Launch Dashboard</a>
+        </div>
+
+        <div class="card">
+            <h3>ND Harm Reduction Gap Analysis</h3>
+            <div class="tech-stack">Centroid Travel Modeling • Risk Scoring • API Infrastructure</div>
+            <p>Geospatial surveillance identifying structural overdose prevention gaps through travel time modeling and population forecasting.</p>
+            <a href="https://aidea1.github.io/nd-harmreduction-map/" target="_blank" class="btn">Analyze Gaps</a>
+        </div>
+    </div>
+
+    <span class="section-tag">Tobacco & Vape Retail Surveillance</span>
+    <div class="grid">
+        <div class="card">
+            <h3>North Dakota Statewide Proximity</h3>
+            <div class="tech-stack">Geospatial Analytics • Retailer Density • School Zones</div>
+            <p>Mapping retailer clustering and school proximity across North Dakota to inform prevention policy.</p>
+            <a href="https://aidea1.github.io/nd-school-tobacco-proximity/" target="_blank" class="btn">State Map</a>
+        </div>
+
+        <div class="card">
+            <h3>Fargo School Proximity (2026)</h3>
+            <div class="tech-stack">Interactive GIS • Enforcement Planning • Local Policy</div>
+            <p>Localized geospatial surveillance integrating school locations and retailer density for policy planning in Fargo.</p>
+            <a href="https://aidea1.github.io/fargo-school-tobacco-map/" target="_blank" class="btn">Local View</a>
+        </div>
+    </div>
+
+    <a href="index.html" class="back-link">← Back to home</a>
+
+</body>
+</html>
