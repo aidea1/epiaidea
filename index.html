@@ -8,12 +8,10 @@
   <meta name="description" content="EPIAIDEA is a digital epidemiology platform integrating epidemiology, AI, and population analytics to translate data into evidence for public health action." />
   <meta name="robots" content="index,follow" />
 
-  <!-- Social preview (LinkedIn/Twitter) -->
   <meta property="og:title" content="EPIAIDEA" />
   <meta property="og:description" content="Epidemiology + AI + Data + Evidence + Action" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://epiaidea.com/" />
-  <meta property="og:image" content="https://epiaidea.com/assets/logo.png" />
 
   <style>
     :root{
@@ -22,7 +20,7 @@
       --text:#e7eefc;
       --muted:#b8c4da;
       --line:rgba(255,255,255,.10);
-      --accent:#f2c94c;
+      --accent:#f2c94c; /* AI Yellow */
       --max:1100px;
     }
 
@@ -49,125 +47,90 @@
       border-bottom:1px solid var(--line);
     }
 
-    .brand{
-      display:flex;
-      flex-direction:column;
-      align-items:flex-start;
-      gap:6px;
-      min-width:0;
-    }
+    .brand{ display:flex; flex-direction:column; align-items:flex-start; gap:6px; min-width:0; }
 
     .wordmark{
       display:inline-flex;
       align-items:baseline;
       font-weight: 800;
       letter-spacing: 2px;
-      font-size: 22px;
+      font-size: 26px; /* Slightly larger brand name */
       line-height: 1;
       white-space: nowrap;
     }
     .wordmark .w{ color: var(--text); }
     .wordmark .ai{ color: var(--accent); position: relative; top: 1px; }
 
-    .brand-tagline{
-      font-size:12px;
-      letter-spacing:.6px;
-      color:var(--muted);
-      margin-top:4px;
-    }
+    .brand-tagline{ font-size:12px; letter-spacing:.6px; color:var(--muted); margin-top:4px; }
 
     nav{display:flex; gap:16px; flex-wrap:wrap}
-    nav a{
-      color:var(--muted);
-      padding:8px 10px;
-      border-radius:10px;
-      border:1px solid transparent;
-    }
-    nav a:hover{
-      color:var(--text);
-      border-color:var(--line);
-      background:rgba(255,255,255,.04)
-    }
+    nav a{ color:var(--muted); padding:8px 10px; border-radius:10px; border:1px solid transparent; }
+    nav a:hover{ color:var(--text); border-color:var(--line); background:rgba(255,255,255,.04) }
 
-    .hero{padding:40px 0 18px}
+    .hero{padding:60px 0 40px}
+    h1{ font-size:44px; line-height:1.08; margin:0 0 10px; letter-spacing:-.6px; }
+    .sub{ font-size:18px; color:var(--muted); margin:0 0 20px; max-width:900px; }
 
-    h1{
-      font-size:44px;
-      line-height:1.08;
-      margin:0 0 10px;
-      letter-spacing:-.6px;
+    /* Spotlight Section Styling */
+    .spotlight {
+      background: linear-gradient(135deg, rgba(242, 201, 76, 0.12) 0%, rgba(15, 26, 46, 1) 100%);
+      border: 1px solid rgba(242, 201, 76, 0.3);
+      border-radius: 20px;
+      padding: 32px;
+      margin: 40px 0;
     }
-    .sub{
-      font-size:18px;
-      color:var(--muted);
-      margin:0 0 20px;
-      max-width:900px;
-    }
+    .spotlight-label { color: var(--accent); text-transform: uppercase; font-weight: 800; font-size: 11px; letter-spacing: 1.5px; margin-bottom: 8px; display: block; }
+    .spotlight h2 { margin: 0 0 12px; font-size: 28px; color: #fff; }
+    .spotlight p { color: var(--muted); font-size: 16px; max-width: 800px; }
+    .spotlight-meta { display: flex; gap: 24px; margin-top: 20px; font-size: 13px; color: var(--text); }
 
-    .cta{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px}
+    .cta{display:flex; gap:12px; flex-wrap:wrap; margin-top:24px}
     .btn{
       display:inline-flex; align-items:center; justify-content:center;
-      padding:11px 14px; border-radius:12px;
+      padding:12px 18px; border-radius:12px;
       border:1px solid var(--line);
       background:rgba(255,255,255,.04);
       color:var(--text);
       font-weight:700;
+      transition: 0.2s;
     }
     .btn.primary{
-      background: linear-gradient(180deg, rgba(242,201,76,.22), rgba(242,201,76,.10));
-      border-color: rgba(242,201,76,.35);
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
     }
-    .btn:hover{transform:translateY(-1px)}
+    .btn:hover{transform:translateY(-2px); filter: brightness(1.1);}
 
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap:14px;
-      margin-top:26px;
-    }
-    .card{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      border-radius:16px;
-      padding:16px;
-    }
-    .card h3{margin:0 0 8px; font-size:16px}
-    .card p{margin:0; color:var(--muted); font-size:14px}
+    .grid{ display:grid; grid-template-columns: repeat(12, 1fr); gap:14px; margin-top:26px; }
+    .card{ border:1px solid var(--line); background: rgba(255,255,255,.03); border-radius:16px; padding:20px; transition: 0.2s; }
+    .card:hover{ border-color: rgba(242,201,76, 0.4); }
+    .card h3{margin:0 0 8px; font-size:17px; color: #fff;}
+    .card p{margin:0; color:var(--muted); font-size:14px; line-height: 1.5;}
 
     .span4{grid-column: span 4}
     .span6{grid-column: span 6}
-    .span12{grid-column: span 12}
-
-    @media (max-width: 900px){
-      h1{font-size:36px}
-      .span4,.span6{grid-column:span 12}
-      .topbar{align-items:flex-start}
-    }
-
-    .section{margin-top:22px}
-    .section-title{
-      display:flex; align-items:baseline; justify-content:space-between; gap:12px;
-      margin:0 0 10px;
-    }
-    .section-title h2{margin:0; font-size:18px}
-    .section-title .hint{color:var(--muted); font-size:13px}
-
-    .list{display:grid; grid-template-columns: repeat(12,1fr); gap:14px}
-    .item{grid-column: span 6}
-    @media (max-width:900px){ .item{grid-column: span 12} }
+    
+    .section{margin-top:50px}
+    .section-title{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom: 20px; }
+    .section-title h2{margin:0; font-size:22px}
 
     .pill{
-      display:inline-block; font-size:12px; color:var(--muted);
-      border:1px solid var(--line); padding:5px 9px; border-radius:999px;
-      margin-bottom:10px;
+      display:inline-block; font-size:11px; color:var(--accent); font-weight: 700;
+      border:1px solid rgba(242,201,76, 0.3); padding:3px 10px; border-radius:999px;
+      margin-bottom:12px; text-transform: uppercase;
     }
 
     footer{
-      margin-top:38px; padding-top:18px; border-top:1px solid var(--line);
+      margin-top:60px; padding-top:30px; border-top:1px solid var(--line);
       color:var(--muted); font-size:13px;
       display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
     }
     .accent{color:var(--accent)}
+
+    @media (max-width: 900px){
+      h1{font-size:32px}
+      .span4,.span6{grid-column:span 12}
+    }
   </style>
 </head>
 
@@ -190,7 +153,7 @@
     </div>
 
     <section class="hero">
-      <h1>Digital epidemiology and population analytics<br/>built for inference and real-world decisions.</h1>
+      <h1>Digital epidemiology and population analytics built for inference and real-world decisions.</h1>
       <p class="sub">
         EPIAIDEA integrates epidemiologic theory with AI-enabled methods to translate large-scale digital,
         clinical, and administrative data into validated evidence for public health action.
@@ -217,42 +180,62 @@
       </div>
     </section>
 
+    <section class="spotlight">
+      <span class="spotlight-label">Featured Collaboration</span>
+      <h2>Stanford University: APSO Prototype</h2>
+      <p>
+        The <strong>Adaptive Population Signal Observatory (APSO)</strong> links digital demand signals with structural care capacity. 
+        Our pilot detects geographic unmet need for Fibroid care in California by integrating Google Search interest with spatial assignment models.
+      </p>
+      <div class="spotlight-meta">
+        <span><strong>Status:</strong> Live Pilot (2019–2025)</span>
+        <span><a href="https://aidea1.github.io/aspo-fibroid-california/" target="_blank" style="color:var(--accent); text-decoration: underline;">View Live Observatory →</a></span>
+      </div>
+    </section>
+
     <section class="section">
       <div class="section-title">
-        <h2>Featured work</h2>
-        <div class="hint">Add 3 flagship projects first. Quality over volume.</div>
+        <h2>Selected Implementations</h2>
       </div>
 
-      <div class="list">
-        <div class="card item">
-          <div class="pill">Project</div>
-          <h3>North Dakota Harm Reduction Access Gap</h3>
-          <p>County-level access disparities using geospatial distance metrics and service listings. Interactive mapping and reproducible outputs.</p>
+      <div class="grid">
+        <div class="card span6">
+          <div class="pill">Public Health Policy</div>
+          <h3>Telehealth & Payment Parity Dashboard</h3>
+          <p>Reproduction of time-aligned policy surveillance quantifying telehealth utilization alongside a 14-feature payment parity index (0–14) for Medicaid planning.</p>
+          <a href="https://aidea1.github.io/telehealth-sud-payment-parity-dashboard/" target="_blank" style="display:block; margin-top:15px; font-size:13px; color:var(--accent)">Launch Platform →</a>
         </div>
 
-        <div class="card item">
-          <div class="pill">Project</div>
-          <h3>Signal–Structure Mismatch (Search Interest × Care Access)</h3>
-          <p>Digital population signals aligned against structural care access to quantify mismatch and guide targeted interventions.</p>
+        <div class="card span6">
+          <div class="pill">Geospatial AI</div>
+          <h3>ND Harm Reduction Access Gap</h3>
+          <p>API-driven geospatial surveillance integrating centroid-based travel time modeling to identify structural overdose prevention gaps in North Dakota.</p>
+          <a href="https://aidea1.github.io/nd-harmreduction-map/" target="_blank" style="display:block; margin-top:15px; font-size:13px; color:var(--accent)">Launch Platform →</a>
         </div>
 
-        <div class="card item">
-          <div class="pill">Dashboard</div>
-          <h3>Interactive Maps and Analytics</h3>
-          <p>Plotly/Folium dashboards for policy monitoring, access metrics, and spatial-temporal epidemiology.</p>
+        <div class="card span6">
+          <div class="pill">Infodemiology</div>
+          <h3>Weight-Loss Misinformation Surveillance</h3>
+          <p>API-driven analysis of fact-checked misinformation across GLP-1 therapies and unregulated supplement markets using structured ClaimReview data.</p>
+          <a href="https://aidea1.github.io/weightloss-misinformation-dashboard/" target="_blank" style="display:block; margin-top:15px; font-size:13px; color:var(--accent)">View Analytics →</a>
         </div>
 
-        <div class="card item">
-          <div class="pill">Methods</div>
-          <h3>From Data to Evidence</h3>
-          <p>Methods-forward approach: bias awareness, uncertainty, and transparent evaluation over black-box prediction.</p>
+        <div class="card span6">
+          <div class="pill">Tobacco Policy</div>
+          <h3>Vape & Tobacco Retailer Proximity</h3>
+          <p>Mapping retailer density and school proximity across North Dakota (Statewide and Fargo-specific) to inform enforcement and prevention policy.</p>
+          <a href="https://aidea1.github.io/nd-school-tobacco-proximity/" target="_blank" style="display:block; margin-top:15px; font-size:13px; color:var(--accent)">State View →</a>
         </div>
       </div>
     </section>
 
     <footer>
       <div>© <span id="y"></span> EPIAIDEA · <span class="accent">Epidemiology + AI + Data + Evidence + Action</span></div>
-      <div><a href="contact.html">Contact</a> · <a href="about.html">Editorial bio</a></div>
+      <div>
+        <a href="https://www.linkedin.com/in/akshayphd/" target="_blank">LinkedIn</a> · 
+        <a href="contact.html">Contact</a> · 
+        <a href="about.html">About</a>
+      </div>
     </footer>
   </div>
 
