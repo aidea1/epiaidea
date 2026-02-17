@@ -54,7 +54,7 @@
       align-items:baseline;
       font-weight: 800;
       letter-spacing: 2px;
-      font-size: 26px; /* Slightly larger brand name */
+      font-size: 26px;
       line-height: 1;
       white-space: nowrap;
     }
@@ -79,10 +79,15 @@
       padding: 32px;
       margin: 40px 0;
     }
-    .spotlight-label { color: var(--accent); text-transform: uppercase; font-weight: 800; font-size: 11px; letter-spacing: 1.5px; margin-bottom: 8px; display: block; }
-    .spotlight h2 { margin: 0 0 12px; font-size: 28px; color: #fff; }
-    .spotlight p { color: var(--muted); font-size: 16px; max-width: 800px; }
-    .spotlight-meta { display: flex; gap: 24px; margin-top: 20px; font-size: 13px; color: var(--text); }
+    .spotlight-label { color: var(--accent); text-transform: uppercase; font-weight: 800; font-size: 11px; letter-spacing: 1.5px; margin-bottom: 20px; display: block; }
+    .spotlight h2 { margin: 0 0 24px; font-size: 28px; color: #fff; border-bottom: 1px solid var(--line); padding-bottom: 10px; }
+    
+    .spotlight-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+
+    .spotlight-item h3 { color: var(--accent); margin: 0 0 10px; font-size: 19px; }
+    .spotlight-item p { color: var(--muted); font-size: 15px; margin-bottom: 15px; }
+
+    .spotlight-meta { display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--text); }
 
     .cta{display:flex; gap:12px; flex-wrap:wrap; margin-top:24px}
     .btn{
@@ -130,6 +135,7 @@
     @media (max-width: 900px){
       h1{font-size:32px}
       .span4,.span6{grid-column:span 12}
+      .spotlight-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -181,15 +187,33 @@
     </section>
 
     <section class="spotlight">
-      <span class="spotlight-label">Featured Collaboration</span>
-      <h2>Stanford University: APSO Prototype</h2>
-      <p>
-        The <strong>Adaptive Population Signal Observatory (APSO)</strong> links digital demand signals with structural care capacity. 
-        Our pilot detects geographic unmet need for Fibroid care in California by integrating Google Search interest with spatial assignment models.
-      </p>
-      <div class="spotlight-meta">
-        <span><strong>Status:</strong> Live Pilot (2019–2025)</span>
-        <span><a href="https://aidea1.github.io/aspo-fibroid-california/" target="_blank" style="color:var(--accent); text-decoration: underline;">View Live Observatory →</a></span>
+      <span class="spotlight-label">Strategic Collaboration: Stanford University</span>
+      <h2>Advanced Preparedness & Shelter Operations (APSO)</h2>
+      
+      <div class="spotlight-grid">
+        <div class="spotlight-item">
+          <h3>Digital Twin: Heat Resilience</h3>
+          <p>
+            Identified "Critical Deserts" in the Southwest US where extreme heat creates 100% resource deficits. 
+            Quantified a <strong>$49.25M systemic risk</strong> using predictive asset sensing and Digital Twin modeling.
+          </p>
+          <div class="spotlight-meta">
+            <span><strong>Status:</strong> Active (2026)</span>
+            <a href="https://aidea1.github.io/Digital-Epidemiology-Heat-Resilience/" target="_blank" style="color:var(--accent); text-decoration: underline;">Interactive Resilience Map →</a>
+          </div>
+        </div>
+
+        <div class="spotlight-item">
+          <h3>Care Access Signal Observatory</h3>
+          <p>
+            A closed-loop framework linking digital demand signals with structural care capacity. 
+            Detecting geographic unmet need for Fibroid care in California through Google Search interest integration.
+          </p>
+          <div class="spotlight-meta">
+            <span><strong>Status:</strong> Live Pilot (2019–2025)</span>
+            <a href="https://aidea1.github.io/aspo-fibroid-california/" target="_blank" style="color:var(--accent); text-decoration: underline;">View Live Observatory →</a>
+          </div>
+        </div>
       </div>
     </section>
 
