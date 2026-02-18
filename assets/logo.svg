@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 580 120"
+     width="580" height="120"
+     role="img"
+     aria-label="EPI•AI•DEA logo"
+     preserveAspectRatio="xMinYMid meet">
+  <!-- Transparent background -->
+  <text x="0" y="86"
+        font-family="Inter, Arial, Helvetica, sans-serif"
+        font-size="85"
+        font-weight="800"
+        letter-spacing="0.5">
+    <tspan fill="#ffffff">EPI</tspan>
+    <tspan fill="#b8c4da">•</tspan>
+    <tspan fill="#f2c94c">AI</tspan>
+    <tspan fill="#b8c4da">•</tspan>
+    <tspan fill="#ffffff">DEA</tspan>
+  </text>
+</svg>
