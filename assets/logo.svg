@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="580" height="120" viewBox="0 0 580 120" role="img" aria-label="EPIAIDEA logo">
+  <rect width="100%" height="100%" fill="none"></rect>
+  <text x="0" y="92" font-family="Inter, Arial, Helvetica, sans-serif" font-size="85" font-weight="800" letter-spacing="2">
+    <tspan fill="#ffffff">EPI</tspan>
+    <tspan fill="#f2c94c" dy="-3.5">AI</tspan>
+    <tspan fill="#ffffff" dy="3.5">DEA</tspan>
+  </text>
+</svg>
