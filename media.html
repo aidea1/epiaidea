@@ -1,103 +1,227 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>EPIAIDEA · Media</title>
-  <meta name="description" content="Selected media coverage and interviews featuring EPIAIDEA work across AI safety, injury epidemiology, substance use, and health access." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Update this to your actual site stylesheet -->
-  <link rel="stylesheet" href="assets/style.css" />
+  <title>EPIAIDEA | Media</title>
+  <meta name="description" content="Media and news coverage featuring EPIAIDEA work in digital epidemiology, AI safety, and health systems." />
+  <meta name="robots" content="index,follow" />
+
+  <meta property="og:title" content="EPIAIDEA | Media" />
+  <meta property="og:description" content="Media and news coverage featuring EPIAIDEA work in digital epidemiology, AI safety, and health systems." />
+  <meta property="og:type" content="website" />
 
   <style>
-    /* Only page-specific tweaks; safe even if your main CSS exists */
-    .meta-note { margin-top: 10px; color: #555; font-size: 13px; }
-    .list { margin: 0; padding-left: 18px; }
-    .list li { margin: 8px 0; line-height: 1.35; }
-    .list a { color: var(--accent); text-decoration: none; }
-    .list a:hover { text-decoration: underline; }
-
-    .year-block { margin-top: 12px; }
-    .year-title { font-weight: 700; margin: 0 0 6px 0; }
-    details.summary-block { margin-top: 16px; }
-    details.summary-block summary {
-      cursor: pointer;
-      font-weight: 700;
-      color: var(--accent);
-      list-style: none;
+    :root{
+      --bg:#0b1220;
+      --card:#0f1a2e;
+      --text:#e7eefc;
+      --muted:#b8c4da;
+      --line:rgba(255,255,255,.10);
+      --accent:#f2c94c;
+      --max:1100px;
     }
-    details.summary-block summary::-webkit-details-marker { display: none; }
 
-    .badge-row { margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap; }
-    .tag {
-      font-size: 11px;
-      padding: 4px 8px;
-      border: 1px solid #e5e5e5;
-      border-radius: 999px;
-      color: #444;
-      background: #fff;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(1100px 600px at 15% 10%, rgba(242,201,76,.14), transparent 60%),
+        radial-gradient(900px 500px at 90% 0%, rgba(120,170,255,.10), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.55;
+    }
+    a{color:inherit; text-decoration:none}
+
+    .wrap{max-width:var(--max); margin:0 auto; padding:28px 18px 60px;}
+
+    .topbar{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:18px;
+      padding:10px 0 18px;
+      border-bottom:1px solid var(--line);
+    }
+
+    .brand{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+      gap:6px;
+      min-width:0;
+    }
+
+    .wordmark{
+      display:inline-flex;
+      align-items:baseline;
+      font-weight:800;
+      letter-spacing:1px;
+      font-size:34px;
+      line-height:1;
+      white-space:nowrap;
+    }
+    .wordmark .w{ color: var(--text); }
+    .wordmark .ai{ color: var(--accent); position: relative; top: 1px; }
+
+    .brand-tagline{
+      font-size:12px;
+      letter-spacing:.6px;
+      color:var(--muted);
+      margin-top:2px;
+    }
+
+    nav{display:flex; gap:16px; flex-wrap:wrap}
+    nav a{
+      color:var(--muted);
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid transparent;
+    }
+    nav a:hover{
+      color:var(--text);
+      border-color:var(--line);
+      background:rgba(255,255,255,.04);
+    }
+
+    .hero{padding:40px 0 10px}
+    h1{font-size:38px; line-height:1.12; margin:0 0 10px; letter-spacing:-.6px;}
+    .sub{font-size:16px; color:var(--muted); margin:0; max-width:900px;}
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:14px;
+      margin-top:26px;
+    }
+    .card{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      border-radius:16px;
+      padding:20px;
+      transition: border-color .2s ease;
+    }
+    .card:hover{ border-color: rgba(242,201,76, 0.4); }
+    .card h3{margin:0 0 8px; font-size:17px; color:#fff;}
+    .card p{margin:0; color:var(--muted); font-size:14px; line-height:1.5;}
+
+    .span4{grid-column: span 4}
+    .span6{grid-column: span 6}
+    .span12{grid-column: span 12}
+
+    .section{margin-top:32px}
+    .section-title{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      margin-bottom:10px;
+      gap:12px;
+    }
+    .section-title h2{margin:0; font-size:22px}
+
+    .pill{
+      display:inline-block;
+      font-size:11px;
+      color:var(--accent);
+      font-weight:700;
+      border:1px solid rgba(242,201,76, 0.3);
+      padding:3px 10px;
+      border-radius:999px;
+      margin-bottom:12px;
+      text-transform: uppercase;
+    }
+
+    /* Footer section helpers (your homepage uses these) */
+    .footer-section{ margin-top:60px; }
+    .footer-inner{ display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; width:100%; }
+
+    footer{
+      padding-top:30px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:13px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .accent{color:var(--accent)}
+
+    /* Simple list formatting for long coverage */
+    .coverage-list{ margin:0; padding-left:18px; color:var(--muted); }
+    .coverage-list li{ margin:8px 0; }
+    .coverage-list a{ color: var(--accent); text-decoration: underline; }
+
+    details{ margin-top:12px; }
+    summary{
+      cursor:pointer;
+      color: var(--accent);
+      font-weight:800;
+      user-select:none;
+    }
+
+    @media (max-width: 900px){
+      h1{font-size:30px}
+      .span4,.span6,.span12{grid-column:span 12}
+      .wordmark{ font-size:30px; }
     }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-    <!-- If your site has a standard nav/header, paste it here for consistency -->
-    <header class="top">
+    <div class="topbar">
       <div class="brand">
-        <a href="index.html" style="text-decoration:none; color:inherit;">EPIAIDEA</a>
+        <div class="wordmark" aria-label="EPIAIDEA">
+          <span class="w">EPI</span><span class="ai">AI</span><span class="w">DEA</span>
+        </div>
+        <div class="brand-tagline">Epidemiology + AI + Data + Evidence + Action</div>
       </div>
-      <nav class="nav">
-        <a href="index.html">Home</a>
+
+      <nav aria-label="Primary navigation">
         <a href="about.html">About</a>
-        <a href="media.html" class="active">Media</a>
+        <a href="research.html">Research</a>
+        <a href="media.html">Media</a>
         <a href="contact.html">Contact</a>
       </nav>
-    </header>
+    </div>
+
+    <section class="hero">
+      <h1>Media &amp; News Coverage</h1>
+      <p class="sub">Selected features, interviews, and syndicated coverage spanning AI safety, digital epidemiology, injury epidemiology, and health systems.</p>
+    </section>
 
     <section class="section">
       <div class="section-title">
-        <h2>Media &amp; News Coverage</h2>
+        <h2>Featured</h2>
       </div>
 
-      <p class="meta-note">
-        Selected coverage, interviews, and syndicated stories featuring EPIAIDEA research and commentary.
-        For collaborations or press inquiries, use the <a href="contact.html" style="color:var(--accent); text-decoration:none;">contact</a> page.
-      </p>
-
       <div class="grid">
-        <!-- Featured cards (keep 4–6 total) -->
         <div class="card span6">
           <div class="pill">Clinical AI Safety · 01/29/2026</div>
           <h3>Clinical Leader — Making AI Safety Routine</h3>
           <p>How sites and sponsors can continuously monitor clinical AI.</p>
-          <div class="badge-row">
-            <span class="tag">AI governance</span><span class="tag">post-deployment monitoring</span>
-          </div>
           <a href="https://www.clinicalleader.com/doc/making-ai-safety-routine-how-sites-and-sponsors-can-continuously-monitor-clinical-ai-0001"
              target="_blank" rel="noopener"
              style="display:block; margin-top:15px; font-size:13px; color:var(--accent)">Read →</a>
         </div>
 
         <div class="card span6">
-          <div class="pill">Evidence Relevance · 12/31/2025</div>
+          <div class="pill">Clinical Relevance · 12/31/2025</div>
           <h3>Clinical Leader — Clinical Relevance Over Statistical Relevance</h3>
-          <p>Expert perspectives on decision-grade evidence and interpretability.</p>
-          <div class="badge-row">
-            <span class="tag">clinical decision-making</span><span class="tag">interpretability</span>
-          </div>
+          <p>Experts prioritize clinical relevance in decision-grade evidence.</p>
           <a href="https://www.clinicalleader.com/doc/no-surprise-here-experts-value-clinical-relevance-over-statistical-relevance-0001"
              target="_blank" rel="noopener"
              style="display:block; margin-top:15px; font-size:13px; color:var(--accent)">Read →</a>
         </div>
 
         <div class="card span6">
-          <div class="pill">Global Burden · 01/07/2026</div>
+          <div class="pill">Global Cancer · 01/07/2026</div>
           <h3>ScienceDaily — A Global Cancer Surge Is Underway</h3>
-          <p>Coverage highlighting preparedness gaps and projected burden.</p>
-          <div class="badge-row">
-            <span class="tag">cancer</span><span class="tag">population health</span>
-          </div>
+          <p>Coverage on preparedness gaps amid rising global burden.</p>
           <a href="https://www.sciencedaily.com/releases/2026/01/260106224644.htm"
              target="_blank" rel="noopener"
              style="display:block; margin-top:15px; font-size:13px; color:var(--accent)">Read →</a>
@@ -106,10 +230,7 @@
         <div class="card span6">
           <div class="pill">Health Equity · 01/09/2026</div>
           <h3>TechRound — Modern Healthtech, But Who Gets the Key?</h3>
-          <p>Healthtech expansion, access inequities, and governance questions.</p>
-          <div class="badge-row">
-            <span class="tag">equity</span><span class="tag">access</span>
-          </div>
+          <p>Access inequities and governance questions in modern healthtech.</p>
           <a href="https://techround.co.uk/tech/modern-healthtech-is-opening-new-doors-to-healthcare-but-who-gets-the-key/"
              target="_blank" rel="noopener"
              style="display:block; margin-top:15px; font-size:13px; color:var(--accent)">Read →</a>
@@ -119,9 +240,6 @@
           <div class="pill">Interview · Video</div>
           <h3>72 Dragon Health — Pharmacist to Public Health Pioneer</h3>
           <p>Profile interview on research trajectory and translation.</p>
-          <div class="badge-row">
-            <span class="tag">interview</span><span class="tag">career</span>
-          </div>
           <a href="https://www.youtube.com/watch?v=LzDE21IWr4E"
              target="_blank" rel="noopener"
              style="display:block; margin-top:15px; font-size:13px; color:var(--accent)">Watch →</a>
@@ -130,175 +248,57 @@
         <div class="card span6">
           <div class="pill">AI Ethics · Feature</div>
           <h3>Innovations et Technologies — AI Ethics Spotlight</h3>
-          <p>French-language profile highlighting responsible AI in practice.</p>
-          <div class="badge-row">
-            <span class="tag">ethics</span><span class="tag">responsible AI</span>
-          </div>
+          <p>French-language profile on responsible AI and ethics in practice.</p>
           <a href="https://www.innovations-technologies.fr/decouvrez-akshaya-bhagavathula-linnovateur-qui-revolutionne-lethique-de-lintelligence-artificielle-2/"
              target="_blank" rel="noopener"
              style="display:block; margin-top:15px; font-size:13px; color:var(--accent)">Read →</a>
         </div>
       </div>
 
-      <details class="summary-block">
-        <summary>View complete coverage list (by year)</summary>
+      <details>
+        <summary>View full coverage list</summary>
 
-        <div class="card year-block">
-          <div class="year-title">2026</div>
-          <ul class="list">
-            <li>01/29/2026 — Clinical Leader — Making AI Safety Routine —
-              <a href="https://www.clinicalleader.com/doc/making-ai-safety-routine-how-sites-and-sponsors-can-continuously-monitor-clinical-ai-0001" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>01/07/2026 — ScienceDaily — A global cancer surge is underway —
-              <a href="https://www.sciencedaily.com/releases/2026/01/260106224644.htm" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>01/09/2026 — TechRound — Modern Healthtech… who gets the key? —
-              <a href="https://techround.co.uk/tech/modern-healthtech-is-opening-new-doors-to-healthcare-but-who-gets-the-key/" target="_blank" rel="noopener">Link</a>
-            </li>
-          </ul>
-        </div>
-
-        <div class="card year-block">
-          <div class="year-title">2025</div>
-          <ul class="list">
-            <li>12/31/2025 — Clinical Leader — Clinical relevance over statistical relevance —
-              <a href="https://www.clinicalleader.com/doc/no-surprise-here-experts-value-clinical-relevance-over-statistical-relevance-0001" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>05/07/2025 — Medical Xpress — Gaps in Narcan awareness/possession —
-              <a href="https://medicalxpress.com/news/2025-05-critical-gaps-narcan-awareness-adults.html" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>04/02/2025 — Bamboozle — Microplastics explainer —
-              <a href="https://www.bamboozlehome.com/blogs/news/what-are-microplastics-why-are-they-bad-for-you/" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>02/21/2025 — Daily Mail — Cocaine overdoses spike (hotspot map) —
-              <a href="https://www.dailymail.co.uk/health/article-14418379/cocaine-abuse-growth-states-using-cdc-data.html" target="_blank" rel="noopener">Link</a>
-            </li>
-          </ul>
-        </div>
-
-        <div class="card year-block">
-          <div class="year-title">2024</div>
-          <ul class="list">
-            <li>12/15/2024 — JMIR Publications — Conversation on open access, rigor, AI —
-              <a href="https://blog.jmir.org/a-conversation-with-dr.-bhagavathula-on-open-access-rigor-and-the-future-of-ai-in-research" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>12/14/2024 — La Noticia Digital — AI ethics feature —
-              <a href="https://lanoticiadigital.com.ar/uncategorized-en/meet-akshaya-bhagavathula-the-innovator-transforming-ai-ethics/12905/" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>12/14/2024 — La Noticia Digital — E-bike safety debate —
-              <a href="https://lanoticiadigital.com.ar/uncategorized-en/e-bike-accident-sparks-debate-is-technology-outpacing-safety/13038/" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>12/13/2024 — Medscape — e-scooter/e-bike injuries tripled —
-              <a href="https://www.medscape.com/viewarticle/e-scooter-and-e-bike-injuries-triple-linked-alcohol-and-2024a1000n29" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>12/13/2024 — Today (MSN) — muscle/bone health —
-              <a href="https://www.msn.com/en-us/health/other/i-m-an-orthopedist-7-things-i-never-do-to-keep-my-muscle-and-bones-healthy/ar-AA1vPeB4" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>12/12/2024 — Physicians Weekly — ED visits increase —
-              <a href="https://www.physiciansweekly.com/2019-to-2022-saw-increase-in-e-scooter-bike-related-injury-ed-visits/" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>12/12/2024 — Healio — injuries fueled by substance use —
-              <a href="https://www.healio.com/news/primary-care/20241211/surge-in-electric-bicycle-scooter-injuries-may-be-fueled-by-substance-abuse" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>12/11/2024 — Scientific American — injuries tripled —
-              <a href="https://www.scientificamerican.com/article/injuries-from-electric-bikes-and-electric-scooters-have-tripled-heres-what-to-know/" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>12/10/2024 — U.S. News — teens, booze, e-scooters —
-              <a href="https://www.usnews.com/news/health-news/articles/2024-12-10/teens-booze-and-e-scooters-a-rising-threat-as-injuries-crowd-ers" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>12/10/2024 — News Medical — alcohol/substance contribution —
-              <a href="https://www.news-medical.net/news/20241210/Alcohol-and-substance-use-contribute-to-rising-e-scooter-and-e-bike-injuries.aspx" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>12/09/2024 — BMJ Group — injuries tripled since 2019 —
-              <a href="https://bmjgroup.com/us-e-scooter-e-bike-injuries-have-tripled-since-2019-fuelled-by-alcohol-substance-use/" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>12/03/2024 — North Dakota Compass — premature HF mortality —
-              <a href="https://www.ndcompass.org/trends/ask-a-researcher/" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>11/21/2024 — mHealth — Outstanding Authors interview —
-              <a href="https://mhealth.amegroups.org/post/view/interviews-with-outstanding-authors-2024#akshayasrikanthbhagavathula" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>10/07/2024 — Medical Xpress — addiction trends disparities —
-              <a href="https://medicalxpress.com/news/2024-10-addiction-trends-disparities-substance-disorders.html" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>10/11/2024 — Mayo Clinic News Network — GI mortality disparities —
-              <a href="https://newsnetwork.mayoclinic.org/discussion/magnifying-u-s-gastrointestinal-disease-mortality-reveals-health-disparities/" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>09/02/2024 — SciTechDaily — 3-in-1 low-dose BP pill —
-              <a href="https://scitechdaily.com/study-confirms-new-3-in-1-low-dose-blood-pressure-pill-vastly-superior-for-hypertension-treatment/" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>08/29/2024 — Gulf Health Magazine — Mounjaro vs Ozempic/Wegovy —
-              <a href="https://gulfhealthmagazine.com/mounjaro-a-potential-game-changer-in-weight-loss-compared-to-ozempic-and-wegovy/" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>05/26/2024 — SciTechDaily — life expectancy by 2050 —
-              <a href="https://scitechdaily.com/new-study-predicts-major-leap-in-global-life-expectancy-by-2050/" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>05/01/2024 — Zippia — job outlook for public health advisors —
-              <a href="https://www.zippia.com/public-health-advisor-jobs/trends/" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>04/25/2024 — Zippia — program specialist role —
-              <a href="https://www.zippia.com/senior-program-specialist-program-specialist-jobs/what-does-a-senior-program-specialist-program-specialist-jobs/" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>01/23/2024 — NDSU — research fellowship / AI cohort —
-              <a href="https://www.ndsu.edu/news/ndsu-professor-selected-research-fellowship-ai-cohort" target="_blank" rel="noopener">Link</a>
-            </li>
-          </ul>
-        </div>
-
-        <div class="card year-block">
-          <div class="year-title">2023–2020</div>
-          <ul class="list">
-            <li>11/28/2023 — BBC News — toxic gas risk —
-              <a href="https://www.bbc.com/news/science-environment-67522413" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>10/18/2023 — SciTechDaily — AMR linked deaths —
-              <a href="https://scitechdaily.com/silent-killer-amr-linked-to-over-half-a-million-deaths-in-the-americas/" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>07/08/2023 — Rheumatology Advisor — ankylosing spondylitis and stroke —
-              <a href="https://www.rheumatologyadvisor.com/home/topics/ankylosing-spondylitis/ankylosing-spondylitis-increases-stroke-risk/" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>04/25/2023 — Seattle Times — diabetes drug coverage —
-              <a href="https://www.seattletimes.com/nation-world/the-diabetes-drug-that-could-overshadow-ozempic/" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>04/11/2023 — New York Times — diabetes drug coverage —
-              <a href="https://www.nytimes.com/2023/04/11/well/live/ozempic-mounjaro-weight-loss-diabetes.html" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>01/06/2022 — The National News — dementia surge —
-              <a href="https://www.thenationalnews.com/world/2022/01/06/middle-east-faces-surge-in-dementia-as-population-gets-older/" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>09/17/2020 — The Conversation — COVID vaccine technologies —
-              <a href="https://theconversation.com/from-adenoviruses-to-rna-the-pros-and-cons-of-different-covid-vaccine-technologies-145454" target="_blank" rel="noopener">Link</a>
-            </li>
-            <li>09/19/2020 — The NewDaily — COVID vaccine technologies —
-              <a href="https://thenewdaily.com.au/news/national/2020/09/19/the-pros-and-cons-coronavirus-vaccines/" target="_blank" rel="noopener">Link</a>
-            </li>
-          </ul>
-        </div>
-
-        <div class="card year-block">
-          <div class="year-title">2018</div>
-          <ul class="list">
-            <li>12/13/2018 — TCTMD — CVD threat in MENA —
-              <a href="https://www.tctmd.com/news/rising-cvd-threatens-middle-east-and-north-africa" target="_blank" rel="noopener">Link</a>
-            </li>
-          </ul>
+        <div class="grid">
+          <div class="card span12">
+            <div class="pill">Complete list</div>
+            <ul class="coverage-list">
+              <li>01/29/2026 — Clinical Leader — Making AI Safety Routine — <a href="https://www.clinicalleader.com/doc/making-ai-safety-routine-how-sites-and-sponsors-can-continuously-monitor-clinical-ai-0001" target="_blank" rel="noopener">Link</a></li>
+              <li>12/31/2025 — Clinical Leader — Clinical relevance over statistical relevance — <a href="https://www.clinicalleader.com/doc/no-surprise-here-experts-value-clinical-relevance-over-statistical-relevance-0001" target="_blank" rel="noopener">Link</a></li>
+              <li>01/07/2026 — ScienceDaily — A global cancer surge is underway — <a href="https://www.sciencedaily.com/releases/2026/01/260106224644.htm" target="_blank" rel="noopener">Link</a></li>
+              <li>01/09/2026 — TechRound — Modern Healthtech… who gets the key? — <a href="https://techround.co.uk/tech/modern-healthtech-is-opening-new-doors-to-healthcare-but-who-gets-the-key/" target="_blank" rel="noopener">Link</a></li>
+              <li>72 Dragon Health — Pharmacist to Public Health Pioneer — <a href="https://www.youtube.com/watch?v=LzDE21IWr4E" target="_blank" rel="noopener">Link</a></li>
+              <li>Innovations et Technologies — AI ethics feature — <a href="https://www.innovations-technologies.fr/decouvrez-akshaya-bhagavathula-linnovateur-qui-revolutionne-lethique-de-lintelligence-artificielle-2/" target="_blank" rel="noopener">Link</a></li>
+              <li>04/02/2025 — Bamboozle — Microplastics explainer — <a href="https://www.bamboozlehome.com/blogs/news/what-are-microplastics-why-are-they-bad-for-you/" target="_blank" rel="noopener">Link</a></li>
+              <li>05/07/2025 — Medical Xpress — Narcan awareness/possession gaps — <a href="https://medicalxpress.com/news/2025-05-critical-gaps-narcan-awareness-adults.html" target="_blank" rel="noopener">Link</a></li>
+              <li>02/21/2025 — Daily Mail — Cocaine overdoses hotspot map — <a href="https://www.dailymail.co.uk/health/article-14418379/cocaine-abuse-growth-states-using-cdc-data.html" target="_blank" rel="noopener">Link</a></li>
+              <li>12/15/2024 — JMIR — Open access, rigor, and AI — <a href="https://blog.jmir.org/a-conversation-with-dr.-bhagavathula-on-open-access-rigor-and-the-future-of-ai-in-research" target="_blank" rel="noopener">Link</a></li>
+              <li>12/14/2024 — La Noticia Digital — AI ethics feature — <a href="https://lanoticiadigital.com.ar/uncategorized-en/meet-akshaya-bhagavathula-the-innovator-transforming-ai-ethics/12905/" target="_blank" rel="noopener">Link</a></li>
+              <li>12/14/2024 — La Noticia Digital — E-bike safety debate — <a href="https://lanoticiadigital.com.ar/uncategorized-en/e-bike-accident-sparks-debate-is-technology-outpacing-safety/13038/" target="_blank" rel="noopener">Link</a></li>
+              <li>12/13/2024 — Medscape — e-scooter/e-bike injuries — <a href="https://www.medscape.com/viewarticle/e-scooter-and-e-bike-injuries-triple-linked-alcohol-and-2024a1000n29" target="_blank" rel="noopener">Link</a></li>
+              <li>12/11/2024 — Scientific American — injuries tripled — <a href="https://www.scientificamerican.com/article/injuries-from-electric-bikes-and-electric-scooters-have-tripled-heres-what-to-know/" target="_blank" rel="noopener">Link</a></li>
+              <li>12/10/2024 — U.S. News — teens, booze, e-scooters — <a href="https://www.usnews.com/news/health-news/articles/2024-12-10/teens-booze-and-e-scooters-a-rising-threat-as-injuries-crowd-ers" target="_blank" rel="noopener">Link</a></li>
+              <li>11/28/2023 — BBC News — toxic gas risk — <a href="https://www.bbc.com/news/science-environment-67522413" target="_blank" rel="noopener">Link</a></li>
+              <li>09/17/2020 — The Conversation — COVID vaccine technologies — <a href="https://theconversation.com/from-adenoviruses-to-rna-the-pros-and-cons-of-different-covid-vaccine-technologies-145454" target="_blank" rel="noopener">Link</a></li>
+              <li>12/13/2018 — TCTMD — CVD threat in MENA — <a href="https://www.tctmd.com/news/rising-cvd-threatens-middle-east-and-north-africa" target="_blank" rel="noopener">Link</a></li>
+            </ul>
+          </div>
         </div>
       </details>
     </section>
 
-    <footer>
-      <div class="footer-inner">
-        <div>
-          © <span id="y"></span> EPIAIDEA ·
-          <span class="accent">Epidemiology + AI + Data + Evidence + Action</span>
+    <section class="footer-section">
+      <footer>
+        <div class="footer-inner">
+          <div>© <span id="y"></span> EPIAIDEA · <span class="accent">Epidemiology + AI + Data + Evidence + Action</span></div>
+          <div>
+            <a href="https://www.linkedin.com/in/akshayphd/" target="_blank" rel="noopener">LinkedIn</a> ·
+            <a href="contact.html">Contact</a> ·
+            <a href="about.html">About</a>
+          </div>
         </div>
-        <div style="margin-top:6px;">
-          <a href="https://www.linkedin.com/in/akshayphd/" target="_blank" rel="noopener">LinkedIn</a> ·
-          <a href="contact.html">Contact</a> ·
-          <a href="about.html">About</a>
-        </div>
-      </div>
-    </footer>
+      </footer>
+    </section>
+
   </div>
 
   <script>
