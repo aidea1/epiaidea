@@ -13,7 +13,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
     :root {
@@ -22,7 +22,7 @@
       --card: rgba(255,255,255,0.035);
       --card-border: rgba(255,255,255,0.08);
       --text: #e8f0ff;
-      --muted: #7a90b8;
+      --muted: #96aacf;
       --gold: #f2c94c;
       --gold-dim: rgba(242,201,76,0.15);
       --gold-glow: rgba(242,201,76,0.35);
@@ -38,7 +38,7 @@
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Instrument Sans', sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
@@ -101,18 +101,24 @@
     .wordmark {
       display: inline-flex;
       align-items: baseline;
-      font-family: 'Syne', sans-serif;
+      font-family: 'Bricolage Grotesque', sans-serif;
       font-weight: 800;
-      font-size: 38px;
-      letter-spacing: -1px;
+      font-size: 42px;
+      letter-spacing: -1.5px;
       line-height: 1;
       position: relative;
+      -webkit-text-stroke: 0.6px currentColor;
+      paint-order: stroke fill;
     }
 
-    .wordmark .w { color: var(--text); }
+    .wordmark .w {
+      color: var(--text);
+      text-shadow: 0 2px 20px rgba(232,240,255,0.12);
+    }
     .wordmark .ai {
       color: var(--gold);
       position: relative;
+      text-shadow: 0 0 24px rgba(242,201,76,0.4);
     }
     .wordmark .ai::after {
       content: '';
@@ -150,6 +156,32 @@
       border-color: var(--card-border);
       background: var(--card);
     }
+    nav a.active { color: var(--gold); border-color: rgba(242,201,76,0.25); background: rgba(242,201,76,0.06); }
+
+    /* ─── BACK TO TOP ─── */
+    .back-top {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(242,201,76,0.12);
+      border: 1px solid rgba(242,201,76,0.35);
+      color: var(--gold);
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 100;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.3s, transform 0.3s, background 0.2s;
+      text-decoration: none;
+    }
+    .back-top.visible { opacity: 1; transform: translateY(0); }
+    .back-top:hover { background: rgba(242,201,76,0.22); }
 
     /* ─── HERO ─── */
     .hero {
@@ -161,7 +193,7 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 600;
       letter-spacing: 2px;
       text-transform: uppercase;
@@ -186,7 +218,7 @@
     }
 
     .hero h1 {
-      font-family: 'Syne', sans-serif;
+      font-family: 'Bricolage Grotesque', sans-serif;
       font-size: clamp(36px, 5vw, 58px);
       font-weight: 800;
       line-height: 1.06;
@@ -198,6 +230,7 @@
     }
 
     .hero h1 .highlight {
+      color: var(--gold);
       background: linear-gradient(135deg, var(--gold) 0%, #ff9f43 50%, var(--coral) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -210,7 +243,7 @@
       max-width: 680px;
       line-height: 1.7;
       margin-bottom: 36px;
-      font-weight: 300;
+      font-weight: 400;
       opacity: 0;
       animation: fadeUp 0.8s 0.35s forwards;
     }
@@ -263,7 +296,7 @@
     }
 
     .hero-card h3 {
-      font-family: 'Syne', sans-serif;
+      font-family: 'Bricolage Grotesque', sans-serif;
       font-size: 15px;
       font-weight: 700;
       color: var(--text);
@@ -362,7 +395,7 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      font-size: 10px;
+      font-size: 12px;
       font-weight: 700;
       letter-spacing: 2px;
       text-transform: uppercase;
@@ -375,7 +408,7 @@
     }
 
     .spotlight h2 {
-      font-family: 'Syne', sans-serif;
+      font-family: 'Bricolage Grotesque', sans-serif;
       font-size: 28px;
       font-weight: 800;
       color: #fff;
@@ -405,7 +438,7 @@
     }
 
     .spotlight-item h3 {
-      font-family: 'Syne', sans-serif;
+      font-family: 'Bricolage Grotesque', sans-serif;
       color: var(--gold);
       font-size: 17px;
       font-weight: 700;
@@ -448,7 +481,7 @@
     }
 
     .section-header h2 {
-      font-family: 'Syne', sans-serif;
+      font-family: 'Bricolage Grotesque', sans-serif;
       font-size: 24px;
       font-weight: 800;
       letter-spacing: -0.5px;
@@ -498,20 +531,20 @@
 
     .pill {
       display: inline-block;
-      font-size: 9px;
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 1.5px;
+      letter-spacing: 1.2px;
       text-transform: uppercase;
       color: var(--cyan);
       border: 1px solid rgba(77,217,232,0.3);
-      padding: 3px 10px;
+      padding: 4px 11px;
       border-radius: 99px;
       margin-bottom: 14px;
       background: rgba(77,217,232,0.08);
     }
 
     .impl-card h3 {
-      font-family: 'Syne', sans-serif;
+      font-family: 'Bricolage Grotesque', sans-serif;
       font-size: 16px;
       font-weight: 700;
       color: #fff;
@@ -530,7 +563,7 @@
       align-items: center;
       gap: 5px;
       margin-top: 18px;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 600;
       color: var(--gold);
       letter-spacing: 0.3px;
@@ -549,6 +582,127 @@
     .reveal.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    /* ─── STATS STRIP ─── */
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 44px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
+    }
+
+    .stat-item {
+      border: 1px solid var(--card-border);
+      background: var(--card);
+      border-radius: 14px;
+      padding: 18px 20px;
+      transition: all 0.25s ease;
+    }
+
+    .stat-item:hover { border-color: var(--gold-glow); transform: translateY(-2px); }
+
+    .stat-val {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 5px;
+    }
+
+    .stat-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* ─── APPROACH SECTION ─── */
+    .approach-section {
+      margin-top: 70px;
+    }
+
+    .approach-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 40px;
+      align-items: start;
+      margin-top: 28px;
+    }
+
+    .approach-text p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+
+    .approach-text p:last-child { margin-bottom: 0; }
+
+    .approach-text strong { color: var(--text); font-weight: 600; }
+
+    .approach-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .approach-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px 18px;
+      border: 1px solid var(--card-border);
+      background: var(--card);
+      border-radius: 14px;
+      transition: all 0.25s ease;
+    }
+
+    .approach-item:hover { border-color: rgba(242,201,76,0.28); }
+
+    .approach-item .ai-num {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--gold);
+      min-width: 24px;
+      padding-top: 1px;
+    }
+
+    .approach-item .ai-body h4 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .approach-item .ai-body p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    /* ─── IMPL CARD EXTRAS ─── */
+    .impl-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+
+    .impl-tag {
+      font-size: 11px;
+      color: var(--muted);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--card-border);
+      padding: 3px 9px;
+      border-radius: 6px;
     }
 
     /* ─── FOOTER ─── */
@@ -594,6 +748,8 @@
       .hero-cards { grid-template-columns: 1fr; }
       .spotlight-grid { grid-template-columns: 1fr; }
       .impl-grid { grid-template-columns: 1fr; }
+      .stats-strip { grid-template-columns: repeat(2, 1fr); }
+      .approach-grid { grid-template-columns: 1fr; }
       .wordmark { font-size: 30px; }
       .spotlight { padding: 28px 22px; }
     }
@@ -601,6 +757,7 @@
     @media (max-width: 600px) {
       .wrap { padding: 0 16px 60px; }
       .hero { padding: 50px 0 40px; }
+      .stats-strip { grid-template-columns: 1fr 1fr; }
       footer { flex-direction: column; align-items: flex-start; gap: 10px; }
     }
   </style>
@@ -628,6 +785,7 @@
       </div>
 
       <nav aria-label="Primary navigation">
+        <a href="index.html" class="active">Home</a>
         <a href="about.html">About</a>
         <a href="research.html">Research</a>
         <a href="media.html">Media</a>
@@ -649,7 +807,7 @@
       </h1>
 
       <p class="sub">
-        EPI·AI·DEA integrates epidemiologic theory with AI-enabled methods to translate large-scale digital, clinical, and administrative data into validated evidence for public health action.
+        EPIAIDEA integrates epidemiologic theory with AI-enabled methods to translate large-scale digital, clinical, and administrative data into validated evidence for public health action. Every output is grounded in causal reasoning — not just prediction.
       </p>
 
       <div class="cta">
@@ -657,21 +815,90 @@
         <a href="about.html" class="btn">About the Platform</a>
       </div>
 
+      <!-- Stats strip -->
+      <div class="stats-strip">
+        <div class="stat-item">
+          <div class="stat-val">80,000+</div>
+          <div class="stat-desc">Cumulative citations across peer-reviewed work</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">h-index 75+</div>
+          <div class="stat-desc">Verified on Google Scholar</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">Top 2%</div>
+          <div class="stat-desc">Scientists worldwide — Top SCINET</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">6+ Live</div>
+          <div class="stat-desc">Active implementations and surveillance platforms</div>
+        </div>
+      </div>
+
       <div class="hero-cards">
         <div class="hero-card">
-          <span class="icon">🔬</span>
           <h3>Digital Epidemiology</h3>
-          <p>Population signals from search behavior, platforms, and real-world digital traces.</p>
+          <p>I study population health through digital traces — Google Search trends, social platform signals, EHR records, and administrative data — applying epidemiologic methods to derive valid inferences from noisy, real-world sources.</p>
         </div>
         <div class="hero-card">
-          <span class="icon">⚡</span>
           <h3>AI-Enabled Methods</h3>
-          <p>Scalable analytics with interpretability, validation, and epidemiologic grounding.</p>
+          <p>Machine learning and NLP pipelines built with epidemiologic awareness: confounding control, external validation, and interpretable outputs that decision-makers can actually use — not just models that perform well on held-out test sets.</p>
         </div>
         <div class="hero-card">
-          <span class="icon">🎯</span>
-          <h3>Evidence → Action</h3>
-          <p>Inference-ready outputs that support policy, health systems, and equity decisions.</p>
+          <h3>Evidence to Action</h3>
+          <p>My work doesn't end at publication. I build live dashboards, surveillance platforms, and decision-support tools that translate findings into policy guidance, resource allocation, and health system response — at scale.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- ─── APPROACH ─── -->
+    <section class="approach-section reveal">
+      <div class="section-header">
+        <h2>How I <span>Work</span></h2>
+      </div>
+      <div class="approach-grid">
+        <div class="approach-text">
+          <p>
+            Most AI applied to health data is built backwards — starting with a model architecture and asking what data fits it. I work the other way: starting with a population health question, identifying the right data source, and only then choosing the method that preserves valid inference.
+          </p>
+          <p>
+            <strong>Epidemiologic grounding is non-negotiable.</strong> That means addressing confounding, specifying temporality, accounting for selection bias, and validating outputs against known benchmarks before any result is called decision-grade evidence.
+          </p>
+          <p>
+            The result is analytics that hold up under scrutiny — from peer review, from policy review, and from the communities whose health decisions depend on them.
+          </p>
+        </div>
+        <div class="approach-list">
+          <div class="approach-item">
+            <span class="ai-num">01</span>
+            <div class="ai-body">
+              <h4>Question-first design</h4>
+              <p>Every project begins with a causal or descriptive question, not a dataset. The question defines data requirements, method selection, and validity criteria.</p>
+            </div>
+          </div>
+          <div class="approach-item">
+            <span class="ai-num">02</span>
+            <div class="ai-body">
+              <h4>Multi-source data integration</h4>
+              <p>Linking digital signals, clinical records, administrative data, and geospatial layers — each source validated independently before integration.</p>
+            </div>
+          </div>
+          <div class="approach-item">
+            <span class="ai-num">03</span>
+            <div class="ai-body">
+              <h4>Interpretable, validated outputs</h4>
+              <p>Models are stress-tested for bias, calibration, and generalizability. Outputs are formatted for policy and clinical audiences — not just academic ones.</p>
+            </div>
+          </div>
+          <div class="approach-item">
+            <span class="ai-num">04</span>
+            <div class="ai-body">
+              <h4>Live deployment and monitoring</h4>
+              <p>Findings ship as dashboards, maps, and surveillance platforms — not just PDFs. Deployed tools are monitored for drift and updated as conditions change.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -680,30 +907,36 @@
 
     <!-- ─── SPOTLIGHT ─── -->
     <section class="spotlight reveal">
-      <div class="spotlight-label">⚡ Strategic Collaboration: Stanford University</div>
+      <div class="spotlight-label">Strategic Collaboration · Prof. Michelle Williams (Stanford University)</div>
       <h2>Advanced Preparedness &amp; Shelter Operations (APSO)</h2>
 
       <div class="spotlight-grid">
         <div class="spotlight-item">
-          <h3>Digital Twin: Heat Resilience</h3>
+          <h3>Digital Twin: Heat Resilience in the Southwest US</h3>
           <p>
-            Identified "Critical Deserts" in the Southwest US where extreme heat creates 100% resource deficits.
-            Quantified a <strong style="color:var(--text);">$49.25M systemic risk</strong> using predictive asset sensing and Digital Twin modeling.
+            Using predictive asset sensing and Digital Twin modeling, I identified geographic zones in the Southwest United States where extreme heat events create a complete collapse of cooling and shelter resources — what I term <strong style="color:var(--text);">"Critical Deserts."</strong>
+          </p>
+          <p>
+            The analysis quantified a <strong style="color:var(--text);">$49.25M systemic risk</strong> across affected counties by modeling the gap between heat-induced demand for emergency shelter and the actual structural capacity available. The digital twin framework allows real-time scenario modeling — planners can simulate how different intervention investments change risk exposure before committing resources.
           </p>
           <div class="spotlight-meta">
-            <span><strong>Status:</strong> Active (2026)</span>
-            <a href="https://aidea1.github.io/Digital-Epidemiology-Heat-Resilience/" target="_blank" rel="noopener">Interactive Resilience Map →</a>
+            <span><strong>Data inputs:</strong> NOAA heat index records, FEMA shelter registries, Census structural data</span>
+            <span><strong>Status:</strong> Active (2026) · Stanford APSO Partnership</span>
+            <a href="https://aidea1.github.io/Digital-Epidemiology-Heat-Resilience/" target="_blank" rel="noopener">View Interactive Resilience Map →</a>
           </div>
         </div>
 
         <div class="spotlight-item">
-          <h3>Care Access Signal Observatory</h3>
+          <h3>Care Access Signal Observatory: Fibroid Care in California</h3>
           <p>
-            A closed-loop framework linking digital demand signals with structural care capacity.
-            Detecting geographic unmet need for Fibroid care in California through Google Search interest integration.
+            A closed-loop surveillance framework that links population-level digital demand signals — specifically Google Search interest in fibroid treatment — with the structural care capacity available in each California county.
+          </p>
+          <p>
+            The observatory detects mismatches between where women are actively seeking fibroid care and where gynecologic surgical capacity actually exists. These mismatches identify counties where health system investment is most needed — evidence that would be invisible to traditional utilization data alone, which only captures care that was actually accessed.
           </p>
           <div class="spotlight-meta">
-            <span><strong>Status:</strong> Live Pilot (2019–2025)</span>
+            <span><strong>Data inputs:</strong> Google Health Trends API, CMS provider registries, California OSHPD discharge data</span>
+            <span><strong>Status:</strong> Live Pilot (2019–2025) · Ongoing validation</span>
             <a href="https://aidea1.github.io/aspo-fibroid-california/" target="_blank" rel="noopener">View Live Observatory →</a>
           </div>
         </div>
@@ -721,42 +954,72 @@
         <div class="impl-card">
           <div class="pill">Public Health Policy</div>
           <h3>Telehealth &amp; Payment Parity Dashboard</h3>
-          <p>Reproduction of time-aligned policy surveillance quantifying telehealth utilization alongside a 14-feature payment parity index (0–14) for Medicaid planning.</p>
+          <p>A time-aligned policy surveillance platform tracking telehealth utilization before, during, and after COVID-19 alongside a 14-feature payment parity index scored 0–14 across US states. The index captures whether Medicaid and private payers have matched telehealth reimbursement to in-person rates — a structural equity issue that determines whether low-income patients can actually access virtual care. Built to support state Medicaid directors and policy analysts comparing parity trajectories across states.</p>
+          <div class="impl-meta">
+            <span class="impl-tag">Time-series surveillance</span>
+            <span class="impl-tag">Medicaid policy</span>
+            <span class="impl-tag">Multi-state</span>
+          </div>
           <a class="impl-link" href="https://aidea1.github.io/telehealth-sud-payment-parity-dashboard/" target="_blank" rel="noopener">Launch Platform →</a>
         </div>
 
         <div class="impl-card">
           <div class="pill">Geospatial AI</div>
-          <h3>ND Harm Reduction Access Gap</h3>
-          <p>API-driven geospatial surveillance integrating centroid-based travel time modeling to identify structural overdose prevention gaps in North Dakota.</p>
+          <h3>North Dakota Harm Reduction Access Gap</h3>
+          <p>An API-driven geospatial surveillance platform mapping the structural overdose prevention gap across North Dakota. Using centroid-based travel time modeling, I calculated realistic drive times from population centers to the nearest harm reduction service — including syringe service programs, naloxone distribution sites, and MOUD providers. The platform surfaces counties where structural access is so limited that individual behavior change cannot realistically be expected to reduce overdose risk without system-level investment.</p>
+          <div class="impl-meta">
+            <span class="impl-tag">Travel time modeling</span>
+            <span class="impl-tag">Overdose prevention</span>
+            <span class="impl-tag">Rural health</span>
+          </div>
           <a class="impl-link" href="https://aidea1.github.io/nd-harmreduction-map/" target="_blank" rel="noopener">Launch Platform →</a>
         </div>
 
         <div class="impl-card">
           <div class="pill">Infodemiology</div>
           <h3>Weight-Loss Misinformation Surveillance</h3>
-          <p>API-driven analysis of fact-checked misinformation across GLP-1 therapies and unregulated supplement markets using structured ClaimReview data.</p>
+          <p>A structured misinformation surveillance system analyzing fact-checked claims across GLP-1 receptor agonist therapies (Ozempic, Wegovy, Mounjaro) and unregulated weight-loss supplement markets. Using the ClaimReview schema and Google Fact Check API, I built a pipeline that categorizes claim types, tracks outlet-level misinformation velocity, and maps the information environment patients encounter before talking to a clinician. Relevant to FDA risk communication strategy and direct-to-consumer advertising oversight.</p>
+          <div class="impl-meta">
+            <span class="impl-tag">ClaimReview API</span>
+            <span class="impl-tag">GLP-1 / Ozempic</span>
+            <span class="impl-tag">Risk communication</span>
+          </div>
           <a class="impl-link" href="https://aidea1.github.io/weightloss-misinformation-dashboard/" target="_blank" rel="noopener">View Analytics →</a>
         </div>
 
         <div class="impl-card">
           <div class="pill">Tobacco Policy</div>
-          <h3>Vape &amp; Tobacco Retailer Proximity</h3>
-          <p>Mapping retailer density and school proximity across North Dakota (statewide and Fargo-specific) to inform enforcement and prevention policy.</p>
-          <a class="impl-link" href="https://aidea1.github.io/nd-school-tobacco-proximity/" target="_blank" rel="noopener">State View →</a>
+          <h3>Vape &amp; Tobacco Retailer Proximity — North Dakota</h3>
+          <p>A statewide geospatial analysis mapping the density of licensed vape and tobacco retailers relative to K-12 school locations across North Dakota, with a Fargo-specific view at the census block level. Proximity scores were calculated using buffer zone analysis to identify retailers within state-defined restricted distances from school grounds. The platform provides a ready-to-use evidence base for local health departments pursuing retailer licensing reform, enforcement prioritization, or youth access prevention policy.</p>
+          <div class="impl-meta">
+            <span class="impl-tag">Buffer zone analysis</span>
+            <span class="impl-tag">Youth access</span>
+            <span class="impl-tag">Licensing policy</span>
+          </div>
+          <a class="impl-link" href="https://aidea1.github.io/nd-school-tobacco-proximity/" target="_blank" rel="noopener">View State Map →</a>
         </div>
 
         <div class="impl-card">
           <div class="pill">Injury &amp; Polysubstance Surveillance</div>
           <h3>US Cannabis &amp; Polysubstance Positivity in Fatalities</h3>
-          <p>State-level surveillance summary of cannabis positivity and polysubstance involvement (opioids, stimulants, alcohol) to support rapid policy scanning and cross-state comparison.</p>
-          <a class="impl-link" href="https://aidea1.github.io/US-Cannabis-Polysubstance-Fatalities/" target="_blank" rel="noopener">Live Map →</a>
+          <p>A state-level surveillance summary drawing on CDC WONDER and FARS toxicology data to characterize cannabis positivity rates and polysubstance involvement — including concurrent opioids, stimulants, and alcohol — in injury fatalities across the United States. Designed for rapid policy scanning, the platform allows cross-state comparison of polysubstance patterns as cannabis legalization expands. The data surface is particularly relevant to traffic safety policy, forensic toxicology standards, and state medical examiner reporting requirements.</p>
+          <div class="impl-meta">
+            <span class="impl-tag">CDC WONDER / FARS</span>
+            <span class="impl-tag">Toxicology data</span>
+            <span class="impl-tag">50-state view</span>
+          </div>
+          <a class="impl-link" href="https://aidea1.github.io/US-Cannabis-Polysubstance-Fatalities/" target="_blank" rel="noopener">View Live Map →</a>
         </div>
 
         <div class="impl-card">
           <div class="pill">Climate-Resilient Health Access</div>
-          <h3>Winter Blizzard Health Access Collapse (ND)</h3>
-          <p>5-year longitudinal modeling (2021–2026) quantifying healthcare isolation during winter disruption using a Friction Index framework, with a deployment blueprint for climate-resilient Sentinel Nodes.</p>
+          <h3>Winter Blizzard Health Access Collapse — North Dakota</h3>
+          <p>A five-year longitudinal analysis (2021–2026) quantifying healthcare access collapse during North Dakota's major winter weather events. Using a Friction Index framework, I modeled how road closures, power outages, and snowfall accumulation progressively isolate rural populations from hospital and clinic services. The platform includes a deployment blueprint for climate-resilient Sentinel Nodes — pre-positioned care capacity that can activate when primary access routes fail. Directly applicable to state emergency management and CMS rural health investment planning.</p>
+          <div class="impl-meta">
+            <span class="impl-tag">Friction index</span>
+            <span class="impl-tag">Climate resilience</span>
+            <span class="impl-tag">Rural access</span>
+          </div>
           <a class="impl-link" href="https://aidea1.github.io/winter-blizzard-health-access/" target="_blank" rel="noopener">Launch Platform →</a>
         </div>
 
@@ -778,9 +1041,18 @@
 
   </div><!-- /wrap -->
 
+  <a href="#" class="back-top" id="backTop" aria-label="Back to top">↑</a>
+
   <script>
     // ─── YEAR ───
     document.getElementById('y').textContent = new Date().getFullYear();
+
+    // ─── BACK TO TOP ───
+    const backTop = document.getElementById('backTop');
+    window.addEventListener('scroll', () => {
+      backTop.classList.toggle('visible', window.scrollY > 400);
+    });
+    backTop.addEventListener('click', e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
     // ─── CURSOR GLOW ───
     const glow = document.getElementById('cursorGlow');
