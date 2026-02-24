@@ -1,50 +1,899 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>About | EPIAIDEA</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 800px;
-            margin: 60px auto;
-            padding: 0 20px;
-            background-color: #0d1117; /* Dark background to match home */
-            color: #e6edf3;
-            line-height: 1.6;
-        }
-        h1 { color: #ffffff; border-bottom: 2px solid #ffcc00; padding-bottom: 10px; }
-        strong { color: #ffcc00; } /* Yellow accent for key terms */
-        a { color: #58a6ff; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        .back-link { margin-top: 40px; display: block; font-size: 0.9rem; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About | EPIAIDEA</title>
+  <meta name="description" content="EPIAIDEA is a digital epidemiology and population analytics platform integrating AI, data science, and public health theory for real-world decisions." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #050c18;
+      --surface: #0a1528;
+      --card: rgba(255,255,255,0.035);
+      --card-border: rgba(255,255,255,0.08);
+      --text: #e8f0ff;
+      --muted: #7a90b8;
+      --gold: #f2c94c;
+      --gold-dim: rgba(242,201,76,0.12);
+      --gold-glow: rgba(242,201,76,0.35);
+      --cyan: #4dd9e8;
+      --cyan-dim: rgba(77,217,232,0.1);
+      --coral: #ff6b6b;
+      --line: rgba(255,255,255,0.07);
+      --max: 1140px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    #bgCanvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      opacity: 0.4;
+    }
+
+    .cursor-glow {
+      position: fixed;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(242,201,76,0.06) 0%, transparent 70%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      transition: left 0.12s ease, top 0.12s ease;
+    }
+
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 24px 100px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* ─── NAV ─── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 28px 0 24px;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+    }
+
+    .topbar::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 200px;
+      height: 1px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+
+    .brand { display: flex; flex-direction: column; gap: 4px; }
+
+    .wordmark {
+      display: inline-flex;
+      align-items: baseline;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 38px;
+      letter-spacing: -1px;
+      line-height: 1;
+    }
+
+    .wordmark .w { color: var(--text); }
+    .wordmark .ai {
+      color: var(--gold);
+      position: relative;
+    }
+    .wordmark .ai::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gold);
+      border-radius: 2px;
+      box-shadow: 0 0 8px var(--gold);
+    }
+
+    .brand-tagline {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    nav { display: flex; gap: 4px; }
+    nav a {
+      color: var(--muted);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+    }
+    nav a:hover, nav a.active {
+      color: var(--text);
+      border-color: var(--card-border);
+      background: var(--card);
+    }
+    nav a.active { color: var(--gold); border-color: rgba(242,201,76,0.25); }
+
+    /* ─── PAGE HERO ─── */
+    .page-hero {
+      padding: 72px 0 56px;
+      position: relative;
+    }
+
+    .page-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 22px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    .page-eyebrow .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 10px var(--cyan);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.7); }
+    }
+
+    .page-hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(38px, 5vw, 62px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -1.5px;
+      max-width: 700px;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.2s forwards;
+    }
+
+    .page-hero h1 .highlight {
+      background: linear-gradient(135deg, var(--gold) 0%, #ff9f43 50%, var(--coral) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .page-hero .lead {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 620px;
+      line-height: 1.75;
+      font-weight: 300;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.32s forwards;
+    }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--line) 20%, var(--line) 80%, transparent);
+      margin: 56px 0;
+    }
+
+    /* ─── REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ─── INTRO BLOCK ─── */
+    .intro-block {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .intro-text p {
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.8;
+      margin-bottom: 18px;
+      font-weight: 300;
+    }
+
+    .intro-text p strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .intro-text p .gold { color: var(--gold); font-weight: 600; }
+
+    /* ─── STAT CARDS ─── */
+    .stat-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .stat-card {
+      border: 1px solid var(--card-border);
+      background: var(--card);
+      border-radius: 16px;
+      padding: 20px 22px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-glow), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .stat-card:hover { border-color: var(--gold-glow); transform: translateX(4px); }
+    .stat-card:hover::before { opacity: 1; }
+
+    .stat-number {
+      font-family: 'Syne', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 500;
+    }
+
+    /* ─── PILLARS ─── */
+    .pillars-section { }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--gold-glow), transparent);
+      max-width: 120px;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 30px;
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .pillar-card {
+      border: 1px solid var(--card-border);
+      background: var(--card);
+      border-radius: 18px;
+      padding: 26px 22px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pillar-card:hover {
+      border-color: var(--gold-glow);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(242,201,76,0.1);
+    }
+
+    .pillar-icon {
+      font-size: 28px;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .pillar-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .pillar-card p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .pillar-tag {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      border: 1px solid rgba(77,217,232,0.3);
+      padding: 3px 9px;
+      border-radius: 99px;
+      margin-bottom: 14px;
+      background: rgba(77,217,232,0.07);
+    }
+
+    /* ─── EVIDENCE TO ACTION ─── */
+    .evidence-section {
+      background: linear-gradient(135deg, rgba(242,201,76,0.07) 0%, rgba(77,217,232,0.04) 60%, transparent 100%);
+      border: 1px solid rgba(242,201,76,0.18);
+      border-radius: 24px;
+      padding: 44px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .evidence-section::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 350px; height: 350px;
+      background: radial-gradient(circle, rgba(242,201,76,0.09), transparent 70%);
+      pointer-events: none;
+    }
+
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .evidence-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 22px 20px;
+      transition: all 0.3s ease;
+    }
+
+    .evidence-item:hover {
+      border-color: rgba(242,201,76,0.3);
+      background: rgba(242,201,76,0.04);
+    }
+
+    .evidence-item .e-icon {
+      font-size: 22px;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .evidence-item h4 {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .evidence-item p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* ─── PIPELINE ─── */
+    .pipeline-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-top: 32px;
+    }
+
+    .pipeline-step {
+      flex: 1;
+      text-align: center;
+      padding: 18px 12px;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .pipeline-step:hover { border-color: var(--gold-glow); }
+
+    .pipeline-step .ps-icon { font-size: 20px; margin-bottom: 6px; display: block; }
+    .pipeline-step .ps-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .pipeline-arrow {
+      font-size: 16px;
+      color: var(--gold);
+      padding: 0 6px;
+      flex-shrink: 0;
+    }
+
+    /* ─── CTA BLOCK ─── */
+    .cta-block {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-block::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(242,201,76,0.07), transparent 60%);
+      pointer-events: none;
+    }
+
+    .cta-block h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .cta-block p {
+      color: var(--muted);
+      font-size: 15px;
+      margin-bottom: 24px;
+      font-weight: 300;
+    }
+
+    .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 22px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 14px;
+      border: 1px solid var(--card-border);
+      background: var(--card);
+      color: var(--text);
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .btn.primary {
+      background: var(--gold);
+      color: #0a0a0a;
+      border-color: var(--gold);
+      box-shadow: 0 0 20px rgba(242,201,76,0.3);
+    }
+
+    .btn.primary:hover {
+      box-shadow: 0 0 35px rgba(242,201,76,0.5);
+      transform: translateY(-2px);
+    }
+
+    .btn:not(.primary):hover {
+      background: rgba(255,255,255,0.07);
+      transform: translateY(-2px);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      margin-top: 80px;
+      padding-top: 30px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    footer .accent { color: var(--gold); }
+    footer a:hover { color: var(--text); }
+
+    /* ─── KEYFRAMES ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .intro-block { grid-template-columns: 1fr; }
+      .stat-stack { flex-direction: row; flex-wrap: wrap; }
+      .stat-card { flex: 1 1 calc(50% - 7px); }
+      .pillars-grid { grid-template-columns: 1fr 1fr; }
+      .evidence-grid { grid-template-columns: 1fr 1fr; }
+      .pipeline-row { flex-wrap: wrap; gap: 8px; }
+      .pipeline-arrow { display: none; }
+      .pipeline-step { flex: 1 1 calc(33% - 8px); }
+      .wordmark { font-size: 30px; }
+    }
+
+    @media (max-width: 600px) {
+      .wrap { padding: 0 16px 60px; }
+      .pillars-grid { grid-template-columns: 1fr; }
+      .evidence-grid { grid-template-columns: 1fr; }
+      .evidence-section { padding: 28px 20px; }
+      .pipeline-step { flex: 1 1 calc(50% - 8px); }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
 </head>
 <body>
-    <h1>About EPIAIDEA</h1>
-    <p>
-        <strong>EPIAIDEA</strong> is a digital epidemiology and population analytics platform designed for high-stakes inference and real-world decisions. 
-        We integrate traditional epidemiologic theory with modern AI-enabled methods to translate digital traces into validated evidence.
-    </p>
-    
-    <h3>Our Core Pillars</h3>
-    <ul>
-        <li><strong>Epidemiology:</strong> Grounding data in established public health theory.</li>
-        <li><strong>AI & Data:</strong> Scaling analytics with a focus on interpretability and bias awareness.</li>
-        <div class="mission-section">
-    <h3>Evidence to Action</h3>
-    <p>
-        Inference-ready outputs are the final stage of our pipeline. We don't just provide data; 
-        we provide <strong>validated evidence</strong> built for:
-    </p>
-    <ul>
-        <li><strong>Policy Monitoring:</strong> Real-time tracking of health metrics and spatial-temporal epidemiology.</li>
-        <li><strong>Access Metrics:</strong> Identifying county-level disparities using geospatial distance metrics and service listings.</li>
-        <li><strong>Targeted Interventions:</strong> Guiding resources to where digital signals and structural care access are most mismatched.</li>
-    </ul>
-</div>
 
-    <a href="index.html" class="back-link">← Back to home</a>
+  <canvas id="bgCanvas"></canvas>
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <div class="wrap">
+
+    <!-- ─── TOPBAR ─── -->
+    <div class="topbar">
+      <div class="brand">
+        <a href="index.html" aria-label="EPIAIDEA Home">
+          <div class="wordmark">
+            <span class="w">EPI</span><span class="ai">AI</span><span class="w">DEA</span>
+          </div>
+        </a>
+        <div class="brand-tagline">Epidemiology · AI · Data · Evidence · Action</div>
+      </div>
+      <nav aria-label="Primary navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html" class="active">About</a>
+        <a href="research.html">Research</a>
+        <a href="media.html">Media</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+
+    <!-- ─── PAGE HERO ─── -->
+    <section class="page-hero">
+      <div class="page-eyebrow">
+        <span class="dot"></span>
+        Platform Overview
+      </div>
+      <h1>Built for <span class="highlight">inference.</span><br/>Designed for action.</h1>
+      <p class="lead">
+        EPIAIDEA is a digital epidemiology and population analytics platform designed for high-stakes inference and real-world decisions — where AI rigor meets public health purpose.
+      </p>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ─── INTRO ─── -->
+    <div class="intro-block reveal">
+      <div class="intro-text">
+        <p>
+          <strong>EPIAIDEA</strong> integrates traditional epidemiologic theory with modern AI-enabled methods to translate digital traces — from search behavior and clinical records to administrative data — into <span class="gold">validated, actionable evidence</span>.
+        </p>
+        <p>
+          The platform operates at the intersection of population health science and machine intelligence, grounding every analytical decision in epidemiologic principles: confounding, bias, temporality, and generalizability.
+        </p>
+        <p>
+          Rather than treating AI as a black box, EPIAIDEA treats it as a <strong>population health instrument</strong> — calibrated, interpretable, and tied to decisions that affect real communities.
+        </p>
+      </div>
+
+      <div class="stat-stack reveal reveal-delay-1">
+        <div class="stat-card">
+          <div class="stat-number">6+</div>
+          <div class="stat-label">Active Implementations</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">$49M</div>
+          <div class="stat-label">Systemic Risk Quantified</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">2019–</div>
+          <div class="stat-label">Continuous Platform Evolution</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ─── PILLARS ─── -->
+    <section class="pillars-section reveal">
+      <div class="section-label">Framework</div>
+      <div class="section-title">Our Core Pillars</div>
+
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-tag">Foundation</div>
+          <span class="pillar-icon">🔬</span>
+          <h3>Epidemiology</h3>
+          <p>Every analysis is grounded in established causal inference frameworks — confounding control, bias identification, temporality, and population heterogeneity.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-tag">Engine</div>
+          <span class="pillar-icon">⚡</span>
+          <h3>AI & Data Science</h3>
+          <p>Scalable machine learning and analytics pipelines designed with epidemiologic awareness — interpretable, bias-conscious, and externally validated.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-tag">Scope</div>
+          <span class="pillar-icon">🌐</span>
+          <h3>Digital Signals</h3>
+          <p>Search behavior, social platforms, EHR, administrative records, and real-world digital traces translated into population-level inference.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-tag">Lens</div>
+          <span class="pillar-icon">🗺️</span>
+          <h3>Geospatial Intelligence</h3>
+          <p>County- and tract-level spatial analysis to identify access gaps, structural disparities, and environmental exposures across populations.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-tag">Imperative</div>
+          <span class="pillar-icon">⚖️</span>
+          <h3>Health Equity</h3>
+          <p>Disparities are a design consideration, not an afterthought — every output is interrogated for differential impact and structural bias.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-tag">Output</div>
+          <span class="pillar-icon">🎯</span>
+          <h3>Evidence → Action</h3>
+          <p>Inference-ready outputs built for policy monitoring, resource allocation, and intervention guidance — not just publication.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ─── EVIDENCE TO ACTION ─── -->
+    <section class="evidence-section reveal">
+      <div class="section-label">Pipeline</div>
+      <div class="section-title">From Data to Decision</div>
+
+      <div class="pipeline-row">
+        <div class="pipeline-step">
+          <span class="ps-icon">📡</span>
+          <div class="ps-label">Digital Signals</div>
+        </div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-step">
+          <span class="ps-icon">🧹</span>
+          <div class="ps-label">Epidemiologic Curation</div>
+        </div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-step">
+          <span class="ps-icon">🤖</span>
+          <div class="ps-label">AI Analytics</div>
+        </div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-step">
+          <span class="ps-icon">✅</span>
+          <div class="ps-label">Validated Evidence</div>
+        </div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-step">
+          <span class="ps-icon">🚀</span>
+          <div class="ps-label">Public Health Action</div>
+        </div>
+      </div>
+
+      <div class="evidence-grid">
+        <div class="evidence-item">
+          <span class="e-icon">📊</span>
+          <h4>Policy Monitoring</h4>
+          <p>Real-time tracking of health metrics, payment parity indices, and spatial-temporal epidemiology at scale.</p>
+        </div>
+        <div class="evidence-item">
+          <span class="e-icon">📍</span>
+          <h4>Access Metrics</h4>
+          <p>Identifying county-level disparities using geospatial distance metrics, service listing data, and demand signals.</p>
+        </div>
+        <div class="evidence-item">
+          <span class="e-icon">🎯</span>
+          <h4>Targeted Interventions</h4>
+          <p>Guiding resources to where digital signals and structural care access are most mismatched — equity by design.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ─── CTA ─── -->
+    <div class="cta-block reveal">
+      <h3>Ready to explore the work?</h3>
+      <p>Browse active implementations, methodologies, and research outputs across the platform.</p>
+      <div class="cta-row">
+        <a href="research.html" class="btn primary">View Research →</a>
+        <a href="contact.html" class="btn">Get in Touch</a>
+        <a href="index.html" class="btn">← Back to Home</a>
+      </div>
+    </div>
+
+    <!-- ─── FOOTER ─── -->
+    <footer>
+      <div>
+        © <span id="y"></span> EPIAIDEA ·
+        <span class="accent">Epidemiology + AI + Data + Evidence + Action</span>
+      </div>
+      <div style="display:flex; gap:18px;">
+        <a href="https://www.linkedin.com/in/akshayphd/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="contact.html">Contact</a>
+        <a href="index.html">Home</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Cursor glow
+    const glow = document.getElementById('cursorGlow');
+    document.addEventListener('mousemove', e => {
+      glow.style.left = e.clientX + 'px';
+      glow.style.top = e.clientY + 'px';
+    });
+
+    // Particle canvas
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [], mouse = { x: -9999, y: -9999 };
+
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function rand(a, b) { return Math.random() * (b - a) + a; }
+
+    class Particle {
+      constructor() { this.reset(); }
+      reset() {
+        this.x = rand(0, W); this.y = rand(0, H);
+        this.vx = rand(-0.22, 0.22); this.vy = rand(-0.22, 0.22);
+        this.r = rand(1, 2.2);
+        this.life = rand(0.3, 0.75);
+        const p = [`rgba(242,201,76,${this.life})`, `rgba(77,217,232,${this.life*0.7})`, `rgba(230,240,255,${this.life*0.45})`];
+        this.color = p[Math.floor(Math.random() * p.length)];
+      }
+      update() {
+        this.x += this.vx; this.y += this.vy;
+        if (this.x < -10) this.x = W + 10;
+        if (this.x > W + 10) this.x = -10;
+        if (this.y < -10) this.y = H + 10;
+        if (this.y > H + 10) this.y = -10;
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < 75; i++) particles.push(new Particle());
+
+    document.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+
+    function loop() {
+      ctx.clearRect(0, 0, W, H);
+
+      const g1 = ctx.createRadialGradient(W * 0.8, H * 0.1, 0, W * 0.8, H * 0.1, 450);
+      g1.addColorStop(0, 'rgba(242,201,76,0.05)'); g1.addColorStop(1, 'transparent');
+      ctx.fillStyle = g1; ctx.fillRect(0, 0, W, H);
+
+      const g2 = ctx.createRadialGradient(W * 0.1, H * 0.6, 0, W * 0.1, H * 0.6, 380);
+      g2.addColorStop(0, 'rgba(77,217,232,0.04)'); g2.addColorStop(1, 'transparent');
+      ctx.fillStyle = g2; ctx.fillRect(0, 0, W, H);
+
+      particles.forEach(p => { p.update(); p.draw(); });
+
+      for (let i = 0; i < particles.length; i++) {
+        const a = particles[i];
+        const mdx = a.x - mouse.x, mdy = a.y - mouse.y;
+        const md = Math.sqrt(mdx*mdx + mdy*mdy);
+        if (md < 160) {
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y);
+          ctx.strokeStyle = `rgba(242,201,76,${(1 - md/160)*0.22})`; ctx.lineWidth = 0.8; ctx.stroke();
+        }
+        for (let j = i + 1; j < particles.length; j++) {
+          const b = particles[j];
+          const dx = a.x - b.x, dy = a.y - b.y;
+          const d = Math.sqrt(dx*dx + dy*dy);
+          if (d < 135) {
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+            ctx.strokeStyle = `rgba(180,200,255,${(1 - d/135)*0.13})`; ctx.lineWidth = 0.5; ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(loop);
+    }
+
+    loop();
+
+    // Scroll reveal
+    const els = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    els.forEach(el => obs.observe(el));
+  </script>
+
 </body>
 </html>
