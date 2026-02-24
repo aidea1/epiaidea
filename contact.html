@@ -4,361 +4,173 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Contact | EPIAIDEA</title>
-  <meta name="description" content="Get in touch with EPIAIDEA — collaborate on digital epidemiology research or AI-enabled health analytics." />
+  <meta name="description" content="Get in touch with EPIAIDEA — collaborate on digital epidemiology research, pharmacovigilance, geospatial AI, or public health policy." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
     :root {
-      --bg: #050c18;
-      --card: rgba(255,255,255,0.035);
-      --card-border: rgba(255,255,255,0.08);
-      --text: #e8f0ff;
-      --muted: #7a90b8;
-      --gold: #f2c94c;
-      --gold-dim: rgba(242,201,76,0.12);
-      --gold-glow: rgba(242,201,76,0.35);
-      --cyan: #4dd9e8;
-      --coral: #ff6b6b;
-      --line: rgba(255,255,255,0.07);
-      --max: 1140px;
+      --bg: #050c18; --card: rgba(255,255,255,0.035); --card-border: rgba(255,255,255,0.08);
+      --text: #e8f0ff; --muted: #96aacf; --gold: #f2c94c;
+      --gold-dim: rgba(242,201,76,0.12); --gold-glow: rgba(242,201,76,0.35);
+      --cyan: #4dd9e8; --coral: #ff6b6b; --line: rgba(255,255,255,0.07); --max: 1140px;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
-
+    body { font-family: 'Instrument Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; min-height: 100vh; }
     a { color: inherit; text-decoration: none; }
-
     #bgCanvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-
     body::before {
-      content: '';
-      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      content: ''; position: fixed; inset: 0; z-index: 1; pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
       opacity: 0.4;
     }
-
-    .cursor-glow {
-      position: fixed; width: 420px; height: 420px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(242,201,76,0.06) 0%, transparent 70%);
-      pointer-events: none; transform: translate(-50%, -50%);
-      z-index: 5; transition: left 0.12s ease, top 0.12s ease;
-    }
-
+    .cursor-glow { position: fixed; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(242,201,76,0.06) 0%, transparent 70%); pointer-events: none; transform: translate(-50%,-50%); z-index: 5; transition: left .12s ease, top .12s ease; }
     .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px 100px; position: relative; z-index: 10; }
 
-    /* ─── TOPBAR ─── */
-    .topbar {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 20px; padding: 28px 0 24px;
-      border-bottom: 1px solid var(--line); position: relative;
-    }
-    .topbar::after {
-      content: ''; position: absolute; bottom: -1px; left: 0;
-      width: 200px; height: 1px;
-      background: linear-gradient(90deg, var(--gold), transparent);
-    }
+    /* NAV */
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 28px 0 24px; border-bottom: 1px solid var(--line); position: relative; }
+    .topbar::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 200px; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); }
     .brand { display: flex; flex-direction: column; gap: 4px; }
-    .wordmark {
-      display: inline-flex; align-items: baseline;
-      font-family: 'Syne', sans-serif; font-weight: 800;
-      font-size: 38px; letter-spacing: -1px; line-height: 1;
-    }
-    .wordmark .w { color: var(--text); }
-    .wordmark .ai { color: var(--gold); position: relative; }
-    .wordmark .ai::after {
-      content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
-      height: 2px; background: var(--gold); border-radius: 2px;
-      box-shadow: 0 0 8px var(--gold);
-    }
-    .brand-tagline { font-size: 11px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; }
-
+    .wordmark { display: inline-flex; align-items: baseline; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 42px; letter-spacing: -1.5px; line-height: 1; -webkit-text-stroke: 0.6px currentColor; paint-order: stroke fill; }
+    .wordmark .w { color: var(--text); text-shadow: 0 2px 20px rgba(232,240,255,0.12); }
+    .wordmark .ai { color: var(--gold); position: relative; text-shadow: 0 0 24px rgba(242,201,76,0.4); }
+    .wordmark .ai::after { content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 2px; background: var(--gold); border-radius: 2px; box-shadow: 0 0 8px var(--gold); }
+    .brand-tagline { font-size: 11px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; font-weight: 400; }
     nav { display: flex; gap: 4px; }
-    nav a {
-      color: var(--muted); padding: 8px 14px; border-radius: 10px;
-      font-size: 14px; font-weight: 500; border: 1px solid transparent;
-      transition: all 0.2s ease;
-    }
+    nav a { color: var(--muted); padding: 8px 14px; border-radius: 10px; font-size: 14px; font-weight: 500; border: 1px solid transparent; transition: all .2s ease; }
     nav a:hover { color: var(--text); border-color: var(--card-border); background: var(--card); }
-    nav a.active { color: var(--gold); border-color: rgba(242,201,76,0.25); background: rgba(242,201,76,0.06); }
+    nav a.active { color: var(--gold); border-color: rgba(242,201,76,.25); background: rgba(242,201,76,.06); }
 
-    /* ─── PAGE HERO ─── */
+    /* PAGE HERO */
     .page-hero { padding: 72px 0 56px; }
-
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 11px; font-weight: 600; letter-spacing: 2px;
-      text-transform: uppercase; color: var(--cyan); margin-bottom: 22px;
-      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
-    }
-    .eyebrow .dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--cyan); box-shadow: 0 0 10px var(--cyan);
-      animation: pulse 2s infinite;
-    }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--cyan); margin-bottom: 22px; opacity: 0; animation: fadeUp .6s .1s forwards; }
+    .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.7)} }
+    .page-hero h1 { font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(36px,5vw,58px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.06; max-width: 700px; margin-bottom: 18px; opacity: 0; animation: fadeUp .7s .2s forwards; }
+    .page-hero h1 .highlight { color: var(--gold); background: linear-gradient(135deg, var(--gold) 0%, #ff9f43 50%, var(--coral) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .page-hero .lead { font-size: 16px; color: var(--muted); max-width: 600px; font-weight: 400; line-height: 1.75; opacity: 0; animation: fadeUp .7s .32s forwards; }
 
-    .page-hero h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(36px, 5vw, 58px); font-weight: 800;
-      letter-spacing: -1.5px; line-height: 1.06; max-width: 700px;
-      margin-bottom: 18px; opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
-    }
-    .page-hero h1 .highlight {
-      background: linear-gradient(135deg, var(--gold) 0%, #ff9f43 50%, var(--coral) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
-    .page-hero .lead {
-      font-size: 16px; color: var(--muted); max-width: 560px;
-      font-weight: 300; line-height: 1.75;
-      opacity: 0; animation: fadeUp 0.7s 0.32s forwards;
-    }
+    /* MAIN LAYOUT */
+    .contact-layout { display: grid; grid-template-columns: 1fr 400px; gap: 24px; align-items: start; }
 
-    /* ─── MAIN LAYOUT ─── */
-    .contact-layout {
-      display: grid;
-      grid-template-columns: 1fr 420px;
-      gap: 24px;
-      align-items: start;
-    }
-
-    /* ─── LEFT: CONTACT WAYS ─── */
-    .contact-ways { display: flex; flex-direction: column; gap: 16px; }
-
-    /* ─── PRIMARY EMAIL CARD ─── */
+    /* EMAIL CARD */
     .email-card {
-      background: linear-gradient(135deg, rgba(242,201,76,0.1) 0%, rgba(77,217,232,0.04) 60%, transparent 100%);
-      border: 1px solid rgba(242,201,76,0.25);
-      border-radius: 24px;
-      padding: 38px 36px;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s ease;
+      background: linear-gradient(135deg, rgba(242,201,76,.1) 0%, rgba(77,217,232,.04) 60%, transparent 100%);
+      border: 1px solid rgba(242,201,76,.25); border-radius: 24px; padding: 40px 38px;
+      position: relative; overflow: hidden; transition: all .3s ease; margin-bottom: 16px;
     }
-    .email-card::before {
-      content: '';
-      position: absolute; top: -80px; right: -80px;
-      width: 280px; height: 280px;
-      background: radial-gradient(circle, rgba(242,201,76,0.1), transparent 70%);
-      pointer-events: none;
-    }
-    .email-card:hover { border-color: rgba(242,201,76,0.45); box-shadow: 0 0 40px rgba(242,201,76,0.08); }
+    .email-card::before { content: ''; position: absolute; top: -80px; right: -80px; width: 280px; height: 280px; background: radial-gradient(circle, rgba(242,201,76,.1), transparent 70%); pointer-events: none; }
+    .email-card:hover { border-color: rgba(242,201,76,.45); box-shadow: 0 0 40px rgba(242,201,76,.08); }
 
-    .email-label {
-      font-size: 10px; font-weight: 700; letter-spacing: 2px;
-      text-transform: uppercase; color: var(--gold);
-      margin-bottom: 18px; display: block;
-    }
+    .email-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; display: block; }
+    .email-card h2 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; font-weight: 800; color: var(--text); margin-bottom: 14px; letter-spacing: -0.3px; }
+    .email-card .email-body { font-size: 14px; color: var(--muted); line-height: 1.75; margin-bottom: 28px; }
+    .email-card .email-body strong { color: var(--text); font-weight: 600; }
 
-    .email-card h2 {
-      font-family: 'Syne', sans-serif;
-      font-size: 22px; font-weight: 800;
-      color: var(--text); margin-bottom: 12px; letter-spacing: -0.3px;
-    }
-
-    .email-card p { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 26px; font-weight: 300; }
-    .email-card p strong { color: var(--text); font-weight: 600; }
-
-    .email-addr {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 14px 20px;
-      background: rgba(242,201,76,0.1);
-      border: 1px solid rgba(242,201,76,0.3);
-      border-radius: 14px;
-      font-family: 'Syne', sans-serif;
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--gold);
-      transition: all 0.25s ease;
-      margin-bottom: 14px;
-      width: 100%;
-    }
-    .email-addr:hover {
-      background: rgba(242,201,76,0.18);
-      border-color: rgba(242,201,76,0.5);
-      box-shadow: 0 0 24px rgba(242,201,76,0.15);
-      transform: translateY(-2px);
-    }
-    .email-addr .ea-icon { font-size: 18px; flex-shrink: 0; }
-    .email-addr .ea-arrow { margin-left: auto; font-size: 14px; transition: transform 0.2s; }
+    .email-addr { display: flex; align-items: center; gap: 12px; padding: 15px 20px; background: rgba(242,201,76,.1); border: 1px solid rgba(242,201,76,.3); border-radius: 14px; font-family: 'Bricolage Grotesque', sans-serif; font-size: 17px; font-weight: 700; color: var(--gold); transition: all .25s ease; margin-bottom: 14px; }
+    .email-addr:hover { background: rgba(242,201,76,.18); border-color: rgba(242,201,76,.5); box-shadow: 0 0 24px rgba(242,201,76,.15); transform: translateY(-2px); }
+    .email-addr .ea-arrow { margin-left: auto; font-size: 14px; transition: transform .2s; }
     .email-addr:hover .ea-arrow { transform: translateX(4px); }
 
-    .response-note {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 12px; color: var(--muted);
-    }
-    .response-note .rn-dot { width: 6px; height: 6px; border-radius: 50%; background: #34d399; box-shadow: 0 0 6px #34d399; animation: pulse 2.5s infinite; }
+    .response-note { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+    .response-note .rn-dot { width: 6px; height: 6px; border-radius: 50%; background: #34d399; box-shadow: 0 0 6px #34d399; animation: pulse 2.5s infinite; flex-shrink: 0; }
 
-    /* ─── COLLAB AREAS ─── */
-    .collab-card {
-      border: 1px solid var(--card-border);
-      background: var(--card);
-      border-radius: 20px;
-      padding: 28px 30px;
-      transition: all 0.3s ease;
-    }
-    .collab-card:hover { border-color: rgba(77,217,232,0.25); }
-
-    .collab-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 15px; font-weight: 700;
-      margin-bottom: 18px; color: var(--text);
-    }
-
+    /* COLLAB CARD */
+    .collab-card { border: 1px solid var(--card-border); background: var(--card); border-radius: 20px; padding: 28px 30px; transition: all .3s ease; }
+    .collab-card:hover { border-color: rgba(77,217,232,.2); }
+    .collab-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+    .collab-subtitle { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
     .collab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .collab-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px; border: 1px solid var(--card-border); border-radius: 12px; background: rgba(255,255,255,.02); transition: all .25s ease; }
+    .collab-item:hover { border-color: rgba(77,217,232,.3); background: rgba(77,217,232,.04); }
+    .collab-item .ci-bar { width: 3px; height: 100%; min-height: 36px; border-radius: 3px; background: var(--cyan); opacity: .4; flex-shrink: 0; transition: opacity .25s; }
+    .collab-item:hover .ci-bar { opacity: 1; }
+    .collab-item h4 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .collab-item p { font-size: 12px; color: var(--muted); line-height: 1.45; }
 
-    .collab-item {
-      display: flex; align-items: flex-start; gap: 10px;
-      padding: 12px 14px;
-      border: 1px solid var(--card-border);
-      border-radius: 12px; background: rgba(255,255,255,0.02);
-      transition: all 0.25s ease;
-    }
-    .collab-item:hover {
-      border-color: rgba(77,217,232,0.3);
-      background: rgba(77,217,232,0.04);
-    }
-    .collab-item .ci-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-    .collab-item h4 { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
-    .collab-item p { font-size: 11px; color: var(--muted); line-height: 1.4; }
-
-    /* ─── RIGHT: SIDEBAR ─── */
+    /* SIDEBAR */
     .contact-sidebar { display: flex; flex-direction: column; gap: 16px; }
 
-    /* ─── CONNECT CARD ─── */
-    .connect-card {
-      border: 1px solid var(--card-border);
-      background: var(--card);
-      border-radius: 20px;
-      padding: 26px;
-    }
+    .connect-card { border: 1px solid var(--card-border); background: var(--card); border-radius: 20px; padding: 26px; }
+    .connect-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; display: block; }
 
-    .connect-label {
-      font-size: 10px; font-weight: 700; letter-spacing: 2px;
-      text-transform: uppercase; color: var(--muted);
-      margin-bottom: 16px; display: block;
-    }
-
-    .connect-btn {
-      display: flex; align-items: center; gap: 12px;
-      padding: 13px 16px; border-radius: 13px;
-      border: 1px solid var(--card-border);
-      background: rgba(255,255,255,0.02);
-      font-size: 14px; font-weight: 500;
-      color: var(--text); transition: all 0.25s ease;
-      margin-bottom: 10px;
-    }
+    .connect-btn { display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-radius: 13px; border: 1px solid var(--card-border); background: rgba(255,255,255,.02); font-size: 14px; font-weight: 500; color: var(--text); transition: all .25s ease; margin-bottom: 10px; }
     .connect-btn:last-of-type { margin-bottom: 0; }
-    .connect-btn .cb-icon { font-size: 18px; flex-shrink: 0; }
-    .connect-btn .cb-text { flex: 1; }
-    .connect-btn .cb-text span { display: block; font-size: 11px; color: var(--muted); font-weight: 400; margin-top: 1px; }
-    .connect-btn .cb-arrow { color: var(--muted); font-size: 12px; transition: all 0.2s; }
-    .connect-btn:hover { border-color: rgba(242,201,76,0.3); color: var(--gold); background: rgba(242,201,76,0.05); }
+    .connect-btn .cb-icon { width: 32px; height: 32px; border-radius: 8px; background: rgba(255,255,255,.05); border: 1px solid var(--card-border); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+    .connect-btn .cb-text { flex: 1; font-size: 13px; font-weight: 600; }
+    .connect-btn .cb-text span { display: block; font-size: 11px; color: var(--muted); font-weight: 400; margin-top: 2px; }
+    .connect-btn .cb-arrow { color: var(--muted); font-size: 13px; transition: all .2s; }
+    .connect-btn:hover { border-color: rgba(242,201,76,.3); color: var(--gold); background: rgba(242,201,76,.05); }
     .connect-btn:hover .cb-arrow { color: var(--gold); transform: translateX(3px); }
+    .connect-btn:hover .cb-icon { border-color: rgba(242,201,76,.3); background: rgba(242,201,76,.08); }
 
-    /* ─── LOCATION CARD ─── */
-    .location-card {
-      border: 1px solid var(--card-border);
-      background: var(--card);
-      border-radius: 20px;
-      padding: 24px;
-      position: relative;
-      overflow: hidden;
-    }
-    .location-card::before {
-      content: '';
-      position: absolute; bottom: -40px; right: -40px;
-      width: 180px; height: 180px;
-      background: radial-gradient(circle, rgba(77,217,232,0.07), transparent 70%);
-      pointer-events: none;
-    }
+    /* CONTEXT CARD */
+    .context-card { border: 1px solid var(--card-border); background: var(--card); border-radius: 20px; padding: 26px; position: relative; overflow: hidden; }
+    .context-card::before { content: ''; position: absolute; bottom: -40px; right: -40px; width: 180px; height: 180px; background: radial-gradient(circle, rgba(77,217,232,.07), transparent 70%); pointer-events: none; }
+    .context-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; display: block; }
 
-    .location-label {
-      font-size: 10px; font-weight: 700; letter-spacing: 2px;
-      text-transform: uppercase; color: var(--muted);
-      margin-bottom: 16px; display: block;
-    }
+    .context-row { display: flex; align-items: flex-start; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+    .context-row:first-of-type { padding-top: 0; }
+    .context-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .context-row .cr-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); margin-top: 5px; flex-shrink: 0; }
+    .context-row .cr-label { font-size: 11px; color: var(--muted); margin-bottom: 3px; font-weight: 500; }
+    .context-row .cr-val { font-size: 13px; color: var(--text); font-weight: 600; line-height: 1.4; }
 
-    .location-row {
-      display: flex; align-items: flex-start; gap: 12px;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--line);
+    /* AVAILABILITY BANNER */
+    .availability-banner {
+      background: linear-gradient(135deg, rgba(52,211,153,.08) 0%, rgba(77,217,232,.04) 100%);
+      border: 1px solid rgba(52,211,153,.25); border-radius: 14px; padding: 16px 20px;
+      display: flex; align-items: center; gap: 14px; margin-top: 0;
     }
-    .location-row:last-child { border-bottom: none; padding-bottom: 0; }
-    .location-row .lr-icon { font-size: 16px; margin-top: 2px; flex-shrink: 0; }
-    .location-row .lr-label { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
-    .location-row .lr-val { font-size: 13px; color: var(--text); font-weight: 500; }
+    .av-dot { width: 10px; height: 10px; border-radius: 50%; background: #34d399; box-shadow: 0 0 10px #34d399; animation: pulse 2s infinite; flex-shrink: 0; }
+    .av-text { font-size: 13px; color: var(--text); font-weight: 500; }
+    .av-text span { color: #34d399; font-weight: 700; }
 
-    /* ─── FAQ ─── */
-    .faq-section {
-      margin-top: 56px;
-    }
-
-    .faq-header {
-      font-family: 'Syne', sans-serif; font-size: 22px;
-      font-weight: 800; letter-spacing: -0.4px; margin-bottom: 20px;
-    }
-    .faq-header span { color: var(--gold); }
-
+    /* FAQ */
+    .faq-section { margin-top: 60px; }
+    .faq-heading { font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; font-weight: 800; letter-spacing: -0.4px; margin-bottom: 8px; }
+    .faq-heading span { color: var(--gold); }
+    .faq-sub { font-size: 14px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
     .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .faq-item { border: 1px solid var(--card-border); background: var(--card); border-radius: 16px; padding: 24px; transition: all .3s ease; }
+    .faq-item:hover { border-color: rgba(242,201,76,.25); }
+    .faq-item h4 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 14px; font-weight: 700; color: var(--gold); margin-bottom: 10px; }
+    .faq-item p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+    .faq-item p strong { color: var(--text); font-weight: 600; }
 
-    .faq-item {
-      border: 1px solid var(--card-border); background: var(--card);
-      border-radius: 16px; padding: 22px 22px;
-      transition: all 0.3s ease;
-    }
-    .faq-item:hover { border-color: rgba(242,201,76,0.25); }
-
-    .faq-item h4 {
-      font-family: 'Syne', sans-serif; font-size: 14px;
-      font-weight: 700; color: var(--gold); margin-bottom: 10px;
-    }
-    .faq-item p { font-size: 13px; color: var(--muted); line-height: 1.65; font-weight: 300; }
-    .faq-item p strong { color: var(--text); font-weight: 500; }
-
-    /* ─── REVEAL ─── */
-    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
-    .delay-1 { transition-delay: 0.1s; }
-    .delay-2 { transition-delay: 0.2s; }
-    .delay-3 { transition-delay: 0.3s; }
+    .delay-1 { transition-delay: .1s; }
+    .delay-2 { transition-delay: .2s; }
+    .delay-3 { transition-delay: .3s; }
 
-    /* ─── FOOTER ─── */
-    footer {
-      margin-top: 80px; padding-top: 30px; border-top: 1px solid var(--line);
-      display: flex; justify-content: space-between; align-items: center;
-      gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--muted);
-    }
+    /* BACK TO TOP */
+    .back-top { position: fixed; bottom: 32px; right: 32px; width: 44px; height: 44px; border-radius: 12px; background: rgba(242,201,76,.12); border: 1px solid rgba(242,201,76,.35); color: var(--gold); font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 100; opacity: 0; transform: translateY(10px); transition: opacity .3s, transform .3s, background .2s; text-decoration: none; }
+    .back-top.visible { opacity: 1; transform: translateY(0); }
+    .back-top:hover { background: rgba(242,201,76,.22); }
+
+    /* FOOTER */
+    footer { margin-top: 80px; padding-top: 30px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
     footer .accent { color: var(--gold); }
     footer a:hover { color: var(--text); }
 
     @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
-    /* ─── RESPONSIVE ─── */
     @media (max-width: 960px) {
       .contact-layout { grid-template-columns: 1fr; }
       .contact-sidebar { flex-direction: row; flex-wrap: wrap; }
-      .connect-card, .location-card { flex: 1 1 280px; }
+      .connect-card, .context-card { flex: 1 1 280px; }
       .faq-grid { grid-template-columns: 1fr; }
       .wordmark { font-size: 30px; }
     }
     @media (max-width: 600px) {
       .wrap { padding: 0 16px 60px; }
       .collab-grid { grid-template-columns: 1fr; }
-      .email-card { padding: 26px 22px; }
+      .email-card { padding: 28px 22px; }
       footer { flex-direction: column; align-items: flex-start; }
     }
   </style>
@@ -370,7 +182,7 @@
 
   <div class="wrap">
 
-    <!-- ─── TOPBAR ─── -->
+    <!-- TOPBAR -->
     <div class="topbar">
       <div class="brand">
         <a href="index.html" aria-label="EPIAIDEA Home">
@@ -387,81 +199,81 @@
       </nav>
     </div>
 
-    <!-- ─── PAGE HERO ─── -->
+    <!-- PAGE HERO -->
     <section class="page-hero">
       <div class="eyebrow"><span class="dot"></span>Get in Touch</div>
       <h1>Let's build something<br/><span class="highlight">that matters.</span></h1>
-      <p class="lead">Whether you're looking to collaborate on digital epidemiology research or need AI-enabled health analytics — let's connect and turn data into action.</p>
+      <p class="lead">I'm open to research collaborations, consulting engagements, speaking opportunities, and media inquiries — across digital epidemiology, pharmacovigilance, geospatial AI, legal epidemiology, and public health policy. If the work has real decision impact, I want to hear about it.</p>
     </section>
 
-    <!-- ─── CONTACT LAYOUT ─── -->
+    <!-- CONTACT LAYOUT -->
     <div class="contact-layout">
 
-      <!-- ─── LEFT ─── -->
+      <!-- LEFT -->
       <div class="contact-ways">
 
-        <!-- Primary email -->
+        <!-- Email card -->
         <div class="email-card reveal">
-          <span class="email-label">⚡ Direct Inquiry</span>
+          <span class="email-label">Direct Inquiry</span>
           <h2>Reach out directly</h2>
-          <p>I'm open to research collaborations, consulting engagements, and speaking opportunities across <strong>digital epidemiology</strong>, <strong>AI-enabled analytics</strong>, and <strong>public health policy</strong>.</p>
-
-          <a href="mailto:info@epiaidea.com" class="email-addr">
-            <span class="ea-icon">✉️</span>
+          <p class="email-body">
+            The most direct route is email. I respond to every substantive inquiry personally — I don't use a contact management system or a team inbox. If you're reaching out about <strong>research collaboration</strong>, <strong>consulting</strong>, <strong>speaking</strong>, or <strong>media commentary</strong>, include a one-sentence description of the project or opportunity and I'll respond with a clear yes, no, or next step.
+          </p>
+          <a href="mailto:info@epiaidea.com" class="email-addr" aria-label="Email info@epiaidea.com">
             <span>info@epiaidea.com</span>
             <span class="ea-arrow">→</span>
           </a>
-
           <div class="response-note">
             <span class="rn-dot"></span>
-            Typically responds within 24–48 hours
+            Responds personally within 24–48 hours on business days
           </div>
         </div>
 
         <!-- Collaboration areas -->
         <div class="collab-card reveal delay-1">
-          <div class="collab-title">Open for collaboration on</div>
+          <div class="collab-title">What I work on with collaborators</div>
+          <p class="collab-subtitle">I take on a limited number of external collaborations each year to maintain the quality of the work. These are the areas where I'm most likely to say yes — and where the collaboration has the best chance of producing something genuinely useful.</p>
           <div class="collab-grid">
             <div class="collab-item">
-              <span class="ci-icon">🔬</span>
+              <div class="ci-bar"></div>
               <div>
                 <h4>Research Partnerships</h4>
-                <p>Co-authorship, methods consulting, grant collaboration</p>
+                <p>Co-authorship on epidemiologic studies, methods consulting for AI health research, and co-investigator roles on grant-funded projects in digital epi, pharmacovigilance, and health equity.</p>
               </div>
             </div>
             <div class="collab-item">
-              <span class="ci-icon">📊</span>
+              <div class="ci-bar"></div>
               <div>
-                <h4>Analytics Platforms</h4>
-                <p>AI-enabled health dashboards and surveillance tools</p>
+                <h4>Surveillance Platforms</h4>
+                <p>Building AI-enabled health dashboards, live drug safety monitoring tools, infodemiology pipelines, and geospatial access surveillance platforms with real decision-impact.</p>
               </div>
             </div>
             <div class="collab-item">
-              <span class="ci-icon">🗺️</span>
+              <div class="ci-bar"></div>
               <div>
-                <h4>Geospatial Projects</h4>
-                <p>Access mapping, equity analysis, hotspot modeling</p>
+                <h4>Geospatial &amp; Access Analysis</h4>
+                <p>County- and tract-level access gap mapping, harm reduction coverage analysis, climate-health exposure modeling, and Digital Twin infrastructure planning for health systems.</p>
               </div>
             </div>
             <div class="collab-item">
-              <span class="ci-icon">🎤</span>
+              <div class="ci-bar"></div>
               <div>
-                <h4>Speaking & Media</h4>
-                <p>Conferences, expert commentary, podcast appearances</p>
+                <h4>Legal Epidemiology</h4>
+                <p>Quantitative analysis of how laws affect population health outcomes — particularly state-level opioid policy, naloxone access mandates, and Good Samaritan statute effects on overdose mortality.</p>
               </div>
             </div>
             <div class="collab-item">
-              <span class="ci-icon">🏛️</span>
+              <div class="ci-bar"></div>
               <div>
-                <h4>Policy & Advisory</h4>
-                <p>Public health policy, health system guidance, equity review</p>
+                <h4>Speaking &amp; Expert Commentary</h4>
+                <p>Conference keynotes, expert panel commentary, media interviews, and podcast appearances on digital epidemiology, AI safety in clinical research, pharmacovigilance, and public health evidence translation.</p>
               </div>
             </div>
             <div class="collab-item">
-              <span class="ci-icon">🤖</span>
+              <div class="ci-bar"></div>
               <div>
-                <h4>AI Methods</h4>
-                <p>Causal inference, NLP pipelines, model validation</p>
+                <h4>Policy &amp; Health System Advisory</h4>
+                <p>Analytical support for public health departments, Medicaid agencies, health systems, and NGOs on surveillance infrastructure, evidence translation, and equity-focused resource allocation.</p>
               </div>
             </div>
           </div>
@@ -469,87 +281,100 @@
 
       </div>
 
-      <!-- ─── RIGHT SIDEBAR ─── -->
+      <!-- SIDEBAR -->
       <div class="contact-sidebar">
+
+        <!-- Availability banner -->
+        <div class="availability-banner reveal">
+          <div class="av-dot"></div>
+          <div class="av-text"><span>Currently accepting</span> new collaborations for 2026 — research partnerships, consulting, and speaking.</div>
+        </div>
 
         <!-- Connect links -->
         <div class="connect-card reveal delay-1">
           <span class="connect-label">Connect Online</span>
 
           <a class="connect-btn" href="https://www.linkedin.com/in/akshayphd/" target="_blank" rel="noopener">
-            <span class="cb-icon">💼</span>
-            <span class="cb-text">
-              LinkedIn
-              <span>Professional updates &amp; network</span>
+            <span class="cb-icon">in</span>
+            <span class="cb-text">LinkedIn
+              <span>Professional updates, network, and announcements</span>
             </span>
             <span class="cb-arrow">→</span>
           </a>
-
           <a class="connect-btn" href="https://scholar.google.com/citations?user=mtufk2wAAAAJ&hl=en&oi=ao" target="_blank" rel="noopener">
-            <span class="cb-icon">🎓</span>
-            <span class="cb-text">
-              Google Scholar
-              <span>Publications &amp; citation impact</span>
+            <span class="cb-icon">GS</span>
+            <span class="cb-text">Google Scholar
+              <span>75K+ citations · h-index 64 · i-10 index 196</span>
             </span>
             <span class="cb-arrow">→</span>
           </a>
-
           <a class="connect-btn" href="https://pubmed.ncbi.nlm.nih.gov/?term=bhagavathula+a&sort=date" target="_blank" rel="noopener">
-            <span class="cb-icon">🔬</span>
-            <span class="cb-text">
-              PubMed
-              <span>Indexed research publications</span>
+            <span class="cb-icon">PM</span>
+            <span class="cb-text">PubMed
+              <span>356+ indexed publications, sorted by date</span>
             </span>
             <span class="cb-arrow">→</span>
           </a>
-
+          <a class="connect-btn" href="https://topscinet.com/scientist_profile/Bhagavathula,%20Akshaya%20Srikanth/2013/?stype=single_year" target="_blank" rel="noopener">
+            <span class="cb-icon">TS</span>
+            <span class="cb-text">Top SCINET
+              <span>Top 2% of scientists worldwide</span>
+            </span>
+            <span class="cb-arrow">→</span>
+          </a>
           <a class="connect-btn" href="mailto:info@epiaidea.com">
-            <span class="cb-icon">✉️</span>
-            <span class="cb-text">
-              Email Direct
+            <span class="cb-icon">@</span>
+            <span class="cb-text">Email Direct
               <span>info@epiaidea.com</span>
             </span>
             <span class="cb-arrow">→</span>
           </a>
         </div>
 
-        <!-- Location / context -->
-        <div class="location-card reveal delay-2">
-          <span class="location-label">Context</span>
+        <!-- Context card -->
+        <div class="context-card reveal delay-2">
+          <span class="context-label">Background &amp; Context</span>
 
-          <div class="location-row">
-            <span class="lr-icon">📍</span>
+          <div class="context-row">
+            <span class="cr-dot"></span>
             <div>
-              <div class="lr-label">Based in</div>
-              <div class="lr-val">Fargo, North Dakota, USA</div>
+              <div class="cr-label">Based in</div>
+              <div class="cr-val">Fargo, North Dakota, USA</div>
             </div>
           </div>
-          <div class="location-row">
-            <span class="lr-icon">🏫</span>
+          <div class="context-row">
+            <span class="cr-dot"></span>
             <div>
-              <div class="lr-label">Affiliation</div>
-              <div class="lr-val">Associate Professor of Epidemiology</div>
+              <div class="cr-label">Academic role</div>
+              <div class="cr-val">Associate Professor of Epidemiology</div>
             </div>
           </div>
-          <div class="location-row">
-            <span class="lr-icon">🌐</span>
+          <div class="context-row">
+            <span class="cr-dot"></span>
             <div>
-              <div class="lr-label">Collaboration scope</div>
-              <div class="lr-val">Global — remote-first</div>
+              <div class="cr-label">Fellowship</div>
+              <div class="cr-val">Legal Epidemiology Research Fellow — CPHLR, Temple University Beasley School of Law</div>
             </div>
           </div>
-          <div class="location-row">
-            <span class="lr-icon">🕐</span>
+          <div class="context-row">
+            <span class="cr-dot"></span>
             <div>
-              <div class="lr-label">Response window</div>
-              <div class="lr-val">24–48 hours (business days)</div>
+              <div class="cr-label">GBD collaborator</div>
+              <div class="cr-val">IHME Global Burden of Disease — Lead Collaborator (Lancet 2024, Nature Comms 2025)</div>
             </div>
           </div>
-          <div class="location-row">
-            <span class="lr-icon">🤝</span>
+          <div class="context-row">
+            <span class="cr-dot"></span>
             <div>
-              <div class="lr-label">Collaboration with</div>
-              <div class="lr-val">Stanford, NCBI, Google · Active 2026</div>
+              <div class="cr-label">Active partnerships</div>
+              <div class="cr-val">Stanford APSO · Mayo Clinic · CPHLR Temple · IHME</div>
+            </div>
+          </div>
+          <div class="context-row">
+            <span class="cr-dot"></span>
+            <div>
+              <div class="cr-label">Collaboration scope</div>
+              <div class="cr-val">Global — fully remote-capable</div>
             </div>
           </div>
         </div>
@@ -557,30 +382,39 @@
       </div>
     </div>
 
-    <!-- ─── FAQ ─── -->
+    <!-- FAQ -->
     <section class="faq-section reveal">
-      <div class="faq-header">Common <span>Questions</span></div>
+      <div class="faq-heading">Common <span>Questions</span></div>
+      <p class="faq-sub">If your question isn't answered here, just email directly — I'll give you a straight answer.</p>
       <div class="faq-grid">
         <div class="faq-item">
-          <h4>What types of projects do you take on?</h4>
-          <p>I focus on work where <strong>rigorous epidemiologic methods</strong> meet AI-enabled analytics — surveillance platforms, access gap mapping, infodemiology pipelines, and policy dashboards with real-world decision impact.</p>
+          <h4>What types of research projects do you take on?</h4>
+          <p>I focus on work where <strong>rigorous epidemiologic methods</strong> meet AI-enabled analytics and real decision impact. That means surveillance platforms, access gap analysis, pharmacovigilance signal work, infodemiology pipelines, legal epi policy evaluations, and GBD-linked disease burden studies. I don't take on projects that are primarily about producing academic output without a clear pathway to policy or clinical use.</p>
         </div>
         <div class="faq-item">
-          <h4>Can you collaborate on grant-funded research?</h4>
-          <p>Yes. I'm open to <strong>co-investigator roles</strong>, methods consulting, and collaborative grant submissions — particularly in digital epidemiology, health equity, and AI safety in clinical settings.</p>
+          <h4>Can you join as co-investigator on a grant?</h4>
+          <p>Yes — this is one of my preferred collaboration models. I'm open to <strong>co-investigator and methods consultant roles</strong> on NIH, CDC, PCORI, and foundation-funded grants, particularly in digital epidemiology, pharmacoepidemiology, substance use surveillance, legal epidemiology, and health equity. I bring both analytical expertise and a track record of producing findings that reach decision-makers.</p>
         </div>
         <div class="faq-item">
-          <h4>Are you available for media interviews?</h4>
-          <p>Absolutely — I've been featured in <strong>BBC News, Scientific American, Medscape, JMIR</strong>, and others. Reach out via email with your deadline and topic and I'll respond promptly.</p>
+          <h4>Are you available for media interviews and expert commentary?</h4>
+          <p>Yes. I've provided expert commentary to <strong>BBC News, Scientific American, Medscape, JMIR, U.S. News, Clinical Leader</strong>, and others. I respond to media requests quickly — include your outlet, deadline, and topic in the email and I'll confirm availability within a few hours on business days.</p>
         </div>
         <div class="faq-item">
-          <h4>Do you consult for health systems or government agencies?</h4>
-          <p>Yes. I'm available for <strong>consulting engagements</strong> with public health departments, health systems, NGOs, and policy bodies on surveillance, analytics infrastructure, and evidence translation.</p>
+          <h4>Do you consult for health systems, government, or NGOs?</h4>
+          <p>Yes. I'm available for <strong>consulting engagements</strong> with public health departments, Medicaid agencies, health systems, and policy-focused NGOs. Typical engagements include surveillance infrastructure design, AI evidence review, geospatial access analysis, and translating existing research into formats usable by non-academic decision-makers.</p>
+        </div>
+        <div class="faq-item">
+          <h4>What is your process for new collaboration inquiries?</h4>
+          <p>Email with a one-sentence description of the project and what you need from me. I'll respond personally with a clear yes, no, or "let's talk" — usually within 48 hours. If it's a fit, I'll suggest a 20-minute call to assess scope. I don't use an intake form or scheduling system; a direct email is always the fastest path.</p>
+        </div>
+        <div class="faq-item">
+          <h4>Can students or early-career researchers reach out?</h4>
+          <p>Yes — I actively mentor early-career researchers in digital epidemiology and public health data science. If you're a graduate student or postdoc working on methods-driven population health research, I'm happy to connect. Be specific about what you're working on and what kind of input would be most useful — a methods question, a career discussion, or a formal mentoring relationship.</p>
         </div>
       </div>
     </section>
 
-    <!-- ─── FOOTER ─── -->
+    <!-- FOOTER -->
     <footer>
       <div>© <span id="y"></span> EPIAIDEA · <span class="accent">Epidemiology + AI + Data + Evidence + Action</span></div>
       <div style="display:flex;gap:18px;">
@@ -592,8 +426,14 @@
 
   </div>
 
+  <a href="#" class="back-top" id="backTop" aria-label="Back to top">↑</a>
+
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
+
+    const backTop = document.getElementById('backTop');
+    window.addEventListener('scroll', () => { backTop.classList.toggle('visible', window.scrollY > 400); });
+    backTop.addEventListener('click', e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
     const glow = document.getElementById('cursorGlow');
     document.addEventListener('mousemove', e => { glow.style.left = e.clientX+'px'; glow.style.top = e.clientY+'px'; });
@@ -601,63 +441,33 @@
     const canvas = document.getElementById('bgCanvas');
     const ctx = canvas.getContext('2d');
     let W, H, particles = [], mouse = {x:-9999,y:-9999};
-
-    function resize(){ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; }
-    window.addEventListener('resize', resize); resize();
+    function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+    window.addEventListener('resize',resize);resize();
     function rand(a,b){return Math.random()*(b-a)+a;}
-
-    class Particle {
+    class Particle{
       constructor(){this.reset();}
-      reset(){
-        this.x=rand(0,W);this.y=rand(0,H);
-        this.vx=rand(-0.22,0.22);this.vy=rand(-0.22,0.22);
-        this.r=rand(1,2.2);this.life=rand(0.28,0.72);
-        const p=[`rgba(242,201,76,${this.life})`,`rgba(77,217,232,${this.life*.7})`,`rgba(230,240,255,${this.life*.4})`];
-        this.color=p[Math.floor(Math.random()*p.length)];
-      }
-      update(){
-        this.x+=this.vx;this.y+=this.vy;
-        if(this.x<-10)this.x=W+10;if(this.x>W+10)this.x=-10;
-        if(this.y<-10)this.y=H+10;if(this.y>H+10)this.y=-10;
-      }
+      reset(){this.x=rand(0,W);this.y=rand(0,H);this.vx=rand(-0.22,0.22);this.vy=rand(-0.22,0.22);this.r=rand(1,2.2);this.life=rand(0.28,0.72);const p=[`rgba(242,201,76,${this.life})`,`rgba(77,217,232,${this.life*.7})`,`rgba(230,240,255,${this.life*.4})`];this.color=p[Math.floor(Math.random()*p.length)];}
+      update(){this.x+=this.vx;this.y+=this.vy;if(this.x<-10)this.x=W+10;if(this.x>W+10)this.x=-10;if(this.y<-10)this.y=H+10;if(this.y>H+10)this.y=-10;}
       draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.color;ctx.fill();}
     }
-
-    for(let i=0;i<75;i++) particles.push(new Particle());
+    for(let i=0;i<75;i++)particles.push(new Particle());
     document.addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY;});
-
     function loop(){
       ctx.clearRect(0,0,W,H);
-      const g1=ctx.createRadialGradient(W*.15,H*.08,0,W*.15,H*.08,500);
-      g1.addColorStop(0,'rgba(242,201,76,0.05)');g1.addColorStop(1,'transparent');
-      ctx.fillStyle=g1;ctx.fillRect(0,0,W,H);
-      const g2=ctx.createRadialGradient(W*.88,H*.6,0,W*.88,H*.6,380);
-      g2.addColorStop(0,'rgba(77,217,232,0.04)');g2.addColorStop(1,'transparent');
-      ctx.fillStyle=g2;ctx.fillRect(0,0,W,H);
+      const g1=ctx.createRadialGradient(W*.15,H*.08,0,W*.15,H*.08,500);g1.addColorStop(0,'rgba(242,201,76,0.05)');g1.addColorStop(1,'transparent');ctx.fillStyle=g1;ctx.fillRect(0,0,W,H);
+      const g2=ctx.createRadialGradient(W*.88,H*.6,0,W*.88,H*.6,380);g2.addColorStop(0,'rgba(77,217,232,0.04)');g2.addColorStop(1,'transparent');ctx.fillStyle=g2;ctx.fillRect(0,0,W,H);
       particles.forEach(p=>{p.update();p.draw();});
       for(let i=0;i<particles.length;i++){
-        const a=particles[i];
-        const mdx=a.x-mouse.x,mdy=a.y-mouse.y,md=Math.sqrt(mdx*mdx+mdy*mdy);
-        if(md<160){
-          ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(mouse.x,mouse.y);
-          ctx.strokeStyle=`rgba(242,201,76,${(1-md/160)*.22})`;ctx.lineWidth=0.8;ctx.stroke();
-        }
-        for(let j=i+1;j<particles.length;j++){
-          const b=particles[j],dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy);
-          if(d<130){
-            ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
-            ctx.strokeStyle=`rgba(180,200,255,${(1-d/130)*.12})`;ctx.lineWidth=0.5;ctx.stroke();
-          }
-        }
+        const a=particles[i];const mdx=a.x-mouse.x,mdy=a.y-mouse.y,md=Math.sqrt(mdx*mdx+mdy*mdy);
+        if(md<160){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(mouse.x,mouse.y);ctx.strokeStyle=`rgba(242,201,76,${(1-md/160)*.22})`;ctx.lineWidth=0.8;ctx.stroke();}
+        for(let j=i+1;j<particles.length;j++){const b=particles[j],dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy);if(d<130){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=`rgba(180,200,255,${(1-d/130)*.12})`;ctx.lineWidth=0.5;ctx.stroke();}}
       }
       requestAnimationFrame(loop);
     }
     loop();
 
     const els=document.querySelectorAll('.reveal');
-    const obs=new IntersectionObserver(entries=>{
-      entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
-    },{threshold:0.07});
+    const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.07});
     els.forEach(el=>obs.observe(el));
   </script>
 
