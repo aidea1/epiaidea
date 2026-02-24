@@ -3,645 +3,1003 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>EPIAIDEA | Academic Portfolio</title>
+  <title>Research | EPIAIDEA</title>
+  <meta name="description" content="Academic portfolio with impact metrics, citation growth, and live PubMed publication feed — EPIAIDEA." />
 
-  <meta name="description" content="Academic portfolio with impact metrics, citation growth, and live PubMed publication feed." />
-
-  <!-- Chart.js (CDN) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
   <style>
-    :root{
-      --bg:#071428;          /* dark blue */
-      --panel:#0b1c36;       /* panel blue */
-      --card:#0e2446;        /* card blue */
-      --text:#e9f0ff;
-      --muted:#b7c6e6;
-      --line:rgba(255,255,255,.10);
-      --gold:#f2c94c;        /* gold */
-      --gold2:#d6ab2c;
-      --max:1200px;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    :root {
+      --bg: #050c18;
+      --surface: #0a1528;
+      --card: rgba(255,255,255,0.035);
+      --card-border: rgba(255,255,255,0.08);
+      --text: #e8f0ff;
+      --muted: #7a90b8;
+      --gold: #f2c94c;
+      --gold-dim: rgba(242,201,76,0.12);
+      --gold-glow: rgba(242,201,76,0.35);
+      --cyan: #4dd9e8;
+      --coral: #ff6b6b;
+      --line: rgba(255,255,255,0.07);
+      --max: 1200px;
     }
 
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(1200px 700px at 10% 5%, rgba(242,201,76,.12), transparent 60%),
-        radial-gradient(900px 550px at 90% 0%, rgba(140,190,255,.10), transparent 55%),
-        var(--bg);
-      line-height:1.55;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
     }
 
-    a{ color:inherit; text-decoration:none; }
-    .wrap{
-      max-width:var(--max);
-      margin:0 auto;
-      padding:24px 16px 50px;
+    a { color: inherit; text-decoration: none; }
+
+    #bgCanvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
     }
 
-    /* Layout */
-    .layout{
-      display:grid;
-      grid-template-columns: 340px 1fr;
-      gap:18px;
-      align-items:start;
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      opacity: 0.4;
     }
 
-    /* Sidebar */
-    .sidebar{
-      position:sticky;
-      top:18px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      border-radius:18px;
-      padding:18px;
-      box-shadow: var(--shadow);
+    .cursor-glow {
+      position: fixed;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(242,201,76,0.06) 0%, transparent 70%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 5;
+      transition: left 0.12s ease, top 0.12s ease;
     }
 
-    .brand{
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-      padding-bottom:14px;
-      border-bottom:1px solid var(--line);
-      margin-bottom:14px;
-    }
-    .wordmark{
-      display:inline-flex;
-      align-items:baseline;
-      font-weight:900;
-      letter-spacing:2px;
-      font-size:22px;
-      line-height:1;
-      white-space:nowrap;
-    }
-    .wordmark .gold{ color:var(--gold); position:relative; top:1px; }
-    .tagline{
-      font-size:12px;
-      letter-spacing:.6px;
-      color:var(--muted);
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 24px 100px;
+      position: relative;
+      z-index: 10;
     }
 
-    .profile{
-      display:flex;
-      gap:14px;
-      align-items:center;
-      margin-top:8px;
+    /* ─── TOPBAR ─── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 28px 0 24px;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+    }
+    .topbar::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0;
+      width: 200px; height: 1px;
+      background: linear-gradient(90deg, var(--gold), transparent);
     }
 
-    .avatar{
-      width:72px; height:72px;
-      border-radius:16px;
-      border:1px solid rgba(242,201,76,.35);
-      background: linear-gradient(180deg, rgba(242,201,76,.18), rgba(242,201,76,.06));
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:var(--text);
-      font-weight:900;
-      letter-spacing:1px;
-      box-shadow: 0 10px 22px rgba(0,0,0,.25);
-      overflow:hidden;
-      flex: 0 0 auto;
+    .brand { display: flex; flex-direction: column; gap: 4px; }
+
+    .wordmark {
+      display: inline-flex;
+      align-items: baseline;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 38px;
+      letter-spacing: -1px;
+      line-height: 1;
     }
-    .avatar img{
-      width:100%; height:100%;
-      object-fit:cover;
-      display:block;
+    .wordmark .w { color: var(--text); }
+    .wordmark .ai { color: var(--gold); position: relative; }
+    .wordmark .ai::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0; right: 0;
+      height: 2px;
+      background: var(--gold);
+      border-radius: 2px;
+      box-shadow: 0 0 8px var(--gold);
     }
 
-    .name{
-      font-weight:900;
-      font-size:18px;
-      margin:0;
-      line-height:1.2;
-    }
-    .role{
-      margin:4px 0 0;
-      color:var(--muted);
-      font-size:13px;
+    .brand-tagline {
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      color: var(--muted);
+      text-transform: uppercase;
     }
 
-    .bio{
-      margin:14px 0 0;
-      color:var(--muted);
-      font-size:14px;
+    nav { display: flex; gap: 4px; }
+    nav a {
+      color: var(--muted);
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+    }
+    nav a:hover { color: var(--text); border-color: var(--card-border); background: var(--card); }
+    nav a.active { color: var(--gold); border-color: rgba(242,201,76,0.25); background: rgba(242,201,76,0.06); }
+
+    /* ─── PAGE HERO ─── */
+    .page-hero {
+      padding: 72px 0 50px;
     }
 
-    .social{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:14px;
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 22px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.1s forwards;
+    }
+    .eyebrow .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 10px var(--cyan);
+      animation: pulse 2s infinite;
     }
 
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.04);
-      color:var(--text);
-      font-weight:800;
-      font-size:13px;
-      transition: transform .12s ease, background .12s ease, border-color .12s ease;
-      user-select:none;
-    }
-    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.06); }
-    .btn.primary{
-      border-color: rgba(242,201,76,.35);
-      background: linear-gradient(180deg, rgba(242,201,76,.22), rgba(242,201,76,.10));
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.7); }
     }
 
-    .note{
-      margin-top:14px;
-      padding-top:14px;
-      border-top:1px solid var(--line);
-      color:var(--muted);
-      font-size:12px;
+    .page-hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(36px, 5vw, 58px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.06;
+      max-width: 750px;
+      margin-bottom: 18px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.2s forwards;
     }
 
-    /* Main */
-    .main{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.02);
-      border-radius:18px;
-      padding:18px;
-      box-shadow: var(--shadow);
-      min-height: 400px;
+    .page-hero h1 .highlight {
+      background: linear-gradient(135deg, var(--gold) 0%, #ff9f43 50%, var(--coral) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
-    .topnav{
-      display:flex;
-      justify-content:flex-end;
-      gap:12px;
-      flex-wrap:wrap;
-      padding-bottom:14px;
-      border-bottom:1px solid var(--line);
-      margin-bottom:16px;
-    }
-    .topnav a{
-      color:var(--muted);
-      padding:8px 10px;
-      border-radius:10px;
-      border:1px solid transparent;
-      font-size:13px;
-      font-weight:800;
-    }
-    .topnav a:hover{
-      color:var(--text);
-      border-color:var(--line);
-      background: rgba(255,255,255,.04);
+    .page-hero .lead {
+      font-size: 16px;
+      color: var(--muted);
+      max-width: 600px;
+      font-weight: 300;
+      line-height: 1.75;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.32s forwards;
     }
 
-    .hero{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      margin-bottom:14px;
-    }
-    .hero h1{
-      margin:0;
-      font-size:28px;
-      letter-spacing:-.4px;
-      line-height:1.15;
-    }
-    .hero p{
-      margin:0;
-      color:var(--muted);
-      font-size:15px;
-      max-width: 1000px;
+    /* ─── MAIN LAYOUT ─── */
+    .research-layout {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 20px;
+      align-items: start;
     }
 
-    /* Stats */
-    .stats{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap:12px;
-      margin-top:14px;
-    }
-    .stat{
-      grid-column: span 4;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      border-radius:16px;
-      padding:14px;
-    }
-    .stat .label{
-      color:var(--muted);
-      font-size:12px;
-      letter-spacing:.5px;
-      margin-bottom:6px;
-    }
-    .stat .value{
-      font-size:18px;
-      font-weight:900;
-      line-height:1.2;
-    }
-    .stat .value .gold{ color:var(--gold); }
-
-    /* Content grid */
-    .content{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap:14px;
-      margin-top:14px;
+    /* ─── SIDEBAR ─── */
+    .sidebar {
+      position: sticky;
+      top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
     }
 
-    .panel{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      border-radius:16px;
-      padding:14px;
-    }
-    .panel h2{
-      margin:0 0 10px;
-      font-size:14px;
-      letter-spacing:.4px;
-      text-transform:uppercase;
-      color:var(--muted);
-    }
-
-    .graph{
-      grid-column: span 7;
-      min-height: 310px;
-    }
-    .graph canvas{
-      width:100% !important;
-      height:260px !important;
-    }
-
-    .pubs{
-      grid-column: span 5;
-      min-height: 310px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-
-    .pub-controls{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-bottom:6px;
-    }
-    .status{
-      color:var(--muted);
-      font-size:12px;
-    }
-
-    .ticker{
-      border:1px solid var(--line);
-      background: rgba(0,0,0,.12);
-      border-radius:14px;
-      padding:10px;
-      height: 260px;
+    .profile-card {
+      border: 1px solid var(--card-border);
+      background: var(--card);
+      border-radius: 20px;
+      padding: 24px;
+      backdrop-filter: blur(8px);
+      position: relative;
       overflow: hidden;
-      position:relative;
-    }
-    .ticker:hover{ border-color: rgba(242,201,76,.30); }
-
-    .ticker-inner{
-      height:100%;
-      overflow:hidden;
-      position:relative;
-    }
-    .pub-list{
-      margin:0;
-      padding:0;
-      list-style:none;
-    }
-    .pub{
-      padding:10px 10px;
-      border-radius:12px;
-      border:1px solid transparent;
-    }
-    .pub + .pub{ border-top:1px dashed rgba(255,255,255,.10); }
-    .pub:hover{
-      background: rgba(255,255,255,.04);
-      border-color: rgba(242,201,76,.22);
-    }
-    .pub a.title{
-      display:block;
-      font-weight:900;
-      font-size:13px;
-      line-height:1.25;
-      margin-bottom:6px;
-    }
-    .pub .meta{
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.25;
     }
 
-    .footer{
-      margin-top:16px;
-      padding-top:12px;
-      border-top:1px solid var(--line);
-      color:var(--muted);
-      font-size:12px;
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      flex-wrap:wrap;
+    .profile-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-glow), transparent);
     }
 
-    /* Responsive */
-    @media (max-width: 980px){
-      .layout{ grid-template-columns: 1fr; }
-      .sidebar{ position:relative; top:auto; }
-      .graph{ grid-column: span 12; }
-      .pubs{ grid-column: span 12; }
-      .stat{ grid-column: span 12; }
+    .avatar {
+      width: 80px; height: 80px;
+      border-radius: 18px;
+      border: 1px solid rgba(242,201,76,0.35);
+      overflow: hidden;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, rgba(242,201,76,0.15), rgba(77,217,232,0.08));
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .profile-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .profile-role {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .profile-bio {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.65;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      font-weight: 300;
+    }
+
+    /* ─── LINKS CARD ─── */
+    .links-card {
+      border: 1px solid var(--card-border);
+      background: var(--card);
+      border-radius: 18px;
+      padding: 20px;
+    }
+
+    .links-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .link-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 11px;
+      border: 1px solid var(--card-border);
+      background: rgba(255,255,255,0.02);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      transition: all 0.22s ease;
+      margin-bottom: 8px;
+    }
+    .link-btn:last-child { margin-bottom: 0; }
+    .link-btn .lb-icon { font-size: 15px; flex-shrink: 0; }
+    .link-btn .lb-arrow { margin-left: auto; color: var(--muted); font-size: 12px; transition: transform 0.2s; }
+    .link-btn:hover {
+      border-color: rgba(242,201,76,0.3);
+      background: rgba(242,201,76,0.05);
+      color: var(--gold);
+    }
+    .link-btn:hover .lb-arrow { transform: translateX(3px); color: var(--gold); }
+
+    .link-btn.featured {
+      background: rgba(242,201,76,0.08);
+      border-color: rgba(242,201,76,0.3);
+    }
+
+    /* ─── MAIN CONTENT ─── */
+    .main-content { display: flex; flex-direction: column; gap: 20px; }
+
+    /* ─── IMPACT STATS ─── */
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .impact-card {
+      border: 1px solid var(--card-border);
+      background: var(--card);
+      border-radius: 18px;
+      padding: 22px 20px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .impact-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .impact-card:hover { border-color: var(--gold-glow); transform: translateY(-3px); }
+    .impact-card:hover::after { opacity: 1; }
+
+    .impact-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .impact-value {
+      font-family: 'Syne', sans-serif;
+      font-size: 30px;
+      font-weight: 800;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .impact-sub {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* ─── CHART PANEL ─── */
+    .chart-panel {
+      border: 1px solid var(--card-border);
+      background: var(--card);
+      border-radius: 20px;
+      padding: 28px;
+      backdrop-filter: blur(8px);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+    }
+
+    .panel-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .panel-badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--cyan);
+      border: 1px solid rgba(77,217,232,0.3);
+      padding: 3px 10px;
+      border-radius: 99px;
+      background: rgba(77,217,232,0.07);
+    }
+
+    /* ─── TWO-COL BOTTOM ─── */
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    /* ─── PUB FEED ─── */
+    .pub-panel {
+      border: 1px solid var(--card-border);
+      background: var(--card);
+      border-radius: 20px;
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .pub-status {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .ticker-wrap {
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      background: rgba(0,0,0,0.15);
+      height: 280px;
+      overflow: hidden;
+      position: relative;
+      transition: border-color 0.3s;
+    }
+    .ticker-wrap:hover { border-color: rgba(242,201,76,0.3); }
+
+    .ticker-inner {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .pub-list { list-style: none; }
+
+    .pub-item {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      transition: background 0.2s;
+    }
+    .pub-item:hover { background: rgba(255,255,255,0.03); }
+    .pub-item:last-child { border-bottom: none; }
+
+    .pub-title {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.35;
+      margin-bottom: 5px;
+      color: var(--text);
+      transition: color 0.2s;
+    }
+    .pub-title:hover { color: var(--gold); }
+
+    .pub-meta {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.3;
+    }
+
+    /* ─── AREA CHIPS ─── */
+    .areas-panel {
+      border: 1px solid var(--card-border);
+      background: var(--card);
+      border-radius: 20px;
+      padding: 28px;
+    }
+
+    .area-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .area-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 99px;
+      border: 1px solid var(--card-border);
+      background: rgba(255,255,255,0.03);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      transition: all 0.25s ease;
+      cursor: default;
+    }
+    .area-chip:hover {
+      border-color: rgba(242,201,76,0.35);
+      color: var(--gold);
+      background: rgba(242,201,76,0.06);
+    }
+    .area-chip .chip-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--cyan);
+      flex-shrink: 0;
+    }
+
+    /* ─── REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      margin-top: 80px;
+      padding-top: 30px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    footer .accent { color: var(--gold); }
+    footer a:hover { color: var(--text); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 960px) {
+      .research-layout { grid-template-columns: 1fr; }
+      .sidebar { position: relative; top: auto; }
+      .impact-grid { grid-template-columns: repeat(3, 1fr); }
+      .bottom-grid { grid-template-columns: 1fr; }
+      .wordmark { font-size: 30px; }
+    }
+    @media (max-width: 600px) {
+      .wrap { padding: 0 16px 60px; }
+      .impact-grid { grid-template-columns: 1fr 1fr; }
+      footer { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
-
 <body>
+
+  <canvas id="bgCanvas"></canvas>
+  <div class="cursor-glow" id="cursorGlow"></div>
+
   <div class="wrap">
-    <div class="layout">
-      <!-- Sidebar -->
+
+    <!-- ─── TOPBAR ─── -->
+    <div class="topbar">
+      <div class="brand">
+        <a href="index.html" aria-label="EPIAIDEA Home">
+          <div class="wordmark">
+            <span class="w">EPI</span><span class="ai">AI</span><span class="w">DEA</span>
+          </div>
+        </a>
+        <div class="brand-tagline">Epidemiology · AI · Data · Evidence · Action</div>
+      </div>
+      <nav aria-label="Primary navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="research.html" class="active">Research</a>
+        <a href="media.html">Media</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+
+    <!-- ─── PAGE HERO ─── -->
+    <section class="page-hero">
+      <div class="eyebrow">
+        <span class="dot"></span>
+        Academic Portfolio · Live Impact Data
+      </div>
+      <h1>Research built on<br/><span class="highlight">rigor</span> and real-world reach.</h1>
+      <p class="lead">
+        75,000+ citations. Top 2% scientist worldwide. A body of work translating population data into epidemiologic inference — from digital health to clinical policy.
+      </p>
+    </section>
+
+    <!-- ─── LAYOUT ─── -->
+    <div class="research-layout">
+
+      <!-- ─── SIDEBAR ─── -->
       <aside class="sidebar">
-        <div class="brand">
-          <div class="wordmark" aria-label="EPIAIDEA">
-            <span>EPI</span><span class="gold">AI</span><span>DEA</span>
-          </div>
-          <div class="tagline">Epidemiology + AI + Data + Evidence + Action</div>
-        </div>
-
-        <div class="profile">
-          <!-- Replace the avatar div with an image if you want:
-               <div class="avatar"><img src="assets/profile.jpg" alt="Profile photo"></div>
-          -->
+        <div class="profile-card reveal">
           <div class="avatar">
-  <img src="assets/Pic%201.png" alt="Akshaya Bhagavathula profile photo">
-</div>
+            <img src="assets/Pic%201.png" alt="Akshaya Bhagavathula profile photo" />
+          </div>
+          <div class="profile-name">Akshaya Bhagavathula</div>
+          <div class="profile-role">Associate Professor of Epidemiology<br/>Digital Epidemiology &amp; AI Analytics</div>
+          <p class="profile-bio">
+            I build decision-grade digital epidemiology: transforming noisy, real-world data into actionable, inference-ready evidence for prevention, policy, and health system response. My work emphasizes interpretability, validation, and reproducibility across digital traces, clinical data, and population signals.
+          </p>
+        </div>
 
-          <div>
-            <p class="name">Akshaya Bhagavathula</p>
-            <p class="role">Associate Professor of Epidemiology · Digital Epidemiology &amp; AI Analytics</p>
+        <div class="links-card reveal delay-1">
+          <span class="links-label">Academic Profiles</span>
+
+          <a class="link-btn featured" href="https://scholar.google.com/citations?user=mtufk2wAAAAJ&hl=en&oi=ao" target="_blank" rel="noopener">
+            <span class="lb-icon">🎓</span>
+            <span>Google Scholar</span>
+            <span class="lb-arrow">→</span>
+          </a>
+          <a class="link-btn" href="https://pubmed.ncbi.nlm.nih.gov/?term=bhagavathula+a&sort=date" target="_blank" rel="noopener">
+            <span class="lb-icon">🔬</span>
+            <span>PubMed</span>
+            <span class="lb-arrow">→</span>
+          </a>
+          <a class="link-btn" href="https://topscinet.com/scientist_profile/Bhagavathula,%20Akshaya%20Srikanth/2013/?stype=single_year" target="_blank" rel="noopener">
+            <span class="lb-icon">🏆</span>
+            <span>Top SCINET</span>
+            <span class="lb-arrow">→</span>
+          </a>
+          <a class="link-btn" href="https://www.webofscience.com/wos/author/record/G-6649-2015" target="_blank" rel="noopener">
+            <span class="lb-icon">🌐</span>
+            <span>Web of Science</span>
+            <span class="lb-arrow">→</span>
+          </a>
+          <a class="link-btn" href="https://www.linkedin.com/in/akshayphd/" target="_blank" rel="noopener">
+            <span class="lb-icon">💼</span>
+            <span>LinkedIn</span>
+            <span class="lb-arrow">→</span>
+          </a>
+        </div>
+
+        <div class="links-card reveal delay-2">
+          <span class="links-label">Research Areas</span>
+          <div class="area-grid">
+            <span class="area-chip"><span class="chip-dot"></span>Digital Epidemiology</span>
+            <span class="area-chip"><span class="chip-dot"></span>Infodemiology</span>
+            <span class="area-chip"><span class="chip-dot"></span>Geospatial AI</span>
+            <span class="area-chip"><span class="chip-dot"></span>Pharmacoepidemiology</span>
+            <span class="area-chip"><span class="chip-dot"></span>Health Equity</span>
+            <span class="area-chip"><span class="chip-dot"></span>Telehealth Policy</span>
+            <span class="area-chip"><span class="chip-dot"></span>Climate & Health</span>
+            <span class="area-chip"><span class="chip-dot"></span>Substance Use</span>
+            <span class="area-chip"><span class="chip-dot"></span>Causal Inference</span>
+            <span class="area-chip"><span class="chip-dot"></span>NLP & Text Mining</span>
           </div>
         </div>
-
-        <p class="bio">
-          I build decision-grade digital epidemiology: transforming noisy, real-world data into actionable,
-          inference-ready evidence for prevention, policy, and health system response. My work emphasizes
-          interpretability, validation, and reproducibility across digital traces, clinical data, and population signals.
-        </p>
-
-        <div class="social" aria-label="Social links">
-          <a class="btn primary" href="https://scholar.google.com/citations?user=mtufk2wAAAAJ&hl=en&oi=ao" target="_blank" rel="noopener">Google Scholar</a>
-          <a class="btn" href="https://pubmed.ncbi.nlm.nih.gov/?term=bhagavathula+a&sort=date" target="_blank" rel="noopener">PubMed</a>
-          <a class="btn" href="https://topscinet.com/scientist_profile/Bhagavathula,%20Akshaya%20Srikanth/2013/?stype=single_year" target="_blank" rel="noopener">Top SCINET</a>
-          <a class="btn" href="https://www.webofscience.com/wos/author/record/G-6649-2015" target="_blank" rel="noopener">Web of Science</a>
-        </div>
-
       </aside>
 
-      <!-- Main -->
-      <main class="main">
-        <div class="topnav" aria-label="Primary navigation">
-          <a href="#impact">Impact</a>
-          <a href="#trend">Trend</a>
-          <a href="#publications">Publications</a>
+      <!-- ─── MAIN ─── -->
+      <div class="main-content">
+
+        <!-- Impact stats -->
+        <div class="impact-grid reveal">
+          <div class="impact-card">
+            <div class="impact-label">Total Citations</div>
+            <div class="impact-value">75K+</div>
+            <div class="impact-sub">Cumulative (2019–2026)</div>
+          </div>
+          <div class="impact-card">
+            <div class="impact-label">h-index</div>
+            <div class="impact-value">45+</div>
+            <div class="impact-sub">Google Scholar verified</div>
+          </div>
+          <div class="impact-card">
+            <div class="impact-label">Global Rank</div>
+            <div class="impact-value">Top 2%</div>
+            <div class="impact-sub">Top SCINET worldwide</div>
+          </div>
         </div>
 
-        <section class="hero">
-          <h1>Academic portfolio with real-time publications and impact analytics.</h1>
-          </p>
-        </section>
+        <!-- Chart -->
+        <div class="chart-panel reveal">
+          <div class="panel-header">
+            <div class="panel-title">Citation Growth Trajectory</div>
+            <span class="panel-badge">2019 – 2026</span>
+          </div>
+          <canvas id="citationChart" style="width:100%;height:240px;"></canvas>
+          <p style="margin-top:12px; font-size:11px; color:var(--muted);">Cumulative citation curve sourced from Google Scholar. Values reflect annual growth milestones.</p>
+        </div>
 
-        <section id="impact" class="stats" aria-label="Impact stats">
-          <div class="stat">
-            <div class="label">Citations</div>
-            <div class="value"><span class="gold">75,000+</span> Citations</div>
-          </div>
-          <div class="stat">
-            <div class="label">Recognition</div>
-            <div class="value">Top 2% Scientist Worldwide <span class="gold">(Top SCINET)</span></div>
-          </div>
-          <div class="stat">
-            <div class="label">Index</div>
-            <div class="value">h-index: <span class="gold">45+</span></div>
-          </div>
-        </section>
+        <!-- Pub feed + areas -->
+        <div class="bottom-grid">
 
-        <section class="content">
-          <div id="trend" class="panel graph" aria-label="Citation growth graph">
-            <h2>Impact graph</h2>
-            <canvas id="citationChart"></canvas>
-            <div class="status" style="margin-top:8px;">
-              Note: Replace the example citation series in the script with your verified yearly values when available.
+          <!-- Publication feed -->
+          <div class="pub-panel reveal">
+            <div class="panel-header">
+              <div class="panel-title">Live Publication Feed</div>
+              <span class="panel-badge">PubMed</span>
             </div>
-          </div>
-
-          <div id="publications" class="panel pubs" aria-label="Live publication feed">
-            <div class="pub-controls">
-              <h2 style="margin:0;">Live publication feed</h2>
-              <div class="status" id="pubStatus">Loading latest publications from PubMed…</div>
-            </div>
-
-            <div class="ticker" id="ticker" title="Hover to pause scrolling">
+            <div class="pub-status" id="pubStatus">Loading latest publications…</div>
+            <div class="ticker-wrap" id="ticker" title="Hover to pause">
               <div class="ticker-inner" id="tickerInner">
                 <ul class="pub-list" id="pubList"></ul>
               </div>
             </div>
-
-            <div class="status">
-              Source: NCBI Entrez E-utilities (esearch + esummary). Query: <code>bhagavathula A[Author]</code>. Hover over the ticker to pause.
-            </div>
+            <p style="font-size:11px;color:var(--muted);">
+              Source: NCBI Entrez E-utilities · Query: <code style="color:var(--cyan);font-size:10px;">bhagavathula A[Author]</code> · Hover to pause
+            </p>
           </div>
-        </section>
 
-        <div class="footer">
-          <div>© <span id="y"></span> EPIAIDEA</div>
+          <!-- Research areas (larger chip version) + note -->
+          <div style="display:flex;flex-direction:column;gap:14px;">
+
+            <div class="areas-panel reveal delay-1">
+              <div class="panel-header" style="margin-bottom:0;">
+                <div class="panel-title">Research Focus Areas</div>
+              </div>
+              <div class="area-grid">
+                <span class="area-chip"><span class="chip-dot"></span>Digital Epidemiology</span>
+                <span class="area-chip"><span class="chip-dot"></span>Infodemiology</span>
+                <span class="area-chip"><span class="chip-dot"></span>Geospatial AI</span>
+                <span class="area-chip"><span class="chip-dot"></span>Pharmacoepidemiology</span>
+                <span class="area-chip"><span class="chip-dot"></span>Health Equity</span>
+                <span class="area-chip"><span class="chip-dot"></span>Telehealth Policy</span>
+                <span class="area-chip"><span class="chip-dot"></span>Climate & Health</span>
+                <span class="area-chip"><span class="chip-dot"></span>Substance Use</span>
+                <span class="area-chip"><span class="chip-dot"></span>Causal Inference</span>
+                <span class="area-chip"><span class="chip-dot"></span>NLP & Text Mining</span>
+                <span class="area-chip"><span class="chip-dot"></span>Digital Twin Modeling</span>
+                <span class="area-chip"><span class="chip-dot"></span>Population Analytics</span>
+              </div>
+            </div>
+
+            <div class="chart-panel reveal delay-2" style="flex:1;">
+              <div class="panel-title" style="margin-bottom:14px;">Collaboration Spotlight</div>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(242,201,76,0.06);border:1px solid rgba(242,201,76,0.2);border-radius:12px;">
+                  <span style="font-size:20px;">🏛️</span>
+                  <div>
+                    <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text);">Stanford University</div>
+                    <div style="font-size:12px;color:var(--muted);">APSO · Heat Resilience · Digital Twin</div>
+                  </div>
+                  <span style="margin-left:auto;font-size:10px;color:var(--gold);font-weight:700;letter-spacing:1px;">ACTIVE</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--card);border:1px solid var(--card-border);border-radius:12px;">
+                  <span style="font-size:20px;">🌐</span>
+                  <div>
+                    <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text);">NCBI / PubMed</div>
+                    <div style="font-size:12px;color:var(--muted);">Live publication data pipeline</div>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--card);border:1px solid var(--card-border);border-radius:12px;">
+                  <span style="font-size:20px;">📊</span>
+                  <div>
+                    <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text);">Google Trends / Search API</div>
+                    <div style="font-size:12px;color:var(--muted);">Demand signal integration</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
-      </main>
-    </div>
-  </div>
+
+      </div><!-- /main-content -->
+    </div><!-- /research-layout -->
+
+    <!-- ─── FOOTER ─── -->
+    <footer>
+      <div>
+        © <span id="y"></span> EPIAIDEA ·
+        <span class="accent">Epidemiology + AI + Data + Evidence + Action</span>
+      </div>
+      <div style="display:flex;gap:18px;">
+        <a href="https://www.linkedin.com/in/akshayphd/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="contact.html">Contact</a>
+        <a href="index.html">Home</a>
+      </div>
+    </footer>
+
+  </div><!-- /wrap -->
 
   <script>
-    // ---- Year in footer ----
-    document.getElementById("y").textContent = new Date().getFullYear();
+    // Year
+    document.getElementById('y').textContent = new Date().getFullYear();
 
-    // ---- Chart.js: citation growth (example series) ----
-    // Replace these numbers with your verified annual citation totals if you want exactness.
+    // Cursor glow
+    const glow = document.getElementById('cursorGlow');
+    document.addEventListener('mousemove', e => {
+      glow.style.left = e.clientX + 'px';
+      glow.style.top = e.clientY + 'px';
+    });
+
+    // ─── PARTICLE CANVAS ───
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [], mouse = { x: -9999, y: -9999 };
+
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize); resize();
+
+    function rand(a, b) { return Math.random() * (b - a) + a; }
+
+    class Particle {
+      constructor() { this.reset(); }
+      reset() {
+        this.x = rand(0, W); this.y = rand(0, H);
+        this.vx = rand(-0.22, 0.22); this.vy = rand(-0.22, 0.22);
+        this.r = rand(1, 2.2);
+        this.life = rand(0.28, 0.72);
+        const p = [`rgba(242,201,76,${this.life})`,`rgba(77,217,232,${this.life*0.7})`,`rgba(230,240,255,${this.life*0.4})`];
+        this.color = p[Math.floor(Math.random() * p.length)];
+      }
+      update() {
+        this.x += this.vx; this.y += this.vy;
+        if (this.x < -10) this.x = W+10; if (this.x > W+10) this.x = -10;
+        if (this.y < -10) this.y = H+10; if (this.y > H+10) this.y = -10;
+      }
+      draw() { ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fillStyle=this.color; ctx.fill(); }
+    }
+
+    for (let i = 0; i < 75; i++) particles.push(new Particle());
+    document.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+
+    function loop() {
+      ctx.clearRect(0, 0, W, H);
+      const g1 = ctx.createRadialGradient(W*.1,H*.1,0,W*.1,H*.1,500);
+      g1.addColorStop(0,'rgba(242,201,76,0.05)'); g1.addColorStop(1,'transparent');
+      ctx.fillStyle=g1; ctx.fillRect(0,0,W,H);
+      const g2 = ctx.createRadialGradient(W*.9,H*.4,0,W*.9,H*.4,400);
+      g2.addColorStop(0,'rgba(77,217,232,0.04)'); g2.addColorStop(1,'transparent');
+      ctx.fillStyle=g2; ctx.fillRect(0,0,W,H);
+      particles.forEach(p => { p.update(); p.draw(); });
+      for (let i = 0; i < particles.length; i++) {
+        const a = particles[i];
+        const mdx = a.x-mouse.x, mdy = a.y-mouse.y;
+        const md = Math.sqrt(mdx*mdx+mdy*mdy);
+        if (md < 160) {
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(mouse.x,mouse.y);
+          ctx.strokeStyle=`rgba(242,201,76,${(1-md/160)*0.22})`; ctx.lineWidth=0.8; ctx.stroke();
+        }
+        for (let j = i+1; j < particles.length; j++) {
+          const b = particles[j];
+          const dx=a.x-b.x, dy=a.y-b.y, d=Math.sqrt(dx*dx+dy*dy);
+          if (d < 130) {
+            ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
+            ctx.strokeStyle=`rgba(180,200,255,${(1-d/130)*0.12})`; ctx.lineWidth=0.5; ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    // ─── CHART.JS ───
+    const chartCtx = document.getElementById('citationChart');
     const years = ["2019","2020","2021","2022","2023","2024","2025","2026"];
-    const citations = [12000, 16500, 22000, 29500, 38500, 48000, 61000, 75000]; // example growth
+    const citations = [12000,16500,22000,29500,38500,48000,61000,75000];
 
-    const ctx = document.getElementById("citationChart");
-    const chart = new Chart(ctx, {
-      type: "line",
+    new Chart(chartCtx, {
+      type: 'line',
       data: {
         labels: years,
         datasets: [{
-          label: "Citations (cumulative)",
+          label: 'Cumulative Citations',
           data: citations,
-          borderWidth: 3,
-          pointRadius: 3,
-          tension: 0.25
+          borderColor: '#f2c94c',
+          borderWidth: 2.5,
+          pointBackgroundColor: '#f2c94c',
+          pointBorderColor: 'rgba(242,201,76,0.4)',
+          pointBorderWidth: 4,
+          pointRadius: 4,
+          tension: 0.35,
+          fill: true,
+          backgroundColor: (ctx) => {
+            const gradient = ctx.chart.ctx.createLinearGradient(0, 0, 0, 240);
+            gradient.addColorStop(0, 'rgba(242,201,76,0.18)');
+            gradient.addColorStop(1, 'rgba(242,201,76,0)');
+            return gradient;
+          }
         }]
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
         plugins: {
-          legend: { labels: { color: "#e9f0ff" } },
-          tooltip: { enabled: true }
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#0a1528',
+            borderColor: 'rgba(242,201,76,0.3)',
+            borderWidth: 1,
+            titleColor: '#f2c94c',
+            bodyColor: '#7a90b8',
+            padding: 12,
+            callbacks: {
+              label: ctx => ` ${ctx.parsed.y.toLocaleString()} citations`
+            }
+          }
         },
         scales: {
-          x: { ticks: { color: "#b7c6e6" }, grid: { color: "rgba(255,255,255,.08)" } },
-          y: { ticks: { color: "#b7c6e6" }, grid: { color: "rgba(255,255,255,.08)" } }
+          x: {
+            ticks: { color: '#7a90b8', font: { family: 'DM Sans', size: 11 } },
+            grid: { color: 'rgba(255,255,255,0.05)' }
+          },
+          y: {
+            ticks: {
+              color: '#7a90b8',
+              font: { family: 'DM Sans', size: 11 },
+              callback: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v
+            },
+            grid: { color: 'rgba(255,255,255,0.05)' }
+          }
         }
       }
     });
 
-    // ---- PubMed live feed via NCBI Entrez (E-utilities) ----
-    // Uses esearch to get PMIDs, then esummary to get metadata.
-    // Note: NCBI recommends including an email and tool name for responsible API use.
+    // ─── PUBMED FEED ───
     const PUBMED_TERM = "bhagavathula A[Author]";
     const RETMAX = 30;
-    const TOOL = "epiaidea_portfolio";
-    const EMAIL = "info@epiaidea.com"; // update when you finalize email forwarding/mailbox
-
     const pubStatus = document.getElementById("pubStatus");
     const pubList = document.getElementById("pubList");
+    const ticker = document.getElementById("ticker");
+    const tickerInner = document.getElementById("tickerInner");
+    let tickerTimer = null, isPaused = false;
 
-    function safeText(s){
-      return (s || "").toString().replace(/\s+/g, " ").trim();
-    }
-
-    function buildPubItem(pmid, rec){
-      const title = safeText(rec?.title) || "Untitled record";
-      const source = safeText(rec?.fulljournalname || rec?.source) || "PubMed";
-      const pubdate = safeText(rec?.pubdate) || "";
+    function buildPubItem(pmid, rec) {
+      const title = (rec?.title || "Untitled record").toString().trim();
+      const source = (rec?.fulljournalname || rec?.source || "PubMed").toString().trim();
+      const pubdate = (rec?.pubdate || "").toString().trim();
       const authors = Array.isArray(rec?.authors)
-        ? rec.authors.slice(0, 6).map(a => a.name).join(", ") + (rec.authors.length > 6 ? ", et al." : "")
+        ? rec.authors.slice(0,4).map(a => a.name).join(", ") + (rec.authors.length > 4 ? " et al." : "")
         : "";
-
       const url = "https://pubmed.ncbi.nlm.nih.gov/" + encodeURIComponent(pmid) + "/";
-
       const li = document.createElement("li");
-      li.className = "pub";
+      li.className = "pub-item";
       li.innerHTML = `
-        <a class="title" href="${url}" target="_blank" rel="noopener">${title}</a>
-        <div class="meta">${authors ? authors + " · " : ""}${source}${pubdate ? " · " + pubdate : ""}</div>
+        <a class="pub-title" href="${url}" target="_blank" rel="noopener">${title}</a>
+        <div class="pub-meta">${authors ? authors + ' · ' : ''}${source}${pubdate ? ' · ' + pubdate : ''}</div>
       `;
       return li;
     }
 
-    async function fetchPubMedLatest(){
-      pubStatus.textContent = "Loading latest publications from PubMed…";
-
-      try{
-        // 1) esearch to get latest PMIDs
-        const esearchUrl = new URL("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi");
-        esearchUrl.searchParams.set("db", "pubmed");
-        esearchUrl.searchParams.set("term", PUBMED_TERM);
-        esearchUrl.searchParams.set("retmax", String(RETMAX));
-        esearchUrl.searchParams.set("sort", "pub+date");
-        esearchUrl.searchParams.set("retmode", "json");
-        esearchUrl.searchParams.set("tool", TOOL);
-        esearchUrl.searchParams.set("email", EMAIL);
-
-        const sResp = await fetch(esearchUrl.toString(), { method: "GET" });
-        if(!sResp.ok) throw new Error("PubMed esearch failed (" + sResp.status + ")");
-        const sJson = await sResp.json();
-        const ids = sJson?.esearchresult?.idlist || [];
-
-        if(!ids.length){
-          pubStatus.textContent = "No results found for the current author query.";
-          return;
+    function startTickerScroll() {
+      if (tickerTimer) clearInterval(tickerTimer);
+      ticker.addEventListener("mouseenter", () => isPaused = true);
+      ticker.addEventListener("mouseleave", () => isPaused = false);
+      tickerTimer = setInterval(() => {
+        if (isPaused) return;
+        tickerInner.scrollTop += 1;
+        if (tickerInner.scrollTop >= tickerInner.scrollHeight - tickerInner.clientHeight - 2) {
+          tickerInner.scrollTop = 0;
         }
+      }, 36);
+    }
 
-        // 2) esummary to get titles/journal/date/authors
-        const esummaryUrl = new URL("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi");
-        esummaryUrl.searchParams.set("db", "pubmed");
-        esummaryUrl.searchParams.set("id", ids.join(","));
-        esummaryUrl.searchParams.set("retmode", "json");
-        esummaryUrl.searchParams.set("tool", TOOL);
-        esummaryUrl.searchParams.set("email", EMAIL);
+    async function fetchPubs() {
+      try {
+        const esUrl = new URL("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi");
+        esUrl.searchParams.set("db","pubmed"); esUrl.searchParams.set("term",PUBMED_TERM);
+        esUrl.searchParams.set("retmax",String(RETMAX)); esUrl.searchParams.set("sort","pub+date");
+        esUrl.searchParams.set("retmode","json"); esUrl.searchParams.set("tool","epiaidea");
+        esUrl.searchParams.set("email","info@epiaidea.com");
+        const sr = await fetch(esUrl.toString()); if (!sr.ok) throw new Error("esearch failed");
+        const sj = await sr.json();
+        const ids = sj?.esearchresult?.idlist || [];
+        if (!ids.length) { pubStatus.textContent = "No results found."; return; }
 
-        const eResp = await fetch(esummaryUrl.toString(), { method: "GET" });
-        if(!eResp.ok) throw new Error("PubMed esummary failed (" + eResp.status + ")");
-        const eJson = await eResp.json();
-        const result = eJson?.result || {};
+        const emUrl = new URL("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi");
+        emUrl.searchParams.set("db","pubmed"); emUrl.searchParams.set("id",ids.join(","));
+        emUrl.searchParams.set("retmode","json"); emUrl.searchParams.set("tool","epiaidea");
+        emUrl.searchParams.set("email","info@epiaidea.com");
+        const er = await fetch(emUrl.toString()); if (!er.ok) throw new Error("esummary failed");
+        const ej = await er.json(); const result = ej?.result || {};
 
-        // Clear and render
         pubList.innerHTML = "";
         const uids = result?.uids || ids;
-
-        for(const pmid of uids){
-          const rec = result[pmid];
-          pubList.appendChild(buildPubItem(pmid, rec));
-        }
-
-        pubStatus.textContent = "Latest " + uids.length + " publications (auto-updated on refresh).";
-
-        // Start ticker scroll after render
+        uids.forEach(pmid => pubList.appendChild(buildPubItem(pmid, result[pmid])));
+        pubStatus.textContent = `${uids.length} publications — auto-updated on refresh`;
         startTickerScroll();
-
-      }catch(err){
-        console.error(err);
-        pubStatus.textContent = "Could not load PubMed feed. If this persists, it may be a network/CORS restriction.";
-        pubList.innerHTML = `
-          <li class="pub">
-            <a class="title" href="https://pubmed.ncbi.nlm.nih.gov/?term=bhagavathula+a&sort=date" target="_blank" rel="noopener">
-              Open PubMed search results
-            </a>
-            <div class="meta">Fallback link provided. Error: ${safeText(err?.message)}</div>
-          </li>
-        `;
+      } catch(err) {
+        pubStatus.textContent = "Could not load feed — network or CORS restriction.";
+        pubList.innerHTML = `<li class="pub-item"><a class="pub-title" href="https://pubmed.ncbi.nlm.nih.gov/?term=bhagavathula+a&sort=date" target="_blank" rel="noopener">Open PubMed search results →</a><div class="pub-meta">Fallback link · ${err?.message || ''}</div></li>`;
         startTickerScroll();
       }
     }
 
-    // ---- Vertical scrolling ticker with pause on hover ----
-    // This uses incremental scrollTop for smoothness and works with variable item heights.
-    const ticker = document.getElementById("ticker");
-    const tickerInner = document.getElementById("tickerInner");
+    fetchPubs();
 
-    let tickerTimer = null;
-    let isPaused = false;
-
-    function startTickerScroll(){
-      // Avoid multiple timers
-      if(tickerTimer) clearInterval(tickerTimer);
-
-      // If content is short, no scrolling needed
-      const maxScroll = tickerInner.scrollHeight - tickerInner.clientHeight;
-      if(maxScroll <= 5) return;
-
-      // Pause on hover
-      ticker.addEventListener("mouseenter", () => { isPaused = true; });
-      ticker.addEventListener("mouseleave", () => { isPaused = false; });
-
-      // Smooth incremental scroll
-      tickerTimer = setInterval(() => {
-        if(isPaused) return;
-
-        tickerInner.scrollTop += 1;
-
-        // If reached bottom, reset to top
-        if(tickerInner.scrollTop >= (tickerInner.scrollHeight - tickerInner.clientHeight - 2)){
-          tickerInner.scrollTop = 0;
-        }
-      }, 35); // smaller = faster
-    }
-
-    // Run fetch
-    fetchPubMedLatest();
+    // ─── SCROLL REVEAL ───
+    const els = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.07 });
+    els.forEach(el => obs.observe(el));
   </script>
-    <a href="index.html" class="back-link">← Back to home</a>
+
 </body>
 </html>
