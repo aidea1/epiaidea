@@ -3,307 +3,675 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <title>EPIAIDEA | Media</title>
+  <title>Media | EPIAIDEA</title>
   <meta name="description" content="Media and news coverage featuring EPIAIDEA work in digital epidemiology, AI safety, and health systems." />
   <meta name="robots" content="index,follow" />
 
-  <meta property="og:title" content="EPIAIDEA | Media" />
-  <meta property="og:description" content="Media and news coverage featuring EPIAIDEA work in digital epidemiology, AI safety, and health systems." />
-  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
 
   <style>
-    :root{
-      --bg:#0b1220;
-      --card:#0f1a2e;
-      --text:#e7eefc;
-      --muted:#b8c4da;
-      --line:rgba(255,255,255,.10);
-      --accent:#f2c94c;
-      --max:1100px;
+    :root {
+      --bg: #050c18;
+      --card: rgba(255,255,255,0.035);
+      --card-border: rgba(255,255,255,0.08);
+      --text: #e8f0ff;
+      --muted: #7a90b8;
+      --gold: #f2c94c;
+      --gold-dim: rgba(242,201,76,0.12);
+      --gold-glow: rgba(242,201,76,0.35);
+      --cyan: #4dd9e8;
+      --coral: #ff6b6b;
+      --line: rgba(255,255,255,0.07);
+      --max: 1140px;
     }
 
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background:
-        radial-gradient(1100px 600px at 15% 10%, rgba(242,201,76,.14), transparent 60%),
-        radial-gradient(900px 500px at 90% 0%, rgba(120,170,255,.10), transparent 55%),
-        var(--bg);
-      color:var(--text);
-      line-height:1.55;
-    }
-    a{color:inherit; text-decoration:none}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
-    .wrap{max-width:var(--max); margin:0 auto; padding:28px 18px 60px;}
-
-    .topbar{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:18px;
-      padding:10px 0 18px;
-      border-bottom:1px solid var(--line);
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
     }
 
-    .brand{
-      display:flex;
-      flex-direction:column;
-      align-items:flex-start;
-      gap:6px;
-      min-width:0;
+    a { color: inherit; text-decoration: none; }
+
+    #bgCanvas {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
     }
 
-    .wordmark{
-      display:inline-flex;
-      align-items:baseline;
-      font-weight:800;
-      letter-spacing:1px;
-      font-size:34px;
-      line-height:1;
-      white-space:nowrap;
-    }
-    .wordmark .w{ color: var(--text); }
-    .wordmark .ai{ color: var(--accent); position: relative; top: 1px; }
-
-    .brand-tagline{
-      font-size:12px;
-      letter-spacing:.6px;
-      color:var(--muted);
-      margin-top:2px;
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      opacity: 0.4;
     }
 
-    nav{display:flex; gap:16px; flex-wrap:wrap}
-    nav a{
-      color:var(--muted);
-      padding:8px 10px;
-      border-radius:10px;
-      border:1px solid transparent;
-    }
-    nav a:hover{
-      color:var(--text);
-      border-color:var(--line);
-      background:rgba(255,255,255,.04);
+    .cursor-glow {
+      position: fixed; width: 420px; height: 420px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(242,201,76,0.06) 0%, transparent 70%);
+      pointer-events: none; transform: translate(-50%, -50%);
+      z-index: 5; transition: left 0.12s ease, top 0.12s ease;
     }
 
-    .hero{padding:40px 0 10px}
-    h1{font-size:38px; line-height:1.12; margin:0 0 10px; letter-spacing:-.6px;}
-    .sub{font-size:16px; color:var(--muted); margin:0; max-width:900px;}
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px 100px; position: relative; z-index: 10; }
 
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap:14px;
-      margin-top:26px;
+    /* ─── TOPBAR ─── */
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 20px; padding: 28px 0 24px;
+      border-bottom: 1px solid var(--line); position: relative;
     }
-    .card{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      border-radius:16px;
-      padding:20px;
-      transition: border-color .2s ease;
-    }
-    .card:hover{ border-color: rgba(242,201,76, 0.4); }
-    .card h3{margin:0 0 8px; font-size:17px; color:#fff;}
-    .card p{margin:0; color:var(--muted); font-size:14px; line-height:1.5;}
-
-    .span4{grid-column: span 4}
-    .span6{grid-column: span 6}
-    .span12{grid-column: span 12}
-
-    .section{margin-top:32px}
-    .section-title{
-      display:flex;
-      align-items:baseline;
-      justify-content:space-between;
-      margin-bottom:10px;
-      gap:12px;
-    }
-    .section-title h2{margin:0; font-size:22px}
-
-    .pill{
-      display:inline-block;
-      font-size:11px;
-      color:var(--accent);
-      font-weight:700;
-      border:1px solid rgba(242,201,76, 0.3);
-      padding:3px 10px;
-      border-radius:999px;
-      margin-bottom:12px;
-      text-transform: uppercase;
+    .topbar::after {
+      content: ''; position: absolute; bottom: -1px; left: 0;
+      width: 200px; height: 1px;
+      background: linear-gradient(90deg, var(--gold), transparent);
     }
 
-    /* Footer section helpers (your homepage uses these) */
-    .footer-section{ margin-top:60px; }
-    .footer-inner{ display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; width:100%; }
-
-    footer{
-      padding-top:30px;
-      border-top:1px solid var(--line);
-      color:var(--muted);
-      font-size:13px;
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
+    .brand { display: flex; flex-direction: column; gap: 4px; }
+    .wordmark {
+      display: inline-flex; align-items: baseline;
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: 38px; letter-spacing: -1px; line-height: 1;
     }
-    .accent{color:var(--accent)}
+    .wordmark .w { color: var(--text); }
+    .wordmark .ai { color: var(--gold); position: relative; }
+    .wordmark .ai::after {
+      content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
+      height: 2px; background: var(--gold); border-radius: 2px;
+      box-shadow: 0 0 8px var(--gold);
+    }
+    .brand-tagline { font-size: 11px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; }
 
-    /* Simple list formatting for long coverage */
-    .coverage-list{ margin:0; padding-left:18px; color:var(--muted); }
-    .coverage-list li{ margin:8px 0; }
-    .coverage-list a{ color: var(--accent); text-decoration: underline; }
+    nav { display: flex; gap: 4px; }
+    nav a {
+      color: var(--muted); padding: 8px 14px; border-radius: 10px;
+      font-size: 14px; font-weight: 500; border: 1px solid transparent;
+      transition: all 0.2s ease;
+    }
+    nav a:hover { color: var(--text); border-color: var(--card-border); background: var(--card); }
+    nav a.active { color: var(--gold); border-color: rgba(242,201,76,0.25); background: rgba(242,201,76,0.06); }
 
-    details{ margin-top:12px; }
-    summary{
-      cursor:pointer;
-      color: var(--accent);
-      font-weight:800;
-      user-select:none;
+    /* ─── PAGE HERO ─── */
+    .page-hero { padding: 72px 0 54px; }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 600; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--cyan); margin-bottom: 22px;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+    .eyebrow .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--cyan); box-shadow: 0 0 10px var(--cyan);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.7)} }
+
+    .page-hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(36px, 5vw, 58px); font-weight: 800;
+      letter-spacing: -1.5px; line-height: 1.06; max-width: 720px;
+      margin-bottom: 18px; opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
+    }
+    .page-hero h1 .highlight {
+      background: linear-gradient(135deg, var(--gold) 0%, #ff9f43 50%, var(--coral) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .page-hero .lead {
+      font-size: 16px; color: var(--muted); max-width: 600px;
+      font-weight: 300; line-height: 1.75; opacity: 0; animation: fadeUp 0.7s 0.32s forwards;
     }
 
-    @media (max-width: 900px){
-      h1{font-size:30px}
-      .span4,.span6,.span12{grid-column:span 12}
-      .wordmark{ font-size:30px; }
+    /* ─── STATS STRIP ─── */
+    .stats-strip {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+      margin-bottom: 44px;
+      opacity: 0; animation: fadeUp 0.7s 0.45s forwards;
+    }
+    .stat-chip {
+      border: 1px solid var(--card-border); background: var(--card);
+      border-radius: 14px; padding: 16px 18px;
+      display: flex; align-items: center; gap: 12px;
+      transition: all 0.25s ease;
+    }
+    .stat-chip:hover { border-color: var(--gold-glow); transform: translateY(-2px); }
+    .stat-chip .sc-icon { font-size: 20px; flex-shrink: 0; }
+    .stat-chip .sc-val {
+      font-family: 'Syne', sans-serif; font-size: 20px;
+      font-weight: 800; color: var(--gold); line-height: 1;
+    }
+    .stat-chip .sc-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    /* ─── SECTION ─── */
+    .section { margin-bottom: 56px; }
+    .section-header {
+      display: flex; align-items: baseline; justify-content: space-between;
+      margin-bottom: 22px; gap: 16px;
+    }
+    .section-header h2 {
+      font-family: 'Syne', sans-serif; font-size: 22px;
+      font-weight: 800; letter-spacing: -0.4px;
+    }
+    .section-header h2 span { color: var(--gold); }
+
+    /* ─── FEATURED CARDS GRID ─── */
+    .featured-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+    }
+
+    .media-card {
+      border: 1px solid var(--card-border); background: var(--card);
+      border-radius: 18px; padding: 24px;
+      display: flex; flex-direction: column;
+      position: relative; overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    .media-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-glow), transparent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .media-card:hover { border-color: rgba(242,201,76,0.35); transform: translateY(-4px); box-shadow: 0 14px 40px rgba(0,0,0,0.4); }
+    .media-card:hover::before { opacity: 1; }
+
+    /* Featured hero card spans 2 cols */
+    .media-card.hero-card {
+      grid-column: span 2;
+      background: linear-gradient(135deg, rgba(242,201,76,0.08) 0%, rgba(77,217,232,0.04) 60%, transparent 100%);
+      border-color: rgba(242,201,76,0.2);
+    }
+
+    .media-outlet {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
+    }
+    .outlet-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); flex-shrink: 0; }
+    .outlet-name { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--cyan); }
+    .outlet-date { margin-left: auto; font-size: 11px; color: var(--muted); }
+
+    .media-card h3 {
+      font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700;
+      color: var(--text); margin-bottom: 10px; line-height: 1.3;
+    }
+    .media-card.hero-card h3 { font-size: 20px; }
+
+    .media-card p { font-size: 13px; color: var(--muted); line-height: 1.6; flex: 1; }
+
+    .media-tag {
+      display: inline-block; font-size: 9px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--gold); border: 1px solid rgba(242,201,76,0.3);
+      padding: 3px 9px; border-radius: 99px; margin-bottom: 12px;
+      background: rgba(242,201,76,0.07);
+    }
+
+    .read-link {
+      display: inline-flex; align-items: center; gap: 5px;
+      margin-top: 18px; font-size: 12px; font-weight: 600;
+      color: var(--gold); letter-spacing: 0.3px; transition: gap 0.2s;
+    }
+    .read-link:hover { gap: 9px; }
+
+    /* ─── FULL COVERAGE TABLE ─── */
+    .coverage-section {
+      background: var(--card); border: 1px solid var(--card-border);
+      border-radius: 20px; overflow: hidden;
+    }
+
+    .coverage-header {
+      display: grid;
+      grid-template-columns: 110px 160px 1fr 60px;
+      gap: 16px; padding: 12px 22px;
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid var(--line);
+      font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--muted);
+    }
+
+    .coverage-row {
+      display: grid;
+      grid-template-columns: 110px 160px 1fr 60px;
+      gap: 16px; padding: 14px 22px;
+      border-bottom: 1px solid var(--line);
+      align-items: center; transition: background 0.2s;
+    }
+    .coverage-row:last-child { border-bottom: none; }
+    .coverage-row:hover { background: rgba(255,255,255,0.025); }
+
+    .cr-date { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .cr-outlet { font-size: 12px; font-weight: 600; color: var(--text); }
+    .cr-title { font-size: 13px; color: var(--muted); line-height: 1.4; }
+    .cr-title strong { color: var(--text); font-weight: 500; }
+    .cr-link {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px; border-radius: 8px;
+      border: 1px solid var(--card-border); background: rgba(255,255,255,0.03);
+      color: var(--gold); font-size: 13px; transition: all 0.2s;
+    }
+    .cr-link:hover { border-color: var(--gold-glow); background: rgba(242,201,76,0.08); }
+
+    /* Toggle button */
+    .show-more-btn {
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; width: 100%; padding: 14px;
+      background: transparent; border: none; border-top: 1px solid var(--line);
+      color: var(--gold); font-family: 'DM Sans', sans-serif;
+      font-size: 13px; font-weight: 600; cursor: pointer;
+      transition: background 0.2s; letter-spacing: 0.3px;
+    }
+    .show-more-btn:hover { background: rgba(242,201,76,0.05); }
+    .show-more-btn .arrow { transition: transform 0.3s; display: inline-block; }
+    .show-more-btn.open .arrow { transform: rotate(180deg); }
+
+    .hidden-rows { display: none; }
+    .hidden-rows.open { display: contents; }
+
+    /* ─── REVEAL ─── */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      margin-top: 80px; padding-top: 30px; border-top: 1px solid var(--line);
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--muted);
+    }
+    footer .accent { color: var(--gold); }
+    footer a:hover { color: var(--text); }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 960px) {
+      .featured-grid { grid-template-columns: 1fr 1fr; }
+      .media-card.hero-card { grid-column: span 2; }
+      .wordmark { font-size: 30px; }
+    }
+    @media (max-width: 700px) {
+      .wrap { padding: 0 16px 60px; }
+      .featured-grid { grid-template-columns: 1fr; }
+      .media-card.hero-card { grid-column: span 1; }
+      .stats-strip { grid-template-columns: 1fr; }
+      .coverage-header, .coverage-row { grid-template-columns: 90px 1fr 36px; }
+      .coverage-header .ch-outlet, .coverage-row .cr-outlet { display: none; }
+      footer { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
-
 <body>
+
+  <canvas id="bgCanvas"></canvas>
+  <div class="cursor-glow" id="cursorGlow"></div>
+
   <div class="wrap">
+
+    <!-- ─── TOPBAR ─── -->
     <div class="topbar">
       <div class="brand">
-        <div class="wordmark" aria-label="EPIAIDEA">
-          <span class="w">EPI</span><span class="ai">AI</span><span class="w">DEA</span>
-        </div>
-        <div class="brand-tagline">Epidemiology + AI + Data + Evidence + Action</div>
+        <a href="index.html" aria-label="EPIAIDEA Home">
+          <div class="wordmark"><span class="w">EPI</span><span class="ai">AI</span><span class="w">DEA</span></div>
+        </a>
+        <div class="brand-tagline">Epidemiology · AI · Data · Evidence · Action</div>
       </div>
-
       <nav aria-label="Primary navigation">
+        <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="research.html">Research</a>
-        <a href="media.html">Media</a>
+        <a href="media.html" class="active">Media</a>
         <a href="contact.html">Contact</a>
       </nav>
     </div>
 
-    <section class="hero">
-      <h1>Media &amp; News Coverage</h1>
-      <p class="sub">Selected features, interviews, and syndicated coverage spanning AI safety, digital epidemiology, injury epidemiology, and health systems.</p>
+    <!-- ─── PAGE HERO ─── -->
+    <section class="page-hero">
+      <div class="eyebrow"><span class="dot"></span>Press &amp; Media Coverage</div>
+      <h1>Research that reaches<br/><span class="highlight">beyond the journal.</span></h1>
+      <p class="lead">Features, interviews, and syndicated coverage spanning AI safety, digital epidemiology, injury surveillance, and global health equity — from the BBC to Scientific American.</p>
     </section>
 
-    <section class="section">
-      <div class="section-title">
-        <h2>Featured</h2>
-      </div>
-
-      <div class="grid">
-        <div class="card span6">
-          <div class="pill">Clinical AI Safety · 01/29/2026</div>
-          <h3>Clinical Leader — Making AI Safety Routine</h3>
-          <p>How sites and sponsors can continuously monitor clinical AI.</p>
-          <a href="https://www.clinicalleader.com/doc/making-ai-safety-routine-how-sites-and-sponsors-can-continuously-monitor-clinical-ai-0001"
-             target="_blank" rel="noopener"
-             style="display:block; margin-top:15px; font-size:13px; color:var(--accent)">Read →</a>
-        </div>
-
-        <div class="card span6">
-          <div class="pill">Clinical Relevance · 12/31/2025</div>
-          <h3>Clinical Leader — Clinical Relevance Over Statistical Relevance</h3>
-          <p>Experts prioritize clinical relevance in decision-grade evidence.</p>
-          <a href="https://www.clinicalleader.com/doc/no-surprise-here-experts-value-clinical-relevance-over-statistical-relevance-0001"
-             target="_blank" rel="noopener"
-             style="display:block; margin-top:15px; font-size:13px; color:var(--accent)">Read →</a>
-        </div>
-
-        <div class="card span6">
-          <div class="pill">Global Cancer · 01/07/2026</div>
-          <h3>ScienceDaily — A Global Cancer Surge Is Underway</h3>
-          <p>Coverage on preparedness gaps amid rising global burden.</p>
-          <a href="https://www.sciencedaily.com/releases/2026/01/260106224644.htm"
-             target="_blank" rel="noopener"
-             style="display:block; margin-top:15px; font-size:13px; color:var(--accent)">Read →</a>
-        </div>
-
-        <div class="card span6">
-          <div class="pill">Health Equity · 01/09/2026</div>
-          <h3>TechRound — Modern Healthtech, But Who Gets the Key?</h3>
-          <p>Access inequities and governance questions in modern healthtech.</p>
-          <a href="https://techround.co.uk/tech/modern-healthtech-is-opening-new-doors-to-healthcare-but-who-gets-the-key/"
-             target="_blank" rel="noopener"
-             style="display:block; margin-top:15px; font-size:13px; color:var(--accent)">Read →</a>
-        </div>
-
-        <div class="card span6">
-          <div class="pill">Interview · Video</div>
-          <h3>72 Dragon Health — Pharmacist to Public Health Pioneer</h3>
-          <p>Profile interview on research trajectory and translation.</p>
-          <a href="https://www.youtube.com/watch?v=LzDE21IWr4E"
-             target="_blank" rel="noopener"
-             style="display:block; margin-top:15px; font-size:13px; color:var(--accent)">Watch →</a>
-        </div>
-
-        <div class="card span6">
-          <div class="pill">AI Ethics · Feature</div>
-          <h3>Innovations et Technologies — AI Ethics Spotlight</h3>
-          <p>French-language profile on responsible AI and ethics in practice.</p>
-          <a href="https://www.innovations-technologies.fr/decouvrez-akshaya-bhagavathula-linnovateur-qui-revolutionne-lethique-de-lintelligence-artificielle-2/"
-             target="_blank" rel="noopener"
-             style="display:block; margin-top:15px; font-size:13px; color:var(--accent)">Read →</a>
+    <!-- ─── STATS STRIP ─── -->
+    <div class="stats-strip">
+      <div class="stat-chip">
+        <span class="sc-icon">📰</span>
+        <div>
+          <div class="sc-val">18+</div>
+          <div class="sc-label">Media placements</div>
         </div>
       </div>
-
-      <details>
-        <summary>View full coverage list</summary>
-
-        <div class="grid">
-          <div class="card span12">
-            <div class="pill">Complete list</div>
-            <ul class="coverage-list">
-              <li>01/29/2026 — Clinical Leader — Making AI Safety Routine — <a href="https://www.clinicalleader.com/doc/making-ai-safety-routine-how-sites-and-sponsors-can-continuously-monitor-clinical-ai-0001" target="_blank" rel="noopener">Link</a></li>
-              <li>12/31/2025 — Clinical Leader — Clinical relevance over statistical relevance — <a href="https://www.clinicalleader.com/doc/no-surprise-here-experts-value-clinical-relevance-over-statistical-relevance-0001" target="_blank" rel="noopener">Link</a></li>
-              <li>01/07/2026 — ScienceDaily — A global cancer surge is underway — <a href="https://www.sciencedaily.com/releases/2026/01/260106224644.htm" target="_blank" rel="noopener">Link</a></li>
-              <li>01/09/2026 — TechRound — Modern Healthtech… who gets the key? — <a href="https://techround.co.uk/tech/modern-healthtech-is-opening-new-doors-to-healthcare-but-who-gets-the-key/" target="_blank" rel="noopener">Link</a></li>
-              <li>72 Dragon Health — Pharmacist to Public Health Pioneer — <a href="https://www.youtube.com/watch?v=LzDE21IWr4E" target="_blank" rel="noopener">Link</a></li>
-              <li>Innovations et Technologies — AI ethics feature — <a href="https://www.innovations-technologies.fr/decouvrez-akshaya-bhagavathula-linnovateur-qui-revolutionne-lethique-de-lintelligence-artificielle-2/" target="_blank" rel="noopener">Link</a></li>
-              <li>04/02/2025 — Bamboozle — Microplastics explainer — <a href="https://www.bamboozlehome.com/blogs/news/what-are-microplastics-why-are-they-bad-for-you/" target="_blank" rel="noopener">Link</a></li>
-              <li>05/07/2025 — Medical Xpress — Narcan awareness/possession gaps — <a href="https://medicalxpress.com/news/2025-05-critical-gaps-narcan-awareness-adults.html" target="_blank" rel="noopener">Link</a></li>
-              <li>02/21/2025 — Daily Mail — Cocaine overdoses hotspot map — <a href="https://www.dailymail.co.uk/health/article-14418379/cocaine-abuse-growth-states-using-cdc-data.html" target="_blank" rel="noopener">Link</a></li>
-              <li>12/15/2024 — JMIR — Open access, rigor, and AI — <a href="https://blog.jmir.org/a-conversation-with-dr.-bhagavathula-on-open-access-rigor-and-the-future-of-ai-in-research" target="_blank" rel="noopener">Link</a></li>
-              <li>12/14/2024 — La Noticia Digital — AI ethics feature — <a href="https://lanoticiadigital.com.ar/uncategorized-en/meet-akshaya-bhagavathula-the-innovator-transforming-ai-ethics/12905/" target="_blank" rel="noopener">Link</a></li>
-              <li>12/14/2024 — La Noticia Digital — E-bike safety debate — <a href="https://lanoticiadigital.com.ar/uncategorized-en/e-bike-accident-sparks-debate-is-technology-outpacing-safety/13038/" target="_blank" rel="noopener">Link</a></li>
-              <li>12/13/2024 — Medscape — e-scooter/e-bike injuries — <a href="https://www.medscape.com/viewarticle/e-scooter-and-e-bike-injuries-triple-linked-alcohol-and-2024a1000n29" target="_blank" rel="noopener">Link</a></li>
-              <li>12/11/2024 — Scientific American — injuries tripled — <a href="https://www.scientificamerican.com/article/injuries-from-electric-bikes-and-electric-scooters-have-tripled-heres-what-to-know/" target="_blank" rel="noopener">Link</a></li>
-              <li>12/10/2024 — U.S. News — teens, booze, e-scooters — <a href="https://www.usnews.com/news/health-news/articles/2024-12-10/teens-booze-and-e-scooters-a-rising-threat-as-injuries-crowd-ers" target="_blank" rel="noopener">Link</a></li>
-              <li>11/28/2023 — BBC News — toxic gas risk — <a href="https://www.bbc.com/news/science-environment-67522413" target="_blank" rel="noopener">Link</a></li>
-              <li>09/17/2020 — The Conversation — COVID vaccine technologies — <a href="https://theconversation.com/from-adenoviruses-to-rna-the-pros-and-cons-of-different-covid-vaccine-technologies-145454" target="_blank" rel="noopener">Link</a></li>
-              <li>12/13/2018 — TCTMD — CVD threat in MENA — <a href="https://www.tctmd.com/news/rising-cvd-threatens-middle-east-and-north-africa" target="_blank" rel="noopener">Link</a></li>
-            </ul>
-          </div>
+      <div class="stat-chip">
+        <span class="sc-icon">🌍</span>
+        <div>
+          <div class="sc-val">8+</div>
+          <div class="sc-label">Countries &amp; outlets</div>
         </div>
-      </details>
+      </div>
+      <div class="stat-chip">
+        <span class="sc-icon">📅</span>
+        <div>
+          <div class="sc-val">2018–2026</div>
+          <div class="sc-label">Continuous coverage</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── FEATURED ─── -->
+    <section class="section reveal">
+      <div class="section-header">
+        <h2>Featured <span>Coverage</span></h2>
+      </div>
+
+      <div class="featured-grid">
+
+        <!-- Hero card (wide) -->
+        <div class="media-card hero-card">
+          <div class="media-outlet">
+            <span class="outlet-dot"></span>
+            <span class="outlet-name">Clinical Leader</span>
+            <span class="outlet-date">Jan 29, 2026</span>
+          </div>
+          <div class="media-tag">Clinical AI Safety</div>
+          <h3>Making AI Safety Routine: How Sites and Sponsors Can Continuously Monitor Clinical AI</h3>
+          <p>A deep dive into how clinical research sites and trial sponsors can implement continuous, systematic monitoring of AI tools — moving from one-time validation to embedded safety infrastructure. Features expertise on decision-grade evidence and real-world AI deployment risks.</p>
+          <a class="read-link" href="https://www.clinicalleader.com/doc/making-ai-safety-routine-how-sites-and-sponsors-can-continuously-monitor-clinical-ai-0001" target="_blank" rel="noopener">Read full feature →</a>
+        </div>
+
+        <!-- Scientific American -->
+        <div class="media-card">
+          <div class="media-outlet">
+            <span class="outlet-dot" style="background:var(--coral);box-shadow:0 0 8px var(--coral)"></span>
+            <span class="outlet-name" style="color:var(--coral);">Scientific American</span>
+            <span class="outlet-date">Dec 11, 2024</span>
+          </div>
+          <div class="media-tag" style="color:var(--coral);border-color:rgba(255,107,107,0.3);background:rgba(255,107,107,0.07)">Injury Surveillance</div>
+          <h3>Injuries from E-Bikes and E-Scooters Have Tripled</h3>
+          <p>National injury surveillance data on the tripling of e-scooter and e-bike ER admissions, including alcohol and teen involvement trends.</p>
+          <a class="read-link" href="https://www.scientificamerican.com/article/injuries-from-electric-bikes-and-electric-scooters-have-tripled-heres-what-to-know/" target="_blank" rel="noopener" style="color:var(--coral)">Read →</a>
+        </div>
+
+        <!-- BBC -->
+        <div class="media-card reveal delay-1">
+          <div class="media-outlet">
+            <span class="outlet-dot" style="background:#ff4d4d;box-shadow:0 0 8px #ff4d4d"></span>
+            <span class="outlet-name" style="color:#ff7a7a;">BBC News</span>
+            <span class="outlet-date">Nov 28, 2023</span>
+          </div>
+          <div class="media-tag" style="color:#ff7a7a;border-color:rgba(255,77,77,0.3);background:rgba(255,77,77,0.07)">Environmental Health</div>
+          <h3>Toxic Gas Risk</h3>
+          <p>BBC News coverage on environmental toxic gas exposure risks — population-level evidence and public health response implications.</p>
+          <a class="read-link" href="https://www.bbc.com/news/science-environment-67522413" target="_blank" rel="noopener" style="color:#ff7a7a">Read →</a>
+        </div>
+
+        <!-- Clinical Leader 2 -->
+        <div class="media-card reveal delay-1">
+          <div class="media-outlet">
+            <span class="outlet-dot"></span>
+            <span class="outlet-name">Clinical Leader</span>
+            <span class="outlet-date">Dec 31, 2025</span>
+          </div>
+          <div class="media-tag">Evidence Standards</div>
+          <h3>Clinical Relevance Over Statistical Relevance</h3>
+          <p>Expert panel prioritizes clinical significance in the era of large-scale AI studies and inflated sample sizes.</p>
+          <a class="read-link" href="https://www.clinicalleader.com/doc/no-surprise-here-experts-value-clinical-relevance-over-statistical-relevance-0001" target="_blank" rel="noopener">Read →</a>
+        </div>
+
+        <!-- 72 Dragon -->
+        <div class="media-card reveal delay-2">
+          <div class="media-outlet">
+            <span class="outlet-dot" style="background:#a78bfa;box-shadow:0 0 8px #a78bfa"></span>
+            <span class="outlet-name" style="color:#a78bfa;">72 Dragon Health</span>
+            <span class="outlet-date">Video Interview</span>
+          </div>
+          <div class="media-tag" style="color:#a78bfa;border-color:rgba(167,139,250,0.3);background:rgba(167,139,250,0.07)">Profile Interview</div>
+          <h3>Pharmacist to Public Health Pioneer</h3>
+          <p>In-depth video interview tracing the research trajectory from pharmacy practice to digital epidemiology and population AI analytics.</p>
+          <a class="read-link" href="https://www.youtube.com/watch?v=LzDE21IWr4E" target="_blank" rel="noopener" style="color:#a78bfa">Watch →</a>
+        </div>
+
+        <!-- ScienceDaily -->
+        <div class="media-card reveal delay-2">
+          <div class="media-outlet">
+            <span class="outlet-dot" style="background:#34d399;box-shadow:0 0 8px #34d399"></span>
+            <span class="outlet-name" style="color:#34d399;">ScienceDaily</span>
+            <span class="outlet-date">Jan 7, 2026</span>
+          </div>
+          <div class="media-tag" style="color:#34d399;border-color:rgba(52,211,153,0.3);background:rgba(52,211,153,0.07)">Global Cancer</div>
+          <h3>A Global Cancer Surge Is Underway</h3>
+          <p>Coverage on widening preparedness gaps amid rising global cancer burden — surveillance and systems response implications.</p>
+          <a class="read-link" href="https://www.sciencedaily.com/releases/2026/01/260106224644.htm" target="_blank" rel="noopener" style="color:#34d399">Read →</a>
+        </div>
+
+      </div>
     </section>
 
-    <section class="footer-section">
-      <footer>
-        <div class="footer-inner">
-          <div>© <span id="y"></span> EPIAIDEA · <span class="accent">Epidemiology + AI + Data + Evidence + Action</span></div>
-          <div>
-            <a href="https://www.linkedin.com/in/akshayphd/" target="_blank" rel="noopener">LinkedIn</a> ·
-            <a href="contact.html">Contact</a> ·
-            <a href="about.html">About</a>
+    <!-- ─── FULL COVERAGE ─── -->
+    <section class="section reveal delay-1">
+      <div class="section-header">
+        <h2>All <span>Coverage</span></h2>
+        <span style="font-size:12px;color:var(--muted);">18 placements · 2018–2026</span>
+      </div>
+
+      <div class="coverage-section">
+        <div class="coverage-header">
+          <span>Date</span>
+          <span class="ch-outlet">Outlet</span>
+          <span>Title</span>
+          <span></span>
+        </div>
+
+        <!-- Visible rows (top 6) -->
+        <div class="coverage-row">
+          <span class="cr-date">Jan 29, 2026</span>
+          <span class="cr-outlet">Clinical Leader</span>
+          <span class="cr-title"><strong>Making AI Safety Routine</strong> — Continuous monitoring of clinical AI</span>
+          <a class="cr-link" href="https://www.clinicalleader.com/doc/making-ai-safety-routine-how-sites-and-sponsors-can-continuously-monitor-clinical-ai-0001" target="_blank" rel="noopener" title="Read">↗</a>
+        </div>
+        <div class="coverage-row">
+          <span class="cr-date">Jan 9, 2026</span>
+          <span class="cr-outlet">TechRound</span>
+          <span class="cr-title"><strong>Modern Healthtech — But Who Gets the Key?</strong> — Access inequities in healthtech</span>
+          <a class="cr-link" href="https://techround.co.uk/tech/modern-healthtech-is-opening-new-doors-to-healthcare-but-who-gets-the-key/" target="_blank" rel="noopener" title="Read">↗</a>
+        </div>
+        <div class="coverage-row">
+          <span class="cr-date">Jan 7, 2026</span>
+          <span class="cr-outlet">ScienceDaily</span>
+          <span class="cr-title"><strong>A Global Cancer Surge Is Underway</strong> — Preparedness gaps, rising burden</span>
+          <a class="cr-link" href="https://www.sciencedaily.com/releases/2026/01/260106224644.htm" target="_blank" rel="noopener" title="Read">↗</a>
+        </div>
+        <div class="coverage-row">
+          <span class="cr-date">Dec 31, 2025</span>
+          <span class="cr-outlet">Clinical Leader</span>
+          <span class="cr-title"><strong>Clinical Relevance Over Statistical Relevance</strong> — Evidence standards in AI era</span>
+          <a class="cr-link" href="https://www.clinicalleader.com/doc/no-surprise-here-experts-value-clinical-relevance-over-statistical-relevance-0001" target="_blank" rel="noopener" title="Read">↗</a>
+        </div>
+        <div class="coverage-row">
+          <span class="cr-date">May 7, 2025</span>
+          <span class="cr-outlet">Medical Xpress</span>
+          <span class="cr-title"><strong>Critical Gaps in Narcan Awareness</strong> — Awareness and possession gaps in adults</span>
+          <a class="cr-link" href="https://medicalxpress.com/news/2025-05-critical-gaps-narcan-awareness-adults.html" target="_blank" rel="noopener" title="Read">↗</a>
+        </div>
+        <div class="coverage-row">
+          <span class="cr-date">Apr 2, 2025</span>
+          <span class="cr-outlet">Bamboozle</span>
+          <span class="cr-title"><strong>What Are Microplastics?</strong> — Environmental exposure explainer</span>
+          <a class="cr-link" href="https://www.bamboozlehome.com/blogs/news/what-are-microplastics-why-are-they-bad-for-you/" target="_blank" rel="noopener" title="Read">↗</a>
+        </div>
+
+        <!-- Hidden rows toggled -->
+        <div class="hidden-rows" id="hiddenRows">
+          <div class="coverage-row">
+            <span class="cr-date">Feb 21, 2025</span>
+            <span class="cr-outlet">Daily Mail</span>
+            <span class="cr-title"><strong>Cocaine Overdose Hotspot Map</strong> — State-level overdose growth via CDC data</span>
+            <a class="cr-link" href="https://www.dailymail.co.uk/health/article-14418379/cocaine-abuse-growth-states-using-cdc-data.html" target="_blank" rel="noopener" title="Read">↗</a>
+          </div>
+          <div class="coverage-row">
+            <span class="cr-date">Dec 15, 2024</span>
+            <span class="cr-outlet">JMIR Blog</span>
+            <span class="cr-title"><strong>Open Access, Rigor, and AI</strong> — Future of AI in research</span>
+            <a class="cr-link" href="https://blog.jmir.org/a-conversation-with-dr.-bhagavathula-on-open-access-rigor-and-the-future-of-ai-in-research" target="_blank" rel="noopener" title="Read">↗</a>
+          </div>
+          <div class="coverage-row">
+            <span class="cr-date">Dec 14, 2024</span>
+            <span class="cr-outlet">La Noticia Digital</span>
+            <span class="cr-title"><strong>Innovator Transforming AI Ethics</strong> — International AI ethics profile</span>
+            <a class="cr-link" href="https://lanoticiadigital.com.ar/uncategorized-en/meet-akshaya-bhagavathula-the-innovator-transforming-ai-ethics/12905/" target="_blank" rel="noopener" title="Read">↗</a>
+          </div>
+          <div class="coverage-row">
+            <span class="cr-date">Dec 14, 2024</span>
+            <span class="cr-outlet">La Noticia Digital</span>
+            <span class="cr-title"><strong>E-Bike Safety Debate</strong> — Is technology outpacing safety?</span>
+            <a class="cr-link" href="https://lanoticiadigital.com.ar/uncategorized-en/e-bike-accident-sparks-debate-is-technology-outpacing-safety/13038/" target="_blank" rel="noopener" title="Read">↗</a>
+          </div>
+          <div class="coverage-row">
+            <span class="cr-date">Dec 13, 2024</span>
+            <span class="cr-outlet">Medscape</span>
+            <span class="cr-title"><strong>E-Scooter/E-Bike Injuries Triple</strong> — Linked to alcohol and risky behavior</span>
+            <a class="cr-link" href="https://www.medscape.com/viewarticle/e-scooter-and-e-bike-injuries-triple-linked-alcohol-and-2024a1000n29" target="_blank" rel="noopener" title="Read">↗</a>
+          </div>
+          <div class="coverage-row">
+            <span class="cr-date">Dec 11, 2024</span>
+            <span class="cr-outlet">Scientific American</span>
+            <span class="cr-title"><strong>E-Bike &amp; E-Scooter Injuries Have Tripled</strong> — ER surge, teen and alcohol involvement</span>
+            <a class="cr-link" href="https://www.scientificamerican.com/article/injuries-from-electric-bikes-and-electric-scooters-have-tripled-heres-what-to-know/" target="_blank" rel="noopener" title="Read">↗</a>
+          </div>
+          <div class="coverage-row">
+            <span class="cr-date">Dec 10, 2024</span>
+            <span class="cr-outlet">U.S. News</span>
+            <span class="cr-title"><strong>Teens, Booze, and E-Scooters</strong> — Rising ER threat from micromobility</span>
+            <a class="cr-link" href="https://www.usnews.com/news/health-news/articles/2024-12-10/teens-booze-and-e-scooters-a-rising-threat-as-injuries-crowd-ers" target="_blank" rel="noopener" title="Read">↗</a>
+          </div>
+          <div class="coverage-row">
+            <span class="cr-date">Nov 28, 2023</span>
+            <span class="cr-outlet">BBC News</span>
+            <span class="cr-title"><strong>Toxic Gas Risk</strong> — Environmental exposure and public health response</span>
+            <a class="cr-link" href="https://www.bbc.com/news/science-environment-67522413" target="_blank" rel="noopener" title="Read">↗</a>
+          </div>
+          <div class="coverage-row">
+            <span class="cr-date">Sep 17, 2020</span>
+            <span class="cr-outlet">The Conversation</span>
+            <span class="cr-title"><strong>COVID Vaccine Technologies</strong> — Adenoviruses to RNA: pros and cons</span>
+            <a class="cr-link" href="https://theconversation.com/from-adenoviruses-to-rna-the-pros-and-cons-of-different-covid-vaccine-technologies-145454" target="_blank" rel="noopener" title="Read">↗</a>
+          </div>
+          <div class="coverage-row">
+            <span class="cr-date">Dec 13, 2018</span>
+            <span class="cr-outlet">TCTMD</span>
+            <span class="cr-title"><strong>Rising CVD in Middle East &amp; North Africa</strong> — Threat and surveillance gaps</span>
+            <a class="cr-link" href="https://www.tctmd.com/news/rising-cvd-threatens-middle-east-and-north-africa" target="_blank" rel="noopener" title="Read">↗</a>
+          </div>
+          <div class="coverage-row">
+            <span class="cr-date">Ongoing</span>
+            <span class="cr-outlet">Innovations et Tech.</span>
+            <span class="cr-title"><strong>AI Ethics Spotlight</strong> — French-language profile on responsible AI</span>
+            <a class="cr-link" href="https://www.innovations-technologies.fr/decouvrez-akshaya-bhagavathula-linnovateur-qui-revolutionne-lethique-de-lintelligence-artificielle-2/" target="_blank" rel="noopener" title="Read">↗</a>
+          </div>
+          <div class="coverage-row">
+            <span class="cr-date">Ongoing</span>
+            <span class="cr-outlet">72 Dragon Health</span>
+            <span class="cr-title"><strong>Pharmacist to Public Health Pioneer</strong> — Video interview and research profile</span>
+            <a class="cr-link" href="https://www.youtube.com/watch?v=LzDE21IWr4E" target="_blank" rel="noopener" title="Watch">↗</a>
           </div>
         </div>
-      </footer>
+
+        <button class="show-more-btn" id="showMoreBtn" onclick="toggleRows()">
+          <span>Show all 12 remaining</span>
+          <span class="arrow">▾</span>
+        </button>
+      </div>
     </section>
+
+    <!-- ─── FOOTER ─── -->
+    <footer>
+      <div>© <span id="y"></span> EPIAIDEA · <span class="accent">Epidemiology + AI + Data + Evidence + Action</span></div>
+      <div style="display:flex;gap:18px;">
+        <a href="https://www.linkedin.com/in/akshayphd/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="contact.html">Contact</a>
+        <a href="index.html">Home</a>
+      </div>
+    </footer>
 
   </div>
 
   <script>
-    document.getElementById("y").textContent = new Date().getFullYear();
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Cursor glow
+    const glow = document.getElementById('cursorGlow');
+    document.addEventListener('mousemove', e => { glow.style.left = e.clientX+'px'; glow.style.top = e.clientY+'px'; });
+
+    // Toggle rows
+    function toggleRows() {
+      const rows = document.getElementById('hiddenRows');
+      const btn = document.getElementById('showMoreBtn');
+      const isOpen = rows.classList.toggle('open');
+      btn.classList.toggle('open', isOpen);
+      btn.querySelector('span').textContent = isOpen ? 'Show less' : 'Show all 12 remaining';
+    }
+
+    // Particle canvas
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [], mouse = {x:-9999,y:-9999};
+
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize); resize();
+
+    function rand(a,b){return Math.random()*(b-a)+a;}
+
+    class Particle {
+      constructor(){this.reset();}
+      reset(){
+        this.x=rand(0,W);this.y=rand(0,H);
+        this.vx=rand(-0.22,0.22);this.vy=rand(-0.22,0.22);
+        this.r=rand(1,2.2);this.life=rand(0.28,0.72);
+        const p=[`rgba(242,201,76,${this.life})`,`rgba(77,217,232,${this.life*.7})`,`rgba(230,240,255,${this.life*.4})`];
+        this.color=p[Math.floor(Math.random()*p.length)];
+      }
+      update(){
+        this.x+=this.vx;this.y+=this.vy;
+        if(this.x<-10)this.x=W+10;if(this.x>W+10)this.x=-10;
+        if(this.y<-10)this.y=H+10;if(this.y>H+10)this.y=-10;
+      }
+      draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.color;ctx.fill();}
+    }
+
+    for(let i=0;i<75;i++)particles.push(new Particle());
+    document.addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY;});
+
+    function loop(){
+      ctx.clearRect(0,0,W,H);
+      const g1=ctx.createRadialGradient(W*.2,H*.1,0,W*.2,H*.1,480);
+      g1.addColorStop(0,'rgba(242,201,76,0.05)');g1.addColorStop(1,'transparent');
+      ctx.fillStyle=g1;ctx.fillRect(0,0,W,H);
+      const g2=ctx.createRadialGradient(W*.85,H*.5,0,W*.85,H*.5,380);
+      g2.addColorStop(0,'rgba(77,217,232,0.04)');g2.addColorStop(1,'transparent');
+      ctx.fillStyle=g2;ctx.fillRect(0,0,W,H);
+      particles.forEach(p=>{p.update();p.draw();});
+      for(let i=0;i<particles.length;i++){
+        const a=particles[i];
+        const mdx=a.x-mouse.x,mdy=a.y-mouse.y,md=Math.sqrt(mdx*mdx+mdy*mdy);
+        if(md<160){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(mouse.x,mouse.y);ctx.strokeStyle=`rgba(242,201,76,${(1-md/160)*.22})`;ctx.lineWidth=0.8;ctx.stroke();}
+        for(let j=i+1;j<particles.length;j++){
+          const b=particles[j],dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy);
+          if(d<130){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=`rgba(180,200,255,${(1-d/130)*.12})`;ctx.lineWidth=0.5;ctx.stroke();}
+        }
+      }
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    // Scroll reveal
+    const els=document.querySelectorAll('.reveal');
+    const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.07});
+    els.forEach(el=>obs.observe(el));
   </script>
-    <a href="index.html" class="back-link">← Back to home</a>
+
 </body>
 </html>
