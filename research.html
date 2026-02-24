@@ -4,554 +4,187 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Research | EPIAIDEA</title>
-  <meta name="description" content="Academic portfolio with impact metrics, citation growth, and live PubMed publication feed — EPIAIDEA." />
+  <meta name="description" content="Academic portfolio, impact metrics, live publication feed, and research domain overview — EPIAIDEA." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
   <style>
     :root {
-      --bg: #050c18;
-      --surface: #0a1528;
-      --card: rgba(255,255,255,0.035);
-      --card-border: rgba(255,255,255,0.08);
-      --text: #e8f0ff;
-      --muted: #7a90b8;
-      --gold: #f2c94c;
-      --gold-dim: rgba(242,201,76,0.12);
-      --gold-glow: rgba(242,201,76,0.35);
-      --cyan: #4dd9e8;
-      --coral: #ff6b6b;
-      --line: rgba(255,255,255,0.07);
-      --max: 1200px;
+      --bg: #050c18; --surface: #0a1528; --card: rgba(255,255,255,0.035);
+      --card-border: rgba(255,255,255,0.08); --text: #e8f0ff; --muted: #96aacf;
+      --gold: #f2c94c; --gold-dim: rgba(242,201,76,0.12); --gold-glow: rgba(242,201,76,0.35);
+      --cyan: #4dd9e8; --coral: #ff6b6b; --line: rgba(255,255,255,0.07); --max: 1200px;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
-
+    body { font-family: 'Instrument Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; min-height: 100vh; }
     a { color: inherit; text-decoration: none; }
-
-    #bgCanvas {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-    }
-
+    #bgCanvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
     body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
+      content: ''; position: fixed; inset: 0; z-index: 1; pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
       opacity: 0.4;
     }
+    .cursor-glow { position: fixed; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(242,201,76,0.06) 0%, transparent 70%); pointer-events: none; transform: translate(-50%,-50%); z-index: 5; transition: left .12s ease, top .12s ease; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px 100px; position: relative; z-index: 10; }
 
-    .cursor-glow {
-      position: fixed;
-      width: 420px; height: 420px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(242,201,76,0.06) 0%, transparent 70%);
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      z-index: 5;
-      transition: left 0.12s ease, top 0.12s ease;
-    }
-
-    .wrap {
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 0 24px 100px;
-      position: relative;
-      z-index: 10;
-    }
-
-    /* ─── TOPBAR ─── */
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      padding: 28px 0 24px;
-      border-bottom: 1px solid var(--line);
-      position: relative;
-    }
-    .topbar::after {
-      content: '';
-      position: absolute;
-      bottom: -1px; left: 0;
-      width: 200px; height: 1px;
-      background: linear-gradient(90deg, var(--gold), transparent);
-    }
-
+    /* NAV */
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 28px 0 24px; border-bottom: 1px solid var(--line); position: relative; }
+    .topbar::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 200px; height: 1px; background: linear-gradient(90deg, var(--gold), transparent); }
     .brand { display: flex; flex-direction: column; gap: 4px; }
-
-    .wordmark {
-      display: inline-flex;
-      align-items: baseline;
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 38px;
-      letter-spacing: -1px;
-      line-height: 1;
-    }
-    .wordmark .w { color: var(--text); }
-    .wordmark .ai { color: var(--gold); position: relative; }
-    .wordmark .ai::after {
-      content: '';
-      position: absolute;
-      bottom: -3px; left: 0; right: 0;
-      height: 2px;
-      background: var(--gold);
-      border-radius: 2px;
-      box-shadow: 0 0 8px var(--gold);
-    }
-
-    .brand-tagline {
-      font-size: 11px;
-      letter-spacing: 1.5px;
-      color: var(--muted);
-      text-transform: uppercase;
-    }
-
+    .wordmark { display: inline-flex; align-items: baseline; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 42px; letter-spacing: -1.5px; line-height: 1; position: relative; -webkit-text-stroke: 0.6px currentColor; paint-order: stroke fill; }
+    .wordmark .w { color: var(--text); text-shadow: 0 2px 20px rgba(232,240,255,0.12); }
+    .wordmark .ai { color: var(--gold); position: relative; text-shadow: 0 0 24px rgba(242,201,76,0.4); }
+    .wordmark .ai::after { content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 2px; background: var(--gold); border-radius: 2px; box-shadow: 0 0 8px var(--gold); }
+    .brand-tagline { font-size: 11px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; font-weight: 400; }
     nav { display: flex; gap: 4px; }
-    nav a {
-      color: var(--muted);
-      padding: 8px 14px;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 500;
-      border: 1px solid transparent;
-      transition: all 0.2s ease;
-    }
+    nav a { color: var(--muted); padding: 8px 14px; border-radius: 10px; font-size: 14px; font-weight: 500; border: 1px solid transparent; transition: all .2s ease; }
     nav a:hover { color: var(--text); border-color: var(--card-border); background: var(--card); }
-    nav a.active { color: var(--gold); border-color: rgba(242,201,76,0.25); background: rgba(242,201,76,0.06); }
+    nav a.active { color: var(--gold); border-color: rgba(242,201,76,.25); background: rgba(242,201,76,.06); }
 
-    /* ─── PAGE HERO ─── */
-    .page-hero {
-      padding: 72px 0 50px;
-    }
+    /* PAGE HERO */
+    .page-hero { padding: 72px 0 50px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--cyan); margin-bottom: 22px; opacity: 0; animation: fadeUp .6s .1s forwards; }
+    .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.7)} }
+    .page-hero h1 { font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(36px,5vw,58px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.06; max-width: 750px; margin-bottom: 18px; opacity: 0; animation: fadeUp .7s .2s forwards; }
+    .page-hero h1 .highlight { color: var(--gold); background: linear-gradient(135deg, var(--gold) 0%, #ff9f43 50%, var(--coral) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .page-hero .lead { font-size: 16px; color: var(--muted); max-width: 640px; font-weight: 400; line-height: 1.75; opacity: 0; animation: fadeUp .7s .32s forwards; }
 
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--cyan);
-      margin-bottom: 22px;
-      opacity: 0;
-      animation: fadeUp 0.6s 0.1s forwards;
-    }
-    .eyebrow .dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--cyan);
-      box-shadow: 0 0 10px var(--cyan);
-      animation: pulse 2s infinite;
-    }
+    /* LAYOUT */
+    .research-layout { display: grid; grid-template-columns: 300px 1fr; gap: 20px; align-items: start; }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.7); }
-    }
+    /* SIDEBAR */
+    .sidebar { position: sticky; top: 24px; display: flex; flex-direction: column; gap: 14px; }
 
-    .page-hero h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(36px, 5vw, 58px);
-      font-weight: 800;
-      letter-spacing: -1.5px;
-      line-height: 1.06;
-      max-width: 750px;
-      margin-bottom: 18px;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.2s forwards;
-    }
+    .profile-card { border: 1px solid var(--card-border); background: var(--card); border-radius: 20px; padding: 24px; backdrop-filter: blur(8px); position: relative; overflow: hidden; }
+    .profile-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold-glow), transparent); }
 
-    .page-hero h1 .highlight {
-      background: linear-gradient(135deg, var(--gold) 0%, #ff9f43 50%, var(--coral) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .page-hero .lead {
-      font-size: 16px;
-      color: var(--muted);
-      max-width: 600px;
-      font-weight: 300;
-      line-height: 1.75;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.32s forwards;
-    }
-
-    /* ─── MAIN LAYOUT ─── */
-    .research-layout {
-      display: grid;
-      grid-template-columns: 300px 1fr;
-      gap: 20px;
-      align-items: start;
-    }
-
-    /* ─── SIDEBAR ─── */
-    .sidebar {
-      position: sticky;
-      top: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .profile-card {
-      border: 1px solid var(--card-border);
-      background: var(--card);
-      border-radius: 20px;
-      padding: 24px;
-      backdrop-filter: blur(8px);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .profile-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--gold-glow), transparent);
-    }
-
-    .avatar {
-      width: 80px; height: 80px;
-      border-radius: 18px;
-      border: 1px solid rgba(242,201,76,0.35);
-      overflow: hidden;
-      margin-bottom: 16px;
-      background: linear-gradient(135deg, rgba(242,201,76,0.15), rgba(77,217,232,0.08));
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-    }
+    .avatar { width: 80px; height: 80px; border-radius: 18px; border: 1px solid rgba(242,201,76,.35); overflow: hidden; margin-bottom: 16px; background: linear-gradient(135deg, rgba(242,201,76,.15), rgba(77,217,232,.08)); box-shadow: 0 8px 24px rgba(0,0,0,.4); }
     .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-    .profile-name {
-      font-family: 'Syne', sans-serif;
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
+    .profile-name { font-family: 'Bricolage Grotesque', sans-serif; font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+    .profile-role { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 16px; }
+    .profile-bio { font-size: 13px; color: var(--muted); line-height: 1.65; padding-top: 16px; border-top: 1px solid var(--line); font-weight: 400; }
 
-    .profile-role {
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.5;
-      margin-bottom: 16px;
-    }
+    .links-card { border: 1px solid var(--card-border); background: var(--card); border-radius: 18px; padding: 20px; }
+    .links-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; display: block; }
 
-    .profile-bio {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.65;
-      padding-top: 16px;
-      border-top: 1px solid var(--line);
-      font-weight: 300;
-    }
-
-    /* ─── LINKS CARD ─── */
-    .links-card {
-      border: 1px solid var(--card-border);
-      background: var(--card);
-      border-radius: 18px;
-      padding: 20px;
-    }
-
-    .links-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 14px;
-      display: block;
-    }
-
-    .link-btn {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      border-radius: 11px;
-      border: 1px solid var(--card-border);
-      background: rgba(255,255,255,0.02);
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text);
-      transition: all 0.22s ease;
-      margin-bottom: 8px;
-    }
+    .link-btn { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 11px; border: 1px solid var(--card-border); background: rgba(255,255,255,.02); font-size: 13px; font-weight: 500; color: var(--text); transition: all .22s ease; margin-bottom: 8px; }
     .link-btn:last-child { margin-bottom: 0; }
-    .link-btn .lb-icon { font-size: 15px; flex-shrink: 0; }
-    .link-btn .lb-arrow { margin-left: auto; color: var(--muted); font-size: 12px; transition: transform 0.2s; }
-    .link-btn:hover {
-      border-color: rgba(242,201,76,0.3);
-      background: rgba(242,201,76,0.05);
-      color: var(--gold);
-    }
+    .link-btn .lb-arrow { margin-left: auto; color: var(--muted); font-size: 12px; transition: transform .2s; }
+    .link-btn:hover { border-color: rgba(242,201,76,.3); background: rgba(242,201,76,.05); color: var(--gold); }
     .link-btn:hover .lb-arrow { transform: translateX(3px); color: var(--gold); }
+    .link-btn.featured { background: rgba(242,201,76,.08); border-color: rgba(242,201,76,.3); }
 
-    .link-btn.featured {
-      background: rgba(242,201,76,0.08);
-      border-color: rgba(242,201,76,0.3);
-    }
+    .area-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .area-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px; border-radius: 99px; border: 1px solid var(--card-border); background: rgba(255,255,255,.03); font-size: 12px; font-weight: 500; color: var(--muted); transition: all .25s ease; cursor: default; }
+    .area-chip:hover { border-color: rgba(242,201,76,.35); color: var(--gold); background: rgba(242,201,76,.06); }
+    .area-chip .chip-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--cyan); flex-shrink: 0; }
 
-    /* ─── MAIN CONTENT ─── */
+    /* MAIN CONTENT */
     .main-content { display: flex; flex-direction: column; gap: 20px; }
 
-    /* ─── IMPACT STATS ─── */
-    .impact-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-
-    .impact-card {
-      border: 1px solid var(--card-border);
-      background: var(--card);
-      border-radius: 18px;
-      padding: 22px 20px;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .impact-card::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--gold), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
+    /* IMPACT STATS */
+    .impact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .impact-card { border: 1px solid var(--card-border); background: var(--card); border-radius: 18px; padding: 22px 20px; position: relative; overflow: hidden; transition: all .3s ease; }
+    .impact-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--gold), transparent); opacity: 0; transition: opacity .3s; }
     .impact-card:hover { border-color: var(--gold-glow); transform: translateY(-3px); }
     .impact-card:hover::after { opacity: 1; }
+    .impact-label { font-size: 11px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .impact-value { font-family: 'Bricolage Grotesque', sans-serif; font-size: 30px; font-weight: 800; color: var(--gold); line-height: 1; margin-bottom: 6px; }
+    .impact-sub { font-size: 12px; color: var(--muted); }
+    .impact-detail { font-size: 12px; color: var(--muted); margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); line-height: 1.5; }
 
-    .impact-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1.8px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 10px;
-    }
+    /* CHART PANEL */
+    .chart-panel { border: 1px solid var(--card-border); background: var(--card); border-radius: 20px; padding: 28px; backdrop-filter: blur(8px); }
+    .panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+    .panel-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; font-weight: 700; color: var(--text); }
+    .panel-badge { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--cyan); border: 1px solid rgba(77,217,232,.3); padding: 4px 11px; border-radius: 99px; background: rgba(77,217,232,.07); }
+    .panel-note { margin-top: 12px; font-size: 12px; color: var(--muted); line-height: 1.5; }
 
-    .impact-value {
-      font-family: 'Syne', sans-serif;
-      font-size: 30px;
-      font-weight: 800;
-      color: var(--gold);
-      line-height: 1;
-      margin-bottom: 4px;
-    }
+    /* BOTTOM GRID */
+    .bottom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
-    .impact-sub {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    /* ─── CHART PANEL ─── */
-    .chart-panel {
-      border: 1px solid var(--card-border);
-      background: var(--card);
-      border-radius: 20px;
-      padding: 28px;
-      backdrop-filter: blur(8px);
-    }
-
-    .panel-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 22px;
-    }
-
-    .panel-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .panel-badge {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--cyan);
-      border: 1px solid rgba(77,217,232,0.3);
-      padding: 3px 10px;
-      border-radius: 99px;
-      background: rgba(77,217,232,0.07);
-    }
-
-    /* ─── TWO-COL BOTTOM ─── */
-    .bottom-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-
-    /* ─── PUB FEED ─── */
-    .pub-panel {
-      border: 1px solid var(--card-border);
-      background: var(--card);
-      border-radius: 20px;
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .pub-status {
-      font-size: 11px;
-      color: var(--muted);
-      font-weight: 400;
-    }
-
-    .ticker-wrap {
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      background: rgba(0,0,0,0.15);
-      height: 280px;
-      overflow: hidden;
-      position: relative;
-      transition: border-color 0.3s;
-    }
-    .ticker-wrap:hover { border-color: rgba(242,201,76,0.3); }
-
-    .ticker-inner {
-      height: 100%;
-      overflow: hidden;
-    }
-
+    /* PUB FEED */
+    .pub-panel { border: 1px solid var(--card-border); background: var(--card); border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 14px; }
+    .pub-status { font-size: 12px; color: var(--muted); font-weight: 400; }
+    .ticker-wrap { border: 1px solid var(--card-border); border-radius: 14px; background: rgba(0,0,0,.15); height: 280px; overflow: hidden; position: relative; transition: border-color .3s; }
+    .ticker-wrap:hover { border-color: rgba(242,201,76,.3); }
+    .ticker-inner { height: 100%; overflow: hidden; }
     .pub-list { list-style: none; }
-
-    .pub-item {
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--line);
-      transition: background 0.2s;
-    }
-    .pub-item:hover { background: rgba(255,255,255,0.03); }
+    .pub-item { padding: 12px 14px; border-bottom: 1px solid var(--line); transition: background .2s; }
+    .pub-item:hover { background: rgba(255,255,255,.03); }
     .pub-item:last-child { border-bottom: none; }
-
-    .pub-title {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      line-height: 1.35;
-      margin-bottom: 5px;
-      color: var(--text);
-      transition: color 0.2s;
-    }
+    .pub-title { display: block; font-size: 13px; font-weight: 600; line-height: 1.35; margin-bottom: 5px; color: var(--text); transition: color .2s; }
     .pub-title:hover { color: var(--gold); }
+    .pub-meta { font-size: 11px; color: var(--muted); line-height: 1.3; }
 
-    .pub-meta {
-      font-size: 11px;
-      color: var(--muted);
-      line-height: 1.3;
-    }
+    /* RESEARCH DOMAINS */
+    .domains-panel { border: 1px solid var(--card-border); background: var(--card); border-radius: 20px; padding: 28px; }
+    .domain-item { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .domain-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .domain-item:first-child { padding-top: 0; }
+    .domain-num { font-family: 'Bricolage Grotesque', sans-serif; font-size: 13px; font-weight: 800; color: rgba(242,201,76,.4); min-width: 28px; padding-top: 2px; }
+    .domain-body h4 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+    .domain-body p { font-size: 12px; color: var(--muted); line-height: 1.5; }
 
-    /* ─── AREA CHIPS ─── */
-    .areas-panel {
-      border: 1px solid var(--card-border);
-      background: var(--card);
-      border-radius: 20px;
-      padding: 28px;
-    }
+    /* COLLAB PANEL */
+    .collab-panel { border: 1px solid var(--card-border); background: var(--card); border-radius: 20px; padding: 24px; }
+    .collab-item { display: flex; align-items: flex-start; gap: 14px; padding: 14px; background: rgba(255,255,255,.02); border: 1px solid var(--card-border); border-radius: 13px; margin-bottom: 10px; transition: all .25s ease; }
+    .collab-item:last-child { margin-bottom: 0; }
+    .collab-item:hover { border-color: rgba(242,201,76,.25); background: rgba(242,201,76,.04); }
+    .collab-item.featured { background: rgba(242,201,76,.06); border-color: rgba(242,201,76,.2); }
+    .collab-body { flex: 1; }
+    .collab-body strong { font-family: 'Bricolage Grotesque', sans-serif; font-size: 13px; font-weight: 700; color: var(--text); display: block; margin-bottom: 3px; }
+    .collab-body span { font-size: 12px; color: var(--muted); line-height: 1.4; display: block; }
+    .collab-badge { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--gold); padding: 3px 8px; border: 1px solid rgba(242,201,76,.3); border-radius: 99px; white-space: nowrap; margin-top: 2px; align-self: flex-start; }
 
-    .area-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 16px;
+    /* PHARMA SPOTLIGHT */
+    .pharma-spotlight {
+      background: linear-gradient(135deg, rgba(255,107,107,.07) 0%, rgba(255,159,67,.04) 60%, transparent 100%);
+      border: 1px solid rgba(255,107,107,.2);
+      border-radius: 20px; padding: 28px; position: relative; overflow: hidden;
     }
+    .pharma-spotlight::before { content: ''; position: absolute; top: -60px; right: -60px; width: 240px; height: 240px; background: radial-gradient(circle, rgba(255,107,107,.07), transparent 70%); pointer-events: none; }
+    .pharma-spotlight .ps-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .pharma-spotlight .ps-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); }
+    .pharma-spotlight .ps-badge { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--coral); border: 1px solid rgba(255,107,107,.3); padding: 4px 11px; border-radius: 99px; background: rgba(255,107,107,.07); }
+    .pharma-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+    .pharma-item { border: 1px solid var(--card-border); background: rgba(255,255,255,.02); border-radius: 12px; padding: 14px; transition: all .25s ease; position: relative; }
+    .pharma-item::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; border-radius: 12px 0 0 12px; background: var(--coral); opacity: .4; transition: opacity .25s; }
+    .pharma-item:hover { border-color: rgba(255,107,107,.3); }
+    .pharma-item:hover::before { opacity: 1; }
+    .pharma-item h5 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+    .pharma-item p { font-size: 12px; color: var(--muted); line-height: 1.5; }
 
-    .area-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 14px;
-      border-radius: 99px;
-      border: 1px solid var(--card-border);
-      background: rgba(255,255,255,0.03);
-      font-size: 12px;
-      font-weight: 500;
-      color: var(--muted);
-      transition: all 0.25s ease;
-      cursor: default;
-    }
-    .area-chip:hover {
-      border-color: rgba(242,201,76,0.35);
-      color: var(--gold);
-      background: rgba(242,201,76,0.06);
-    }
-    .area-chip .chip-dot {
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: var(--cyan);
-      flex-shrink: 0;
-    }
-
-    /* ─── REVEAL ─── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(22px);
-      transition: opacity 0.65s ease, transform 0.65s ease;
-    }
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
-    .delay-1 { transition-delay: 0.1s; }
-    .delay-2 { transition-delay: 0.2s; }
+    .delay-1 { transition-delay: .1s; }
+    .delay-2 { transition-delay: .2s; }
 
-    /* ─── FOOTER ─── */
-    footer {
-      margin-top: 80px;
-      padding-top: 30px;
-      border-top: 1px solid var(--line);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      font-size: 13px;
-      color: var(--muted);
-    }
+    /* BACK TO TOP */
+    .back-top { position: fixed; bottom: 32px; right: 32px; width: 44px; height: 44px; border-radius: 12px; background: rgba(242,201,76,.12); border: 1px solid rgba(242,201,76,.35); color: var(--gold); font-size: 18px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 100; opacity: 0; transform: translateY(10px); transition: opacity .3s, transform .3s, background .2s; text-decoration: none; }
+    .back-top.visible { opacity: 1; transform: translateY(0); }
+    .back-top:hover { background: rgba(242,201,76,.22); }
+
+    /* FOOTER */
+    footer { margin-top: 80px; padding-top: 30px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
     footer .accent { color: var(--gold); }
     footer a:hover { color: var(--text); }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
-    /* ─── RESPONSIVE ─── */
     @media (max-width: 960px) {
       .research-layout { grid-template-columns: 1fr; }
       .sidebar { position: relative; top: auto; }
-      .impact-grid { grid-template-columns: repeat(3, 1fr); }
+      .impact-grid { grid-template-columns: repeat(3,1fr); }
       .bottom-grid { grid-template-columns: 1fr; }
+      .pharma-row { grid-template-columns: 1fr; }
       .wordmark { font-size: 30px; }
     }
     @media (max-width: 600px) {
@@ -568,13 +201,11 @@
 
   <div class="wrap">
 
-    <!-- ─── TOPBAR ─── -->
+    <!-- TOPBAR -->
     <div class="topbar">
       <div class="brand">
         <a href="index.html" aria-label="EPIAIDEA Home">
-          <div class="wordmark">
-            <span class="w">EPI</span><span class="ai">AI</span><span class="w">DEA</span>
-          </div>
+          <div class="wordmark"><span class="w">EPI</span><span class="ai">AI</span><span class="w">DEA</span></div>
         </a>
         <div class="brand-tagline">Epidemiology · AI · Data · Evidence · Action</div>
       </div>
@@ -587,22 +218,17 @@
       </nav>
     </div>
 
-    <!-- ─── PAGE HERO ─── -->
+    <!-- PAGE HERO -->
     <section class="page-hero">
-      <div class="eyebrow">
-        <span class="dot"></span>
-        Academic Portfolio · Live Impact Data
-      </div>
+      <div class="eyebrow"><span class="dot"></span>Academic Portfolio · Live Impact Data</div>
       <h1>Research built on<br/><span class="highlight">rigor</span> and real-world reach.</h1>
-      <p class="lead">
-        75,000+ citations. Top 2% scientist worldwide. A body of work translating population data into epidemiologic inference — from digital health to clinical policy.
-      </p>
+      <p class="lead">Over 75,000 citations. Ranked in the top 2% of scientists worldwide. A body of work translating population data into epidemiologic inference — spanning digital epidemiology, pharmacovigilance, geospatial AI, and health equity — from initial signal detection to deployed policy tools.</p>
     </section>
 
-    <!-- ─── LAYOUT ─── -->
+    <!-- LAYOUT -->
     <div class="research-layout">
 
-      <!-- ─── SIDEBAR ─── -->
+      <!-- SIDEBAR -->
       <aside class="sidebar">
         <div class="profile-card reveal">
           <div class="avatar">
@@ -610,59 +236,50 @@
           </div>
           <div class="profile-name">Akshaya Bhagavathula</div>
           <div class="profile-role">Associate Professor of Epidemiology<br/>Digital Epidemiology &amp; AI Analytics</div>
-          <p class="profile-bio">
-            I build decision-grade digital epidemiology: transforming noisy, real-world data into actionable, inference-ready evidence for prevention, policy, and health system response. My work emphasizes interpretability, validation, and reproducibility across digital traces, clinical data, and population signals.
-          </p>
+          <p class="profile-bio">I build decision-grade digital epidemiology — transforming noisy, real-world data into actionable, inference-ready evidence for prevention, policy, and health system response. My work emphasises interpretability, external validation, and reproducibility across digital traces, clinical records, pharmacovigilance databases, and population-level signals.</p>
         </div>
 
         <div class="links-card reveal delay-1">
           <span class="links-label">Academic Profiles</span>
-
           <a class="link-btn featured" href="https://scholar.google.com/citations?user=mtufk2wAAAAJ&hl=en&oi=ao" target="_blank" rel="noopener">
-            <span class="lb-icon">🎓</span>
-            <span>Google Scholar</span>
-            <span class="lb-arrow">→</span>
+            <span>Google Scholar</span><span class="lb-arrow">→</span>
           </a>
           <a class="link-btn" href="https://pubmed.ncbi.nlm.nih.gov/?term=bhagavathula+a&sort=date" target="_blank" rel="noopener">
-            <span class="lb-icon">🔬</span>
-            <span>PubMed</span>
-            <span class="lb-arrow">→</span>
+            <span>PubMed</span><span class="lb-arrow">→</span>
           </a>
           <a class="link-btn" href="https://topscinet.com/scientist_profile/Bhagavathula,%20Akshaya%20Srikanth/2013/?stype=single_year" target="_blank" rel="noopener">
-            <span class="lb-icon">🏆</span>
-            <span>Top SCINET</span>
-            <span class="lb-arrow">→</span>
+            <span>Top SCINET</span><span class="lb-arrow">→</span>
           </a>
           <a class="link-btn" href="https://www.webofscience.com/wos/author/record/G-6649-2015" target="_blank" rel="noopener">
-            <span class="lb-icon">🌐</span>
-            <span>Web of Science</span>
-            <span class="lb-arrow">→</span>
+            <span>Web of Science</span><span class="lb-arrow">→</span>
           </a>
           <a class="link-btn" href="https://www.linkedin.com/in/akshayphd/" target="_blank" rel="noopener">
-            <span class="lb-icon">💼</span>
-            <span>LinkedIn</span>
-            <span class="lb-arrow">→</span>
+            <span>LinkedIn</span><span class="lb-arrow">→</span>
           </a>
         </div>
 
         <div class="links-card reveal delay-2">
           <span class="links-label">Research Areas</span>
           <div class="area-grid">
-            <span class="area-chip"><span class="chip-dot"></span>Digital Epidemiology</span>
             <span class="area-chip"><span class="chip-dot"></span>Infodemiology</span>
-            <span class="area-chip"><span class="chip-dot"></span>Geospatial AI</span>
+            <span class="area-chip"><span class="chip-dot"></span>Digital Epidemiology</span>
+            <span class="area-chip"><span class="chip-dot"></span>Geospatial Analysis</span>
+            <span class="area-chip"><span class="chip-dot"></span>Telehealth &amp; Access Equity</span>
+            <span class="area-chip"><span class="chip-dot"></span>Legal Epidemiology</span>
+            <span class="area-chip"><span class="chip-dot"></span>GBD / IHME Collaborator</span>
             <span class="area-chip"><span class="chip-dot"></span>Pharmacoepidemiology</span>
+            <span class="area-chip"><span class="chip-dot"></span>Drug Safety Signals</span>
             <span class="area-chip"><span class="chip-dot"></span>Health Equity</span>
-            <span class="area-chip"><span class="chip-dot"></span>Telehealth Policy</span>
-            <span class="area-chip"><span class="chip-dot"></span>Climate & Health</span>
             <span class="area-chip"><span class="chip-dot"></span>Substance Use</span>
             <span class="area-chip"><span class="chip-dot"></span>Causal Inference</span>
-            <span class="area-chip"><span class="chip-dot"></span>NLP & Text Mining</span>
+            <span class="area-chip"><span class="chip-dot"></span>NLP &amp; Text Mining</span>
+            <span class="area-chip"><span class="chip-dot"></span>Digital Twin Modeling</span>
+            <span class="area-chip"><span class="chip-dot"></span>Climate &amp; Health</span>
           </div>
         </div>
       </aside>
 
-      <!-- ─── MAIN ─── -->
+      <!-- MAIN CONTENT -->
       <div class="main-content">
 
         <!-- Impact stats -->
@@ -671,16 +288,19 @@
             <div class="impact-label">Total Citations</div>
             <div class="impact-value">75K+</div>
             <div class="impact-sub">Cumulative (2019–2026)</div>
+            <div class="impact-detail">Reflecting a sustained citation trajectory across digital epidemiology, pharmacoepidemiology, and AI methods — with accelerating growth since 2022.</div>
           </div>
           <div class="impact-card">
             <div class="impact-label">h-index</div>
-            <div class="impact-value">45+</div>
-            <div class="impact-sub">Google Scholar verified</div>
+            <div class="impact-value">75</div>
+            <div class="impact-sub">i-10 index: 196 · Google Scholar</div>
+            <div class="impact-detail">An h-index of 75 means 75 publications each carrying 75+ citations — consistent high-impact output across infodemiology, pharmacoepidemiology, digital epidemiology, and burden of disease, not a single viral paper.</div>
           </div>
           <div class="impact-card">
-            <div class="impact-label">Global Rank</div>
-            <div class="impact-value">Top 2%</div>
-            <div class="impact-sub">Top SCINET worldwide</div>
+            <div class="impact-label">Publications &amp; Rank</div>
+            <div class="impact-value">356+</div>
+            <div class="impact-sub">Top 2% globally · Top SCINET</div>
+            <div class="impact-detail">Over 356 peer-reviewed publications. Ranked in the top 2% of scientists worldwide by Top SCINET's field-normalised composite score. Associate Editor, JMIR Public Health &amp; Surveillance.</div>
           </div>
         </div>
 
@@ -693,13 +313,13 @@
           <div style="position:relative;width:100%;height:220px;">
             <canvas id="citationChart"></canvas>
           </div>
-          <p style="margin-top:12px; font-size:11px; color:var(--muted);">Cumulative citation curve sourced from Google Scholar. Values reflect annual growth milestones.</p>
+          <p class="panel-note">Cumulative citation curve sourced from Google Scholar. The steepening slope from 2022 onward reflects the uptake of digital epidemiology and AI methods work by a broader research community, including COVID-19 infodemiology and GLP-1 pharmacovigilance publications.</p>
         </div>
 
-        <!-- Pub feed + areas -->
+        <!-- Pub feed + domains -->
         <div class="bottom-grid">
 
-          <!-- Publication feed -->
+          <!-- Live pub feed -->
           <div class="pub-panel reveal">
             <div class="panel-header">
               <div class="panel-title">Live Publication Feed</div>
@@ -711,74 +331,139 @@
                 <ul class="pub-list" id="pubList"></ul>
               </div>
             </div>
-            <p style="font-size:11px;color:var(--muted);">
-              Source: NCBI Entrez E-utilities · Query: <code style="color:var(--cyan);font-size:10px;">bhagavathula A[Author]</code> · Hover to pause
-            </p>
+            <p class="panel-note">Source: NCBI Entrez E-utilities · Query: bhagavathula A[Author] · Sorted by date · Hover to pause scroll</p>
           </div>
 
-          <!-- Research areas (larger chip version) + note -->
+          <!-- Research domains -->
           <div style="display:flex;flex-direction:column;gap:14px;">
-
-            <div class="areas-panel reveal delay-1">
-              <div class="panel-header" style="margin-bottom:0;">
-                <div class="panel-title">Research Focus Areas</div>
+            <div class="domains-panel reveal delay-1">
+              <div class="panel-header" style="margin-bottom:16px;">
+                <div class="panel-title">Core Research Domains</div>
               </div>
-              <div class="area-grid">
-                <span class="area-chip"><span class="chip-dot"></span>Digital Epidemiology</span>
-                <span class="area-chip"><span class="chip-dot"></span>Infodemiology</span>
-                <span class="area-chip"><span class="chip-dot"></span>Geospatial AI</span>
-                <span class="area-chip"><span class="chip-dot"></span>Pharmacoepidemiology</span>
-                <span class="area-chip"><span class="chip-dot"></span>Health Equity</span>
-                <span class="area-chip"><span class="chip-dot"></span>Telehealth Policy</span>
-                <span class="area-chip"><span class="chip-dot"></span>Climate & Health</span>
-                <span class="area-chip"><span class="chip-dot"></span>Substance Use</span>
-                <span class="area-chip"><span class="chip-dot"></span>Causal Inference</span>
-                <span class="area-chip"><span class="chip-dot"></span>NLP & Text Mining</span>
-                <span class="area-chip"><span class="chip-dot"></span>Digital Twin Modeling</span>
-                <span class="area-chip"><span class="chip-dot"></span>Population Analytics</span>
+              <div class="domain-item">
+                <span class="domain-num">01</span>
+                <div class="domain-body">
+                  <h4>Infodemiology &amp; Digital Disease Surveillance</h4>
+                  <p>Using Google Trends, Instagram hashtags, and search API data to track how health misinformation circulates and how population interest in disease responds to outbreaks. Published work includes global COVID-19 infodemic moniker analysis across Google and Instagram, web search behaviour during the Italy outbreak, COVID vaccine safety search trends 2021–2022, SARS-CoV-2 variant tracking via long-COVID search data, and monkeypox public interest following WHO emergency declarations. Published in <em>JMIR</em> and <em>Brain, Behavior and Immunity</em>.</p>
+                </div>
+              </div>
+              <div class="domain-item">
+                <span class="domain-num">02</span>
+                <div class="domain-body">
+                  <h4>Geospatial Analysis &amp; Spatial Epidemiology</h4>
+                  <p>County- and census tract-level spatial analysis of disease burden, access gaps, and structural disparities. Work includes colorectal cancer screening patterns across US counties pre- and post-COVID (geospatial clustering), racial and geographic disparities in digestive disease mortality (2000–2019), SUD mortality spatiotemporal trends, and geospatial access modeling for harm reduction and shelter services. Methods include Getis-Ord Gi* hot spot analysis, spatial autocorrelation, centroid-based travel time modeling, and Digital Twin frameworks.</p>
+                </div>
+              </div>
+              <div class="domain-item">
+                <span class="domain-num">03</span>
+                <div class="domain-body">
+                  <h4>Telehealth Policy &amp; Access Equity</h4>
+                  <p>Quantitative evaluation of telehealth adoption, payment parity policy effects, and persistent disparities in virtual care access. Published work includes racial and ethnic disparities in Medicare telehealth usage (10.1M claims in 2020 → 85.3M in 2023, with significantly lower adjusted odds for African American and Hispanic patients), and a quasi-experimental difference-in-differences study of SUD and mental health telehealth adoption under COVID-era policy expansion in Minnesota and North Dakota using Medicaid claims data. Published in <em>Telemedicine &amp; e-Health</em> and <em>mHealth</em>.</p>
+                </div>
+              </div>
+              <div class="domain-item">
+                <span class="domain-num">04</span>
+                <div class="domain-body">
+                  <h4>Legal Epidemiology &amp; Health Law Research</h4>
+                  <p>Quantitative analysis of how law functions as a determinant of population health. Selected as a Research Fellow at the Center for Public Health Law Research (CPHLR), Temple University Beasley School of Law — one of a small cohort chosen nationally for this two-year appointment. Current project: quantifying the causal effect of state-level opioid laws (prescribing limits, naloxone access mandates, Good Samaritan statutes) on county-level overdose mortality, using difference-in-differences designs with policy timing variation as the identification strategy.</p>
+                </div>
+              </div>
+              <div class="domain-item">
+                <span class="domain-num">05</span>
+                <div class="domain-body">
+                  <h4>IHME Global Burden of Disease — Lead Collaborator</h4>
+                  <p>Named collaborator on multiple GBD capstone publications in <em>The Lancet</em> and <em>Nature Communications</em>. Contributions include the GBD 2021 US state-level burden of disease forecasting analysis (Lancet, Dec 2024 — projecting burden trajectories by state to 2050), and the GBD 2019 Acute and Chronic Care analysis (Nature Communications, 2025). GBD collaborators contribute to data vetting, estimation review, and policy-facing dissemination across 204 countries and 811 subnational locations — the largest systematic epidemiological collaboration in the world.</p>
+                </div>
+              </div>
+              <div class="domain-item">
+                <span class="domain-num">06</span>
+                <div class="domain-body">
+                  <h4>Pharmacoepidemiology &amp; Drug Safety Signals</h4>
+                  <p>Post-market drug safety surveillance using FAERS disproportionality analysis (ROR, PRR, Bayesian IC) and DAG-based causal modelling to evaluate GLP-1 receptor agonist GI safety signals — including gastroparesis underreporting — and active surveillance in Medicare and commercial claims using new-user, active-comparator cohort designs. Full methodology described on the <a href="about.html" style="color:var(--gold);">About page</a>.</p>
+                </div>
+              </div>
+              <div class="domain-item">
+                <span class="domain-num">07</span>
+                <div class="domain-body">
+                  <h4>Causal Inference &amp; AI Methods</h4>
+                  <p>Directed acyclic graphs, difference-in-differences, interrupted time series, causal forest, and high-dimensional propensity score methods applied to observational health data. Emphasis on interpretable, externally validated outputs for policy and clinical audiences — not just held-out test set performance.</p>
+                </div>
               </div>
             </div>
+          </div>
+        </div>
 
-            <div class="chart-panel reveal delay-2" style="flex:1;">
-              <div class="panel-title" style="margin-bottom:14px;">Collaboration Spotlight</div>
-              <div style="display:flex;flex-direction:column;gap:10px;">
-                <div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(242,201,76,0.06);border:1px solid rgba(242,201,76,0.2);border-radius:12px;">
-                  <span style="font-size:20px;">🏛️</span>
-                  <div>
-                    <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text);">Stanford University</div>
-                    <div style="font-size:12px;color:var(--muted);">APSO · Heat Resilience · Digital Twin</div>
-                  </div>
-                  <span style="margin-left:auto;font-size:10px;color:var(--gold);font-weight:700;letter-spacing:1px;">ACTIVE</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--card);border:1px solid var(--card-border);border-radius:12px;">
-                  <span style="font-size:20px;">🌐</span>
-                  <div>
-                    <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text);">NCBI / PubMed</div>
-                    <div style="font-size:12px;color:var(--muted);">Live publication data pipeline</div>
-                  </div>
-                </div>
-                <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--card);border:1px solid var(--card-border);border-radius:12px;">
-                  <span style="font-size:20px;">📊</span>
-                  <div>
-                    <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text);">Google Trends / Search API</div>
-                    <div style="font-size:12px;color:var(--muted);">Demand signal integration</div>
-                  </div>
-                </div>
-              </div>
+        <!-- Pharmacoepi spotlight (concise) -->
+        <div class="pharma-spotlight reveal">
+          <div class="ps-header">
+            <div class="ps-title">Pharmacoepidemiology &amp; Drug Safety — Selected Methods</div>
+            <span class="ps-badge">FAERS · Claims · Causal</span>
+          </div>
+          <p style="font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:4px;">Post-market surveillance uses spontaneous reporting databases, EHR records, and insurance claims to characterise real-world drug safety signals with epidemiologic rigour. Disproportionality statistics are treated as screening tools, not evidence — signals are elevated only after DAG-based validity assessment. The GLP-1 receptor agonist class is a current primary focus given its rapid adoption and evolving safety profile.</p>
+          <div class="pharma-row">
+            <div class="pharma-item">
+              <h5>GLP-1 GI Adverse Events (FAERS)</h5>
+              <p>Disproportionality analysis of gastrointestinal adverse events for semaglutide, liraglutide, tirzepatide, and dulaglutide. ROR/PRR adjusted for concomitant GI-active medications and Weber effect inflation. Gastroparesis identified as systematically underreported relative to EHR documentation rates. Published in <em>Diagnostics</em>, 2024.</p>
             </div>
+            <div class="pharma-item">
+              <h5>Active Surveillance &amp; Causal Modelling</h5>
+              <p>New-user, active-comparator cohort designs in Medicare and All of Us cohort data, with high-dimensional propensity score adjustment to address channelling bias. DAG-based causal reasoning specifies confounders, mediators, and colliders — moving beyond ROR/PRR to structured evidence evaluation including E-values and Bradford Hill criteria.</p>
+            </div>
+          </div>
+        </div>
 
+        <!-- Collaborations -->
+        <div class="collab-panel reveal">
+          <div class="panel-header" style="margin-bottom:18px;">
+            <div class="panel-title">Active Collaborations &amp; Data Partnerships</div>
+          </div>
+          <div class="collab-item featured">
+            <div class="collab-body">
+              <strong>IHME / Global Burden of Disease — Lead Collaborator</strong>
+              <span>Named collaborator on GBD 2021 US Burden of Disease &amp; Forecasting (Lancet, Dec 2024 — state-level burden projections to 2050) and GBD 2019 Acute and Chronic Care (Nature Communications, 2025). One of 19,000+ collaborators from 167 countries contributing to the most comprehensive systematic epidemiological study in the world.</span>
+            </div>
+            <div class="collab-badge">Lancet 2024</div>
+          </div>
+          <div class="collab-item featured">
+            <div class="collab-body">
+              <strong>Stanford University — APSO Program</strong>
+              <span>Advanced Preparedness &amp; Shelter Operations. Digital Twin heat resilience modeling and fibroid care access signal observatory. Quantified $49.25M systemic risk from extreme heat shelter capacity collapse in the Southwest US.</span>
+            </div>
+            <div class="collab-badge">Active 2026</div>
+          </div>
+          <div class="collab-item">
+            <div class="collab-body">
+              <strong>Center for Public Health Law Research — Temple University</strong>
+              <span>Legal Epidemiology Research Fellow (CPHLR, Beasley School of Law). Competitive 2-year national fellowship. Current work: quantifying the causal effects of state-level opioid laws — prescribing limits, naloxone access mandates, Good Samaritan statutes — on county-level overdose mortality using policy timing variation as the identification strategy.</span>
+            </div>
+            <div class="collab-badge">Fellow</div>
+          </div>
+          <div class="collab-item">
+            <div class="collab-body">
+              <strong>Mayo Clinic — Division of Gastroenterology &amp; Hepatology</strong>
+              <span>Research Collaborator. GLP-1 receptor agonist GI safety, digestive disease mortality disparities (2000–2019), AI diagnostic accuracy in IBS and colorectal cancer, and perioperative outcomes research.</span>
+            </div>
+          </div>
+          <div class="collab-item">
+            <div class="collab-body">
+              <strong>FDA FAERS &amp; CMS Medicare / Medicaid Claims</strong>
+              <span>Spontaneous adverse event data for GLP-1 pharmacovigilance disproportionality analysis. Medicare and commercial claims for active drug safety surveillance and telehealth utilisation research with new-user cohort designs and HDPS adjustment.</span>
+            </div>
+          </div>
+          <div class="collab-item">
+            <div class="collab-body">
+              <strong>NCBI / PubMed &amp; Google Trends API</strong>
+              <span>NCBI Entrez integration for live publication feed. Google Trends and Search API for infodemiology surveillance across COVID-19 variants, vaccine safety, GLP-1 therapies, Elf Bar, and monkeypox public interest.</span>
+            </div>
           </div>
         </div>
 
       </div><!-- /main-content -->
     </div><!-- /research-layout -->
 
-    <!-- ─── FOOTER ─── -->
+    <!-- FOOTER -->
     <footer>
-      <div>
-        © <span id="y"></span> EPIAIDEA ·
-        <span class="accent">Epidemiology + AI + Data + Evidence + Action</span>
-      </div>
+      <div>© <span id="y"></span> EPIAIDEA · <span class="accent">Epidemiology + AI + Data + Evidence + Action</span></div>
       <div style="display:flex;gap:18px;">
         <a href="https://www.linkedin.com/in/akshayphd/" target="_blank" rel="noopener">LinkedIn</a>
         <a href="contact.html">Contact</a>
@@ -786,146 +471,106 @@
       </div>
     </footer>
 
-  </div><!-- /wrap -->
+  </div>
+
+  <a href="#" class="back-top" id="backTop" aria-label="Back to top">↑</a>
 
   <script>
-    // Year
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // Cursor glow
-    const glow = document.getElementById('cursorGlow');
-    document.addEventListener('mousemove', e => {
-      glow.style.left = e.clientX + 'px';
-      glow.style.top = e.clientY + 'px';
-    });
+    const backTop = document.getElementById('backTop');
+    window.addEventListener('scroll', () => { backTop.classList.toggle('visible', window.scrollY > 400); });
+    backTop.addEventListener('click', e => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
-    // ─── PARTICLE CANVAS ───
+    const glow = document.getElementById('cursorGlow');
+    document.addEventListener('mousemove', e => { glow.style.left = e.clientX+'px'; glow.style.top = e.clientY+'px'; });
+
+    // PARTICLE CANVAS
     const canvas = document.getElementById('bgCanvas');
     const ctx = canvas.getContext('2d');
-    let W, H, particles = [], mouse = { x: -9999, y: -9999 };
-
-    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    let W, H, particles = [], mouse = { x:-9999, y:-9999 };
+    function resize() { W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; }
     window.addEventListener('resize', resize); resize();
-
-    function rand(a, b) { return Math.random() * (b - a) + a; }
-
+    function rand(a,b){return Math.random()*(b-a)+a;}
     class Particle {
-      constructor() { this.reset(); }
-      reset() {
-        this.x = rand(0, W); this.y = rand(0, H);
-        this.vx = rand(-0.22, 0.22); this.vy = rand(-0.22, 0.22);
-        this.r = rand(1, 2.2);
-        this.life = rand(0.28, 0.72);
-        const p = [`rgba(242,201,76,${this.life})`,`rgba(77,217,232,${this.life*0.7})`,`rgba(230,240,255,${this.life*0.4})`];
-        this.color = p[Math.floor(Math.random() * p.length)];
+      constructor(){this.reset();}
+      reset(){
+        this.x=rand(0,W);this.y=rand(0,H);this.vx=rand(-0.22,0.22);this.vy=rand(-0.22,0.22);
+        this.r=rand(1,2.2);this.life=rand(0.28,0.72);
+        const p=[`rgba(242,201,76,${this.life})`,`rgba(77,217,232,${this.life*.7})`,`rgba(230,240,255,${this.life*.4})`];
+        this.color=p[Math.floor(Math.random()*p.length)];
       }
-      update() {
-        this.x += this.vx; this.y += this.vy;
-        if (this.x < -10) this.x = W+10; if (this.x > W+10) this.x = -10;
-        if (this.y < -10) this.y = H+10; if (this.y > H+10) this.y = -10;
+      update(){
+        this.x+=this.vx;this.y+=this.vy;
+        if(this.x<-10)this.x=W+10;if(this.x>W+10)this.x=-10;
+        if(this.y<-10)this.y=H+10;if(this.y>H+10)this.y=-10;
       }
-      draw() { ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fillStyle=this.color; ctx.fill(); }
+      draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.color;ctx.fill();}
     }
-
-    for (let i = 0; i < 75; i++) particles.push(new Particle());
-    document.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
-
-    function loop() {
-      ctx.clearRect(0, 0, W, H);
-      const g1 = ctx.createRadialGradient(W*.1,H*.1,0,W*.1,H*.1,500);
-      g1.addColorStop(0,'rgba(242,201,76,0.05)'); g1.addColorStop(1,'transparent');
-      ctx.fillStyle=g1; ctx.fillRect(0,0,W,H);
-      const g2 = ctx.createRadialGradient(W*.9,H*.4,0,W*.9,H*.4,400);
-      g2.addColorStop(0,'rgba(77,217,232,0.04)'); g2.addColorStop(1,'transparent');
-      ctx.fillStyle=g2; ctx.fillRect(0,0,W,H);
-      particles.forEach(p => { p.update(); p.draw(); });
-      for (let i = 0; i < particles.length; i++) {
-        const a = particles[i];
-        const mdx = a.x-mouse.x, mdy = a.y-mouse.y;
-        const md = Math.sqrt(mdx*mdx+mdy*mdy);
-        if (md < 160) {
-          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(mouse.x,mouse.y);
-          ctx.strokeStyle=`rgba(242,201,76,${(1-md/160)*0.22})`; ctx.lineWidth=0.8; ctx.stroke();
-        }
-        for (let j = i+1; j < particles.length; j++) {
-          const b = particles[j];
-          const dx=a.x-b.x, dy=a.y-b.y, d=Math.sqrt(dx*dx+dy*dy);
-          if (d < 130) {
-            ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
-            ctx.strokeStyle=`rgba(180,200,255,${(1-d/130)*0.12})`; ctx.lineWidth=0.5; ctx.stroke();
-          }
+    for(let i=0;i<75;i++)particles.push(new Particle());
+    document.addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY;});
+    function loop(){
+      ctx.clearRect(0,0,W,H);
+      const g1=ctx.createRadialGradient(W*.1,H*.1,0,W*.1,H*.1,500);
+      g1.addColorStop(0,'rgba(242,201,76,0.05)');g1.addColorStop(1,'transparent');
+      ctx.fillStyle=g1;ctx.fillRect(0,0,W,H);
+      const g2=ctx.createRadialGradient(W*.9,H*.4,0,W*.9,H*.4,400);
+      g2.addColorStop(0,'rgba(77,217,232,0.04)');g2.addColorStop(1,'transparent');
+      ctx.fillStyle=g2;ctx.fillRect(0,0,W,H);
+      particles.forEach(p=>{p.update();p.draw();});
+      for(let i=0;i<particles.length;i++){
+        const a=particles[i];
+        const mdx=a.x-mouse.x,mdy=a.y-mouse.y,md=Math.sqrt(mdx*mdx+mdy*mdy);
+        if(md<160){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(mouse.x,mouse.y);ctx.strokeStyle=`rgba(242,201,76,${(1-md/160)*.22})`;ctx.lineWidth=0.8;ctx.stroke();}
+        for(let j=i+1;j<particles.length;j++){
+          const b=particles[j],dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy);
+          if(d<130){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.strokeStyle=`rgba(180,200,255,${(1-d/130)*.12})`;ctx.lineWidth=0.5;ctx.stroke();}
         }
       }
       requestAnimationFrame(loop);
     }
     loop();
 
-    // ─── CHART.JS ───
+    // CHART.JS
     const chartCtx = document.getElementById('citationChart');
-    const years = ["2019","2020","2021","2022","2023","2024","2025","2026"];
-    const citations = [12000,16500,22000,29500,38500,48000,61000,75000];
-
     new Chart(chartCtx, {
       type: 'line',
       data: {
-        labels: years,
+        labels: ["2019","2020","2021","2022","2023","2024","2025","2026"],
         datasets: [{
           label: 'Cumulative Citations',
-          data: citations,
-          borderColor: '#f2c94c',
-          borderWidth: 2.5,
-          pointBackgroundColor: '#f2c94c',
-          pointBorderColor: 'rgba(242,201,76,0.4)',
-          pointBorderWidth: 4,
-          pointRadius: 4,
-          tension: 0.35,
-          fill: true,
+          data: [12000,16500,22000,29500,38500,48000,61000,75000],
+          borderColor: '#f2c94c', borderWidth: 2.5,
+          pointBackgroundColor: '#f2c94c', pointBorderColor: 'rgba(242,201,76,0.4)',
+          pointBorderWidth: 4, pointRadius: 4, tension: 0.35, fill: true,
           backgroundColor: (ctx) => {
-            const gradient = ctx.chart.ctx.createLinearGradient(0, 0, 0, 240);
-            gradient.addColorStop(0, 'rgba(242,201,76,0.18)');
-            gradient.addColorStop(1, 'rgba(242,201,76,0)');
-            return gradient;
+            const g = ctx.chart.ctx.createLinearGradient(0,0,0,240);
+            g.addColorStop(0,'rgba(242,201,76,0.18)');
+            g.addColorStop(1,'rgba(242,201,76,0)');
+            return g;
           }
         }]
       },
       options: {
-        responsive: true,
-        maintainAspectRatio: false,
+        responsive: true, maintainAspectRatio: false,
         interaction: { mode: 'index', intersect: false },
         plugins: {
           legend: { display: false },
           tooltip: {
-            backgroundColor: '#0a1528',
-            borderColor: 'rgba(242,201,76,0.3)',
-            borderWidth: 1,
-            titleColor: '#f2c94c',
-            bodyColor: '#7a90b8',
-            padding: 12,
-            callbacks: {
-              label: ctx => ` ${ctx.parsed.y.toLocaleString()} citations`
-            }
+            backgroundColor: '#0a1528', borderColor: 'rgba(242,201,76,0.3)', borderWidth: 1,
+            titleColor: '#f2c94c', bodyColor: '#96aacf', padding: 12,
+            callbacks: { label: ctx => ` ${ctx.parsed.y.toLocaleString()} citations` }
           }
         },
         scales: {
-          x: {
-            ticks: { color: '#7a90b8', font: { family: 'DM Sans', size: 11 } },
-            grid: { color: 'rgba(255,255,255,0.05)' }
-          },
-          y: {
-            ticks: {
-              color: '#7a90b8',
-              font: { family: 'DM Sans', size: 11 },
-              callback: v => v >= 1000 ? (v/1000).toFixed(0)+'K' : v
-            },
-            grid: { color: 'rgba(255,255,255,0.05)' }
-          }
+          x: { ticks: { color: '#96aacf', font: { family: 'Instrument Sans', size: 11 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
+          y: { ticks: { color: '#96aacf', font: { family: 'Instrument Sans', size: 11 }, callback: v => v>=1000?(v/1000).toFixed(0)+'K':v }, grid: { color: 'rgba(255,255,255,0.05)' } }
         }
       }
     });
 
-    // ─── PUBMED FEED ───
+    // PUBMED FEED
     const PUBMED_TERM = "bhagavathula A[Author]";
-    const RETMAX = 30;
     const pubStatus = document.getElementById("pubStatus");
     const pubList = document.getElementById("pubList");
     const ticker = document.getElementById("ticker");
@@ -933,74 +578,63 @@
     let tickerTimer = null, isPaused = false;
 
     function buildPubItem(pmid, rec) {
-      const title = (rec?.title || "Untitled record").toString().trim();
-      const source = (rec?.fulljournalname || rec?.source || "PubMed").toString().trim();
-      const pubdate = (rec?.pubdate || "").toString().trim();
-      const authors = Array.isArray(rec?.authors)
-        ? rec.authors.slice(0,4).map(a => a.name).join(", ") + (rec.authors.length > 4 ? " et al." : "")
-        : "";
-      const url = "https://pubmed.ncbi.nlm.nih.gov/" + encodeURIComponent(pmid) + "/";
+      const title = (rec?.title||"Untitled record").toString().trim();
+      const source = (rec?.fulljournalname||rec?.source||"PubMed").toString().trim();
+      const pubdate = (rec?.pubdate||"").toString().trim();
+      const authors = Array.isArray(rec?.authors) ? rec.authors.slice(0,4).map(a=>a.name).join(", ")+(rec.authors.length>4?" et al.":"") : "";
+      const url = "https://pubmed.ncbi.nlm.nih.gov/"+encodeURIComponent(pmid)+"/";
       const li = document.createElement("li");
       li.className = "pub-item";
-      li.innerHTML = `
-        <a class="pub-title" href="${url}" target="_blank" rel="noopener">${title}</a>
-        <div class="pub-meta">${authors ? authors + ' · ' : ''}${source}${pubdate ? ' · ' + pubdate : ''}</div>
-      `;
+      li.innerHTML = `<a class="pub-title" href="${url}" target="_blank" rel="noopener">${title}</a><div class="pub-meta">${authors?authors+' · ':''}${source}${pubdate?' · '+pubdate:''}</div>`;
       return li;
     }
 
     function startTickerScroll() {
-      if (tickerTimer) clearInterval(tickerTimer);
-      ticker.addEventListener("mouseenter", () => isPaused = true);
-      ticker.addEventListener("mouseleave", () => isPaused = false);
-      tickerTimer = setInterval(() => {
-        if (isPaused) return;
-        tickerInner.scrollTop += 1;
-        if (tickerInner.scrollTop >= tickerInner.scrollHeight - tickerInner.clientHeight - 2) {
-          tickerInner.scrollTop = 0;
-        }
-      }, 36);
+      if(tickerTimer)clearInterval(tickerTimer);
+      ticker.addEventListener("mouseenter",()=>isPaused=true);
+      ticker.addEventListener("mouseleave",()=>isPaused=false);
+      tickerTimer = setInterval(()=>{
+        if(isPaused)return;
+        tickerInner.scrollTop+=1;
+        if(tickerInner.scrollTop>=tickerInner.scrollHeight-tickerInner.clientHeight-2)tickerInner.scrollTop=0;
+      },36);
     }
 
     async function fetchPubs() {
       try {
         const esUrl = new URL("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi");
-        esUrl.searchParams.set("db","pubmed"); esUrl.searchParams.set("term",PUBMED_TERM);
-        esUrl.searchParams.set("retmax",String(RETMAX)); esUrl.searchParams.set("sort","pub+date");
-        esUrl.searchParams.set("retmode","json"); esUrl.searchParams.set("tool","epiaidea");
+        esUrl.searchParams.set("db","pubmed");esUrl.searchParams.set("term",PUBMED_TERM);
+        esUrl.searchParams.set("retmax","30");esUrl.searchParams.set("sort","pub+date");
+        esUrl.searchParams.set("retmode","json");esUrl.searchParams.set("tool","epiaidea");
         esUrl.searchParams.set("email","info@epiaidea.com");
-        const sr = await fetch(esUrl.toString()); if (!sr.ok) throw new Error("esearch failed");
-        const sj = await sr.json();
-        const ids = sj?.esearchresult?.idlist || [];
-        if (!ids.length) { pubStatus.textContent = "No results found."; return; }
-
-        const emUrl = new URL("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi");
-        emUrl.searchParams.set("db","pubmed"); emUrl.searchParams.set("id",ids.join(","));
-        emUrl.searchParams.set("retmode","json"); emUrl.searchParams.set("tool","epiaidea");
+        const sr=await fetch(esUrl.toString());if(!sr.ok)throw new Error("esearch failed");
+        const sj=await sr.json();const ids=sj?.esearchresult?.idlist||[];
+        if(!ids.length){pubStatus.textContent="No results found.";return;}
+        const emUrl=new URL("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi");
+        emUrl.searchParams.set("db","pubmed");emUrl.searchParams.set("id",ids.join(","));
+        emUrl.searchParams.set("retmode","json");emUrl.searchParams.set("tool","epiaidea");
         emUrl.searchParams.set("email","info@epiaidea.com");
-        const er = await fetch(emUrl.toString()); if (!er.ok) throw new Error("esummary failed");
-        const ej = await er.json(); const result = ej?.result || {};
-
-        pubList.innerHTML = "";
-        const uids = result?.uids || ids;
-        uids.forEach(pmid => pubList.appendChild(buildPubItem(pmid, result[pmid])));
-        pubStatus.textContent = `${uids.length} publications — auto-updated on refresh`;
+        const er=await fetch(emUrl.toString());if(!er.ok)throw new Error("esummary failed");
+        const ej=await er.json();const result=ej?.result||{};
+        pubList.innerHTML="";
+        const uids=result?.uids||ids;
+        uids.forEach(pmid=>pubList.appendChild(buildPubItem(pmid,result[pmid])));
+        pubStatus.textContent=`${uids.length} publications — auto-updated on refresh`;
         startTickerScroll();
       } catch(err) {
-        pubStatus.textContent = "Could not load feed — network or CORS restriction.";
-        pubList.innerHTML = `<li class="pub-item"><a class="pub-title" href="https://pubmed.ncbi.nlm.nih.gov/?term=bhagavathula+a&sort=date" target="_blank" rel="noopener">Open PubMed search results →</a><div class="pub-meta">Fallback link · ${err?.message || ''}</div></li>`;
+        pubStatus.textContent="Could not load feed — network or CORS restriction.";
+        pubList.innerHTML=`<li class="pub-item"><a class="pub-title" href="https://pubmed.ncbi.nlm.nih.gov/?term=bhagavathula+a&sort=date" target="_blank" rel="noopener">Open PubMed search results →</a><div class="pub-meta">Fallback link · ${err?.message||''}</div></li>`;
         startTickerScroll();
       }
     }
-
     fetchPubs();
 
-    // ─── SCROLL REVEAL ───
+    // SCROLL REVEAL
     const els = document.querySelectorAll('.reveal');
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.07 });
-    els.forEach(el => obs.observe(el));
+    const obs = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+    },{threshold:0.07});
+    els.forEach(el=>obs.observe(el));
   </script>
 
 </body>
