@@ -1,10 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Contact | EPIAIDEA</title>
-  <meta name="description" content="Get in touch with EPIAIDEA — collaborate on digital epidemiology research, pharmacovigilance, geospatial AI, or public health policy." />
+  <!-- ═══ SEO: titles, canonical, Open Graph, Twitter Card ═══ -->
+  <title>Contact Akshaya Bhagavathula | Collaborate on Epidemiology & AI Research | EPIAIDEA</title>
+  <meta name="description" content="Contact Akshaya Bhagavathula to collaborate on digital epidemiology, pharmacovigilance, geospatial AI, legal epidemiology, or health equity research. Open to co-investigator roles, consulting, speaking, and media inquiries." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Akshaya Bhagavathula" />
+  <meta name="keywords" content="Akshaya Bhagavathula, digital epidemiology, infodemiology, pharmacoepidemiology, drug safety surveillance, geospatial health, telehealth policy, legal epidemiology, Global Burden of Disease, IHME GBD, health equity, causal inference, EPIAIDEA" />
+  <link rel="canonical" href="https://epiaidea.com/contact.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="EPIAIDEA" />
+  <meta property="og:url" content="https://epiaidea.com/contact.html" />
+  <meta property="og:title" content="Contact Akshaya Bhagavathula | EPIAIDEA" />
+  <meta property="og:description" content="Open for research collaboration, consulting, speaking, and media. Digital epidemiology, pharmacoepidemiology, geospatial AI, legal epidemiology. info@epiaidea.com" />
+  <meta property="og:image" content="https://epiaidea.com/assets/headshot.jpg" />
+  <meta property="og:image:width" content="600" />
+  <meta property="og:image:height" content="600" />
+  <meta property="og:image:alt" content="EPIAIDEA – Epidemiology · AI · Data · Evidence · Action" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Contact Akshaya Bhagavathula | EPIAIDEA" />
+  <meta name="twitter:description" content="Collaborate on digital epidemiology, pharmacovigilance, geospatial AI, legal epi, or public health policy. info@epiaidea.com" />
+  <meta name="twitter:image" content="https://epiaidea.com/assets/epiaidea_logo.png" />
+  <meta name="twitter:image:alt" content="EPIAIDEA – Epidemiology · AI · Data · Evidence · Action" />
+  <!-- ═══════════════════════════════════════════════════════════ -->
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "https://epiaidea.com/#person",
+    "name": "Akshaya Bhagavathula",
+    "url": "https://epiaidea.com",
+    "jobTitle": "Associate Professor of Epidemiology"
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "@id": "https://epiaidea.com/contact.html",
+    "url": "https://epiaidea.com/contact.html",
+    "name": "Contact Akshaya Bhagavathula",
+    "mainEntity": { "@id": "https://epiaidea.com/#person" }
+  }
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -28,7 +74,7 @@
       opacity: 0.4;
     }
     .cursor-glow { position: fixed; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(242,201,76,0.06) 0%, transparent 70%); pointer-events: none; transform: translate(-50%,-50%); z-index: 5; transition: left .12s ease, top .12s ease; }
-    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px 100px; position: relative; z-index: 10; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px 60px; position: relative; z-index: 10; }
 
     /* NAV */
     .topbar { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 28px 0 24px; border-bottom: 1px solid var(--line); position: relative; }
@@ -45,7 +91,7 @@
     nav a.active { color: var(--gold); border-color: rgba(242,201,76,.25); background: rgba(242,201,76,.06); }
 
     /* PAGE HERO */
-    .page-hero { padding: 72px 0 56px; }
+    .page-hero { padding: 52px 0 40px; }
     .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--cyan); margin-bottom: 22px; opacity: 0; animation: fadeUp .6s .1s forwards; }
     .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.7)} }
@@ -75,21 +121,21 @@
     .email-addr .ea-arrow { margin-left: auto; font-size: 14px; transition: transform .2s; }
     .email-addr:hover .ea-arrow { transform: translateX(4px); }
 
-    .response-note { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+    .response-note { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
     .response-note .rn-dot { width: 6px; height: 6px; border-radius: 50%; background: #34d399; box-shadow: 0 0 6px #34d399; animation: pulse 2.5s infinite; flex-shrink: 0; }
 
     /* COLLAB CARD */
     .collab-card { border: 1px solid var(--card-border); background: var(--card); border-radius: 20px; padding: 28px 30px; transition: all .3s ease; }
     .collab-card:hover { border-color: rgba(77,217,232,.2); }
     .collab-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--text); }
-    .collab-subtitle { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
+    .collab-subtitle { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 20px; }
     .collab-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .collab-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px; border: 1px solid var(--card-border); border-radius: 12px; background: rgba(255,255,255,.02); transition: all .25s ease; }
     .collab-item:hover { border-color: rgba(77,217,232,.3); background: rgba(77,217,232,.04); }
     .collab-item .ci-bar { width: 3px; height: 100%; min-height: 36px; border-radius: 3px; background: var(--cyan); opacity: .4; flex-shrink: 0; transition: opacity .25s; }
     .collab-item:hover .ci-bar { opacity: 1; }
     .collab-item h4 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-    .collab-item p { font-size: 12px; color: var(--muted); line-height: 1.45; }
+    .collab-item p { font-size: 13px; color: var(--muted); line-height: 1.45; }
 
     /* SIDEBAR */
     .contact-sidebar { display: flex; flex-direction: column; gap: 16px; }
@@ -117,7 +163,7 @@
     .context-row:last-child { border-bottom: none; padding-bottom: 0; }
     .context-row .cr-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); margin-top: 5px; flex-shrink: 0; }
     .context-row .cr-label { font-size: 11px; color: var(--muted); margin-bottom: 3px; font-weight: 500; }
-    .context-row .cr-val { font-size: 13px; color: var(--text); font-weight: 600; line-height: 1.4; }
+    .context-row .cr-val { font-size: 14px; color: var(--text); font-weight: 600; line-height: 1.4; }
 
     /* AVAILABILITY BANNER */
     .availability-banner {
@@ -130,7 +176,7 @@
     .av-text span { color: #34d399; font-weight: 700; }
 
     /* FAQ */
-    .faq-section { margin-top: 60px; }
+    .faq-section { margin-top: 40px; }
     .faq-heading { font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; font-weight: 800; letter-spacing: -0.4px; margin-bottom: 8px; }
     .faq-heading span { color: var(--gold); }
     .faq-sub { font-size: 14px; color: var(--muted); margin-bottom: 24px; line-height: 1.6; }
@@ -138,7 +184,7 @@
     .faq-item { border: 1px solid var(--card-border); background: var(--card); border-radius: 16px; padding: 24px; transition: all .3s ease; }
     .faq-item:hover { border-color: rgba(242,201,76,.25); }
     .faq-item h4 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 14px; font-weight: 700; color: var(--gold); margin-bottom: 10px; }
-    .faq-item p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+    .faq-item p { font-size: 14px; color: var(--muted); line-height: 1.7; }
     .faq-item p strong { color: var(--text); font-weight: 600; }
 
     /* REVEAL */
@@ -176,6 +222,7 @@
   </style>
 </head>
 <body>
+  <a class="skip-nav" href="#main-content">Skip to main content</a>
 
   <canvas id="bgCanvas"></canvas>
   <div class="cursor-glow" id="cursorGlow"></div>
@@ -200,10 +247,10 @@
     </div>
 
     <!-- PAGE HERO -->
-    <section class="page-hero">
+    <section class="page-hero" id="main-content">
       <div class="eyebrow"><span class="dot"></span>Get in Touch</div>
-      <h1>Let's build something<br/><span class="highlight">that matters.</span></h1>
-      <p class="lead">I'm open to research collaborations, consulting engagements, speaking opportunities, and media inquiries — across digital epidemiology, pharmacovigilance, geospatial AI, legal epidemiology, and public health policy. If the work has real decision impact, I want to hear about it.</p>
+      <h1>Build something<br/><span class="highlight">that matters.</span></h1>
+      <p class="lead">I'm open to research collaborations, consulting engagements, speaking opportunities, and media inquiries – across digital epidemiology, pharmacovigilance, geospatial AI, legal epidemiology, and public health policy. If the work has real decision impact, I want to hear about it.</p>
     </section>
 
     <!-- CONTACT LAYOUT -->
@@ -217,10 +264,10 @@
           <span class="email-label">Direct Inquiry</span>
           <h2>Reach out directly</h2>
           <p class="email-body">
-            The most direct route is email. I respond to every substantive inquiry personally — I don't use a contact management system or a team inbox. If you're reaching out about <strong>research collaboration</strong>, <strong>consulting</strong>, <strong>speaking</strong>, or <strong>media commentary</strong>, include a one-sentence description of the project or opportunity and I'll respond with a clear yes, no, or next step.
+            The most direct route is email. I respond to every substantive inquiry personally – I don't use a contact management system or a team inbox. If you're reaching out about <strong>research collaboration</strong>, <strong>consulting</strong>, <strong>speaking</strong>, or <strong>media commentary</strong>, include a one-sentence description of the project or opportunity and I'll respond with a clear yes, no, or next step.
           </p>
-          <a href="mailto:info@epiaidea.com" class="email-addr" aria-label="Email info@epiaidea.com">
-            <span>info@epiaidea.com</span>
+          <a href="/cdn-cgi/l/email-protection#c4adaaa2ab84a1b4ada5ada0a1a5eaa7aba9" class="email-addr" aria-label="Email info@epiaidea.com">
+            <span><span class="__cf_email__" data-cfemail="c5acaba3aa85a0b5aca4aca1a0a4eba6aaa8">[email&#160;protected]</span></span>
             <span class="ea-arrow">→</span>
           </a>
           <div class="response-note">
@@ -232,7 +279,7 @@
         <!-- Collaboration areas -->
         <div class="collab-card reveal delay-1">
           <div class="collab-title">What I work on with collaborators</div>
-          <p class="collab-subtitle">I take on a limited number of external collaborations each year to maintain the quality of the work. These are the areas where I'm most likely to say yes — and where the collaboration has the best chance of producing something genuinely useful.</p>
+          <p class="collab-subtitle">I take on a limited number of external collaborations each year to maintain the quality of the work. These are the areas where I'm most likely to say yes – and where the collaboration has the best chance of producing something genuinely useful.</p>
           <div class="collab-grid">
             <div class="collab-item">
               <div class="ci-bar"></div>
@@ -259,7 +306,7 @@
               <div class="ci-bar"></div>
               <div>
                 <h4>Legal Epidemiology</h4>
-                <p>Quantitative analysis of how laws affect population health outcomes — particularly state-level opioid policy, naloxone access mandates, and Good Samaritan statute effects on overdose mortality.</p>
+                <p>Quantitative analysis of how laws affect population health outcomes – particularly state-level opioid policy, naloxone access mandates, and Good Samaritan statute effects on overdose mortality.</p>
               </div>
             </div>
             <div class="collab-item">
@@ -287,7 +334,7 @@
         <!-- Availability banner -->
         <div class="availability-banner reveal">
           <div class="av-dot"></div>
-          <div class="av-text"><span>Currently accepting</span> new collaborations for 2026 — research partnerships, consulting, and speaking.</div>
+          <div class="av-text"><span>Currently accepting</span> new collaborations for 2026 – research partnerships, consulting, and speaking.</div>
         </div>
 
         <!-- Connect links -->
@@ -304,7 +351,7 @@
           <a class="connect-btn" href="https://scholar.google.com/citations?user=mtufk2wAAAAJ&hl=en&oi=ao" target="_blank" rel="noopener">
             <span class="cb-icon">GS</span>
             <span class="cb-text">Google Scholar
-              <span>75K+ citations · h-index 64 · i-10 index 196</span>
+              <span>75K+ citations · h-index 75 · i-10 index 196</span>
             </span>
             <span class="cb-arrow">→</span>
           </a>
@@ -322,10 +369,10 @@
             </span>
             <span class="cb-arrow">→</span>
           </a>
-          <a class="connect-btn" href="mailto:info@epiaidea.com">
+          <a class="connect-btn" href="/cdn-cgi/l/email-protection#1d74737b725d786d747c7479787c337e7270">
             <span class="cb-icon">@</span>
             <span class="cb-text">Email Direct
-              <span>info@epiaidea.com</span>
+              <span><span class="__cf_email__" data-cfemail="4821262e27082d382129212c2d29662b2725">[email&#160;protected]</span></span>
             </span>
             <span class="cb-arrow">→</span>
           </a>
@@ -333,6 +380,14 @@
 
         <!-- Context card -->
         <div class="context-card reveal delay-2">
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--line);">
+            <img src="assets/headshot_sm.jpg" alt="Akshaya Bhagavathula"
+              style="width:64px;height:64px;border-radius:14px;object-fit:cover;object-position:top;border:1px solid rgba(242,201,76,0.3);flex-shrink:0;"/>
+            <div>
+              <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:16px;font-weight:800;color:var(--text);margin-bottom:3px;">Akshaya Bhagavathula</div>
+              <div style="font-size:12px;color:var(--muted);line-height:1.5;">Associate Professor of Epidemiology<br/>Fargo, North Dakota, USA</div>
+            </div>
+          </div>
           <span class="context-label">Background &amp; Context</span>
 
           <div class="context-row">
@@ -353,14 +408,14 @@
             <span class="cr-dot"></span>
             <div>
               <div class="cr-label">Fellowship</div>
-              <div class="cr-val">Legal Epidemiology Research Fellow — CPHLR, Temple University Beasley School of Law</div>
+              <div class="cr-val">Legal Epidemiology Research Fellow – CPHLR, Temple University Beasley School of Law</div>
             </div>
           </div>
           <div class="context-row">
             <span class="cr-dot"></span>
             <div>
               <div class="cr-label">GBD collaborator</div>
-              <div class="cr-val">IHME Global Burden of Disease — Lead Collaborator (Lancet 2024, Nature Comms 2025)</div>
+              <div class="cr-val">IHME Global Burden of Disease – Lead Collaborator (Lancet 2024, Nature Comms 2025)</div>
             </div>
           </div>
           <div class="context-row">
@@ -374,7 +429,7 @@
             <span class="cr-dot"></span>
             <div>
               <div class="cr-label">Collaboration scope</div>
-              <div class="cr-val">Global — fully remote-capable</div>
+              <div class="cr-val">Global – fully remote-capable</div>
             </div>
           </div>
         </div>
@@ -385,7 +440,7 @@
     <!-- FAQ -->
     <section class="faq-section reveal">
       <div class="faq-heading">Common <span>Questions</span></div>
-      <p class="faq-sub">If your question isn't answered here, just email directly — I'll give you a straight answer.</p>
+      <p class="faq-sub">If your question isn't answered here, just email directly – I'll give you a straight answer.</p>
       <div class="faq-grid">
         <div class="faq-item">
           <h4>What types of research projects do you take on?</h4>
@@ -393,11 +448,11 @@
         </div>
         <div class="faq-item">
           <h4>Can you join as co-investigator on a grant?</h4>
-          <p>Yes — this is one of my preferred collaboration models. I'm open to <strong>co-investigator and methods consultant roles</strong> on NIH, CDC, PCORI, and foundation-funded grants, particularly in digital epidemiology, pharmacoepidemiology, substance use surveillance, legal epidemiology, and health equity. I bring both analytical expertise and a track record of producing findings that reach decision-makers.</p>
+          <p>Yes – this is one of my preferred collaboration models. I'm open to <strong>co-investigator and methods consultant roles</strong> on NIH, CDC, PCORI, and foundation-funded grants, particularly in digital epidemiology, pharmacoepidemiology, substance use surveillance, legal epidemiology, and health equity. I bring both analytical expertise and a track record of producing findings that reach decision-makers.</p>
         </div>
         <div class="faq-item">
           <h4>Are you available for media interviews and expert commentary?</h4>
-          <p>Yes. I've provided expert commentary to <strong>BBC News, Scientific American, Medscape, JMIR, U.S. News, Clinical Leader</strong>, and others. I respond to media requests quickly — include your outlet, deadline, and topic in the email and I'll confirm availability within a few hours on business days.</p>
+          <p>Yes. I've provided expert commentary to <strong>BBC News, Scientific American, Medscape, JMIR, U.S. News, Clinical Leader</strong>, and others. I respond to media requests quickly – include your outlet, deadline, and topic in the email and I'll confirm availability within a few hours on business days.</p>
         </div>
         <div class="faq-item">
           <h4>Do you consult for health systems, government, or NGOs?</h4>
@@ -405,11 +460,11 @@
         </div>
         <div class="faq-item">
           <h4>What is your process for new collaboration inquiries?</h4>
-          <p>Email with a one-sentence description of the project and what you need from me. I'll respond personally with a clear yes, no, or "let's talk" — usually within 48 hours. If it's a fit, I'll suggest a 20-minute call to assess scope. I don't use an intake form or scheduling system; a direct email is always the fastest path.</p>
+          <p>Email with a one-sentence description of the project and what you need from me. I'll respond personally with a clear yes, no, or "let's talk" – usually within 48 hours. If it's a fit, I'll suggest a 20-minute call to assess scope. I don't use an intake form or scheduling system; a direct email is always the fastest path.</p>
         </div>
         <div class="faq-item">
           <h4>Can students or early-career researchers reach out?</h4>
-          <p>Yes — I actively mentor early-career researchers in digital epidemiology and public health data science. If you're a graduate student or postdoc working on methods-driven population health research, I'm happy to connect. Be specific about what you're working on and what kind of input would be most useful — a methods question, a career discussion, or a formal mentoring relationship.</p>
+          <p>Yes – I actively mentor early-career researchers in digital epidemiology and public health data science. If you're a graduate student or postdoc working on methods-driven population health research, I'm happy to connect. Be specific about what you're working on and what kind of input would be most useful – a methods question, a career discussion, or a formal mentoring relationship.</p>
         </div>
       </div>
     </section>
@@ -428,7 +483,7 @@
 
   <a href="#" class="back-top" id="backTop" aria-label="Back to top">↑</a>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     document.getElementById('y').textContent = new Date().getFullYear();
 
     const backTop = document.getElementById('backTop');
@@ -464,7 +519,7 @@
       }
       requestAnimationFrame(loop);
     }
-    loop();
+    if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){loop();}
 
     const els=document.querySelectorAll('.reveal');
     const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:0.07});
