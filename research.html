@@ -725,14 +725,14 @@
         esUrl.searchParams.set("db","pubmed");esUrl.searchParams.set("term",PUBMED_TERM);
         esUrl.searchParams.set("retmax","30");esUrl.searchParams.set("sort","pub+date");
         esUrl.searchParams.set("retmode","json");esUrl.searchParams.set("tool","epiaidea");
-        esUrl.searchParams.set("email","info@epiaidea.com");
+        esUrl.searchParams.set("email","akshaya.bhagavathula@gmail.com");
         const sr=await fetch(esUrl.toString());if(!sr.ok)throw new Error("esearch failed");
         const sj=await sr.json();const ids=sj?.esearchresult?.idlist||[];
         if(!ids.length){pubStatus.textContent="No results found.";return;}
         const emUrl=new URL("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi");
         emUrl.searchParams.set("db","pubmed");emUrl.searchParams.set("id",ids.join(","));
         emUrl.searchParams.set("retmode","json");emUrl.searchParams.set("tool","epiaidea");
-        emUrl.searchParams.set("email","info@epiaidea.com");
+        emUrl.searchParams.set("email","akshaya.bhagavathula@gmail.com");
         const er=await fetch(emUrl.toString());if(!er.ok)throw new Error("esummary failed");
         const ej=await er.json();const result=ej?.result||{};
         pubList.innerHTML="";
