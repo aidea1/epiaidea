@@ -1,0 +1,77 @@
+name: Update Google Scholar metrics
+
+# Runs every Monday 06:00 UTC, and on demand from the Actions tab.
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install scholarly
+        run: pip install scholarly
+
+      - name: Fetch metrics from Google Scholar
+        id: fetch
+        continue-on-error: true          # never fail the site over a scrape
+        run: |
+          python - <<'PY'
+          import json, datetime, sys
+          from scholarly import scholarly
+
+          SCHOLAR_ID = "mtufk2wAAAAJ"
+          PATH = "assets/scholar-metrics.json"
+
+          with open(PATH) as f:
+              current = json.load(f)
+
+          try:
+              a = scholarly.search_author_id(SCHOLAR_ID)
+              a = scholarly.fill(a, sections=["indices", "counts", "basics"])
+              new = {
+                  "citations":    int(a.get("citedby", 0)),
+                  "h_index":      int(a.get("hindex", 0)),
+                  "i10_index":    int(a.get("i10index", 0)),
+                  "publications": int(len(a.get("publications", []))) or current["publications"],
+              }
+          except Exception as e:
+              print(f"Scholar fetch failed: {e}", file=sys.stderr)
+              sys.exit(1)
+
+          # Sanity guard: ignore obviously broken scrapes (0s, or a big drop)
+          if new["citations"] < current["citations"] * 0.9 or new["citations"] == 0:
+              print("Refusing suspicious values:", new, file=sys.stderr)
+              sys.exit(1)
+
+          current.update(new)
+          current["last_updated"] = datetime.date.today().isoformat()
+
+          with open(PATH, "w") as f:
+              json.dump(current, f, indent=2)
+              f.write("\n")
+
+          print("Updated:", new)
+          PY
+
+      - name: Commit if changed
+        run: |
+          if [[ -n "$(git status --porcelain assets/scholar-metrics.json)" ]]; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add assets/scholar-metrics.json
+            git commit -m "chore: refresh Scholar metrics"
+            git push
+          else
+            echo "No change."
+          fi
