@@ -3,8 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Media | EPIAIDEA</title>
-  <meta name="description" content="Media and news coverage featuring EPIAIDEA work in digital epidemiology, AI safety, and health systems." />
+  <!-- Security headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; connect-src 'self' https://eutils.ncbi.nlm.nih.gov https://api.openalex.org; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+  <title>Media Coverage | Akshaya Bhagavathula | BBC, Scientific American | EPIAIDEA</title>
+  <meta name="description" content="Media coverage featuring Akshaya Bhagavathula — BBC News, Scientific American, Medscape, U.S. News, Clinical Leader, JMIR. Press kit and expert commentary areas." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Akshaya Bhagavathula" />
+  <link rel="canonical" href="https://epiaidea.com/media.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="EPIAIDEA" />
+  <meta property="og:url" content="https://epiaidea.com/media.html" />
+  <meta property="og:title" content="Media Coverage | Akshaya Bhagavathula | BBC, Scientific American | EPIAIDEA" />
+  <meta property="og:description" content="Media coverage featuring Akshaya Bhagavathula — BBC News, Scientific American, Medscape, U.S. News, Clinical Leader, JMIR. Press kit and expert commentary areas." />
+  <meta property="og:image" content="https://epiaidea.com/assets/headshot.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Media Coverage | Akshaya Bhagavathula | BBC, Scientific American | EPIAIDEA" />
+  <meta name="twitter:description" content="Media coverage featuring Akshaya Bhagavathula — BBC News, Scientific American, Medscape, U.S. News, Clinical Leader, JMIR. Press kit and expert commentary areas." />
+  <meta name="twitter:image" content="https://epiaidea.com/assets/headshot.jpg" />
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org","@type":"Person","@id":"https://epiaidea.com/#person",
+    "name":"Akshaya Bhagavathula",
+    "alternateName":"Akshaya Srikanth Bhagavathula",
+    "url":"https://epiaidea.com",
+    "image":"https://epiaidea.com/assets/headshot.jpg",
+    "jobTitle":"Professor of Epidemiology",
+    "description":"Digital epidemiologist, pharmacoepidemiologist and geospatial AI researcher. h-index 84, 98,310+ citations, Top 2% of scientists worldwide. IHME GBD collaborator. Author of THE DENOMINATOR.",
+    "affiliation":[
+      {"@type":"Organization","name":"North Dakota State University","url":"https://www.ndsu.edu"},
+      {"@type":"Organization","name":"Center for Public Health Law Research, Temple University","url":"https://phlr.org"}
+    ],
+    "sameAs":[
+      "https://orcid.org/0000-0002-0581-7808",
+      "https://scholar.google.com/citations?user=mtufk2wAAAAJ",
+      "https://pubmed.ncbi.nlm.nih.gov/?term=bhagavathula+a&sort=date",
+      "https://www.researchgate.net/profile/Akshaya_Bhagavathula",
+      "https://www.linkedin.com/in/akshayphd/",
+      "https://phlr.org/expert/akshaya-bhagavathula-phd"
+    ],
+    "knowsAbout":["Digital Epidemiology","Infodemiology","Pharmacoepidemiology","Geospatial Analysis",
+      "Telehealth Policy","Legal Epidemiology","Global Burden of Disease","Causal Inference","Agentic AI"]
+  }
+  </script>
   <meta name="robots" content="index,follow" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -326,7 +371,9 @@
       <nav aria-label="Primary navigation">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
+        <a href="services.html">Consulting</a>
         <a href="research.html">Research</a>
+        <a href="book.html">Book</a>
         <a href="media.html" class="active">Media</a>
         <a href="contact.html">Contact</a>
       </nav>
@@ -675,5 +722,77 @@
     els.forEach(el=>obs.observe(el));
   </script>
 
+
+  <!-- ─── COOKIE CONSENT ─── -->
+  <style>
+    #ckb{position:fixed;left:0;right:0;bottom:0;z-index:9999;display:none;
+      background:rgba(7,15,30,.97);backdrop-filter:blur(14px);
+      border-top:1px solid rgba(242,201,76,.28);padding:18px 24px;
+      box-shadow:0 -14px 40px rgba(0,0,0,.5)}
+    #ckb.show{display:block;animation:ckup .35s ease}
+    @keyframes ckup{from{transform:translateY(100%)}to{transform:translateY(0)}}
+    .ckb-in{max-width:1140px;margin:0 auto;display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+    .ckb-tx{flex:1;min-width:280px;font-size:13px;color:#96aacf;line-height:1.6;
+      font-family:'Instrument Sans',sans-serif}
+    .ckb-tx b{color:#e8f0ff;font-weight:600;display:block;margin-bottom:3px;font-size:14px}
+    .ckb-tx a{color:#f2c94c;text-decoration:underline}
+    .ckb-bt{display:flex;gap:9px;flex-wrap:wrap}
+    .ckb-bt button{padding:11px 20px;border-radius:11px;font-size:13px;font-weight:700;
+      cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:all .2s;border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.05);color:#e8f0ff}
+    .ckb-bt button:hover{background:rgba(255,255,255,.1)}
+    .ckb-bt button.ok{background:linear-gradient(135deg,#f2c94c,#ffb340);color:#0b1220;border-color:transparent}
+    .ckb-bt button:focus-visible{outline:2px solid #f2c94c;outline-offset:2px}
+    @media(max-width:600px){.ckb-bt{width:100%}.ckb-bt button{flex:1}}
+  </style>
+
+  <div id="ckb" role="dialog" aria-live="polite" aria-label="Cookie preferences">
+    <div class="ckb-in">
+      <div class="ckb-tx">
+        <b>Cookies on this site</b>
+        This site uses essential cookies to function. With your consent it also uses analytics
+        cookies to understand which pages are useful. No advertising or third-party tracking cookies
+        are set, and nothing is sold or shared.
+      </div>
+      <div class="ckb-bt">
+        <button type="button" id="ckNo">Essential only</button>
+        <button type="button" class="ok" id="ckYes">Accept analytics</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    var KEY='epiaidea_consent_v1', bar=document.getElementById('ckb');
+    function get(){try{return localStorage.getItem(KEY)}catch(e){return null}}
+    function set(v){try{localStorage.setItem(KEY,v)}catch(e){}}
+
+    // Analytics loads ONLY after explicit consent. Nothing runs before this.
+    function loadAnalytics(){
+      if(window.__epiAnalyticsLoaded) return;
+      window.__epiAnalyticsLoaded=true;
+      /* Paste your analytics snippet here — it will only ever run with consent.
+         e.g. Plausible (cookieless, recommended) or GA4:
+      var s=document.createElement('script');
+      s.defer=true; s.setAttribute('data-domain','epiaidea.com');
+      s.src='https://plausible.io/js/script.js';
+      document.head.appendChild(s);
+      */
+    }
+
+    var c=get();
+    if(c==='all'){ loadAnalytics(); }
+    else if(c!=='essential'){ setTimeout(function(){bar.classList.add('show')},900); }
+
+    document.getElementById('ckYes').addEventListener('click',function(){
+      set('all'); bar.classList.remove('show'); loadAnalytics();
+    });
+    document.getElementById('ckNo').addEventListener('click',function(){
+      set('essential'); bar.classList.remove('show');
+    });
+  })();
+  </script>
+
+  <script src="assets/metrics.js"></script>
 </body>
 </html>

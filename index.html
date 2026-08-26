@@ -3,8 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>EPIAIDEA | Epidemiology + AI + Data + Evidence + Action</title>
-  <meta name="description" content="EPIAIDEA is a digital epidemiology platform integrating epidemiology, AI, and population analytics to translate data into evidence for public health action." />
+  <!-- Security headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; connect-src 'self' https://eutils.ncbi.nlm.nih.gov https://api.openalex.org; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+  <title>Akshaya Bhagavathula | Digital Epidemiologist & AI Health Analytics | EPIAIDEA</title>
+  <meta name="description" content="Akshaya Bhagavathula — Professor of Epidemiology. h-index 84, 98,310+ citations, Top 2% globally. Digital epidemiology, pharmacovigilance, geospatial AI, legal epidemiology. IHME GBD Collaborator. Author of THE DENOMINATOR." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Akshaya Bhagavathula" />
+  <link rel="canonical" href="https://epiaidea.com/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="EPIAIDEA" />
+  <meta property="og:url" content="https://epiaidea.com/" />
+  <meta property="og:title" content="Akshaya Bhagavathula | Digital Epidemiologist & AI Health Analytics | EPIAIDEA" />
+  <meta property="og:description" content="Akshaya Bhagavathula — Professor of Epidemiology. h-index 84, 98,310+ citations, Top 2% globally. Digital epidemiology, pharmacovigilance, geospatial AI, legal epidemiology. IHME GBD Collaborator. Author of THE DENOMINATOR." />
+  <meta property="og:image" content="https://epiaidea.com/assets/headshot.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Akshaya Bhagavathula | Digital Epidemiologist & AI Health Analytics | EPIAIDEA" />
+  <meta name="twitter:description" content="Akshaya Bhagavathula — Professor of Epidemiology. h-index 84, 98,310+ citations, Top 2% globally. Digital epidemiology, pharmacovigilance, geospatial AI, legal epidemiology. IHME GBD Collaborator. Author of THE DENOMINATOR." />
+  <meta name="twitter:image" content="https://epiaidea.com/assets/headshot.jpg" />
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org","@type":"Person","@id":"https://epiaidea.com/#person",
+    "name":"Akshaya Bhagavathula",
+    "alternateName":"Akshaya Srikanth Bhagavathula",
+    "url":"https://epiaidea.com",
+    "image":"https://epiaidea.com/assets/headshot.jpg",
+    "jobTitle":"Professor of Epidemiology",
+    "description":"Digital epidemiologist, pharmacoepidemiologist and geospatial AI researcher. h-index 84, 98,310+ citations, Top 2% of scientists worldwide. IHME GBD collaborator. Author of THE DENOMINATOR.",
+    "affiliation":[
+      {"@type":"Organization","name":"North Dakota State University","url":"https://www.ndsu.edu"},
+      {"@type":"Organization","name":"Center for Public Health Law Research, Temple University","url":"https://phlr.org"}
+    ],
+    "sameAs":[
+      "https://orcid.org/0000-0002-0581-7808",
+      "https://scholar.google.com/citations?user=mtufk2wAAAAJ",
+      "https://pubmed.ncbi.nlm.nih.gov/?term=bhagavathula+a&sort=date",
+      "https://www.researchgate.net/profile/Akshaya_Bhagavathula",
+      "https://www.linkedin.com/in/akshayphd/",
+      "https://phlr.org/expert/akshaya-bhagavathula-phd"
+    ],
+    "knowsAbout":["Digital Epidemiology","Infodemiology","Pharmacoepidemiology","Geospatial Analysis",
+      "Telehealth Policy","Legal Epidemiology","Global Burden of Disease","Causal Inference","Agentic AI"]
+  }
+  </script>
   <meta name="robots" content="index,follow" />
   <meta property="og:title" content="EPIAIDEA" />
   <meta property="og:description" content="Epidemiology + AI + Data + Evidence + Action" />
@@ -760,6 +805,39 @@
       .stats-strip { grid-template-columns: 1fr 1fr; }
       footer { flex-direction: column; align-items: flex-start; gap: 10px; }
     }
+  
+    /* ─── BOOK BANNER ─── */
+    .book-banner{
+      display:grid; grid-template-columns:96px 1fr auto; gap:24px; align-items:center;
+      margin:34px 0 8px; padding:22px 26px;
+      border:1px solid rgba(242,201,76,.28); border-radius:18px;
+      background:linear-gradient(120deg, rgba(242,201,76,.09), rgba(255,107,107,.04) 55%, transparent);
+      position:relative; overflow:hidden; transition:all .3s;
+    }
+    .book-banner:hover{ border-color:rgba(242,201,76,.5); transform:translateY(-2px); }
+    .book-banner::after{
+      content:''; position:absolute; top:-70px; right:-70px; width:240px; height:240px;
+      background:radial-gradient(circle, rgba(242,201,76,.1), transparent 70%); pointer-events:none;
+    }
+    .bb-cover img{ width:96px; border-radius:4px; display:block;
+      box-shadow:0 10px 26px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.09); }
+    .bb-flag{ font-size:10px; font-weight:800; letter-spacing:2px; text-transform:uppercase;
+      color:var(--coral); margin-bottom:7px; }
+    .bb-title{ font-family:'Bricolage Grotesque',sans-serif; font-size:21px; font-weight:800;
+      letter-spacing:-.6px; margin-bottom:5px; }
+    .bb-sub{ font-size:13px; color:var(--gold); font-weight:600; margin-bottom:8px; }
+    .bb-desc{ font-size:13px; color:var(--muted); line-height:1.6; max-width:520px; }
+    .bb-cta{ display:inline-flex; align-items:center; gap:8px; padding:13px 22px; border-radius:12px;
+      background:linear-gradient(135deg,var(--gold),#ffb340); color:#0b1220;
+      font-size:14px; font-weight:700; white-space:nowrap; transition:all .25s;
+      box-shadow:0 8px 24px rgba(242,201,76,.2); }
+    .bb-cta:hover{ transform:translateY(-2px); box-shadow:0 12px 32px rgba(242,201,76,.32); }
+    @media (max-width:820px){
+      .book-banner{ grid-template-columns:72px 1fr; }
+      .bb-cover img{ width:72px; }
+      .bb-cta{ grid-column:1/-1; justify-content:center; }
+    }
+
   </style>
 </head>
 
@@ -787,7 +865,9 @@
       <nav aria-label="Primary navigation">
         <a href="index.html" class="active">Home</a>
         <a href="about.html">About</a>
+        <a href="services.html">Consulting</a>
         <a href="research.html">Research</a>
+        <a href="book.html">Book</a>
         <a href="media.html">Media</a>
         <a href="contact.html">Contact</a>
       </nav>
@@ -811,18 +891,34 @@
       </p>
 
       <div class="cta">
-        <a href="research.html" class="btn primary">Explore Research →</a>
-        <a href="about.html" class="btn">About the Platform</a>
+        <a href="services.html" class="btn primary">Consulting &amp; analytics →</a>
+        <a href="research.html" class="btn">Explore research</a>
       </div>
+
+
+      <!-- Book banner -->
+      <a href="book.html" class="book-banner">
+        <div class="bb-cover">
+          <img src="https://cdn.shopify.com/s/files/1/0674/5433/7265/files/9798182528856_p0.jpg"
+               alt="Cover of The Denominator by Akshaya Bhagavathula" loading="lazy" />
+        </div>
+        <div>
+          <div class="bb-flag">New book</div>
+          <div class="bb-title">The Denominator</div>
+          <div class="bb-sub">Some people are counted. Most are not.</div>
+          <div class="bb-desc">A memoir of eleven years as a frontline epidemiologist across Africa and the Middle East — and what it costs to insist the dead be counted honestly.</div>
+        </div>
+        <span class="bb-cta">Read more →</span>
+      </a>
 
       <!-- Stats strip -->
       <div class="stats-strip">
         <div class="stat-item">
-          <div class="stat-val">88,000+</div>
+          <div class="stat-val"><span data-metric="citations" data-format="plus">98,310+</span></div>
           <div class="stat-desc">Cumulative citations across peer-reviewed work</div>
         </div>
         <div class="stat-item">
-          <div class="stat-val">h-index 79</div>
+          <div class="stat-val"><span data-metric="h_index" data-prefix="h-index ">h-index 84</span></div>
           <div class="stat-desc">Verified on Google Scholar</div>
         </div>
         <div class="stat-item">
@@ -1212,5 +1308,77 @@
     revealEls.forEach(el => observer.observe(el));
   </script>
 
+
+  <!-- ─── COOKIE CONSENT ─── -->
+  <style>
+    #ckb{position:fixed;left:0;right:0;bottom:0;z-index:9999;display:none;
+      background:rgba(7,15,30,.97);backdrop-filter:blur(14px);
+      border-top:1px solid rgba(242,201,76,.28);padding:18px 24px;
+      box-shadow:0 -14px 40px rgba(0,0,0,.5)}
+    #ckb.show{display:block;animation:ckup .35s ease}
+    @keyframes ckup{from{transform:translateY(100%)}to{transform:translateY(0)}}
+    .ckb-in{max-width:1140px;margin:0 auto;display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+    .ckb-tx{flex:1;min-width:280px;font-size:13px;color:#96aacf;line-height:1.6;
+      font-family:'Instrument Sans',sans-serif}
+    .ckb-tx b{color:#e8f0ff;font-weight:600;display:block;margin-bottom:3px;font-size:14px}
+    .ckb-tx a{color:#f2c94c;text-decoration:underline}
+    .ckb-bt{display:flex;gap:9px;flex-wrap:wrap}
+    .ckb-bt button{padding:11px 20px;border-radius:11px;font-size:13px;font-weight:700;
+      cursor:pointer;font-family:'Instrument Sans',sans-serif;transition:all .2s;border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.05);color:#e8f0ff}
+    .ckb-bt button:hover{background:rgba(255,255,255,.1)}
+    .ckb-bt button.ok{background:linear-gradient(135deg,#f2c94c,#ffb340);color:#0b1220;border-color:transparent}
+    .ckb-bt button:focus-visible{outline:2px solid #f2c94c;outline-offset:2px}
+    @media(max-width:600px){.ckb-bt{width:100%}.ckb-bt button{flex:1}}
+  </style>
+
+  <div id="ckb" role="dialog" aria-live="polite" aria-label="Cookie preferences">
+    <div class="ckb-in">
+      <div class="ckb-tx">
+        <b>Cookies on this site</b>
+        This site uses essential cookies to function. With your consent it also uses analytics
+        cookies to understand which pages are useful. No advertising or third-party tracking cookies
+        are set, and nothing is sold or shared.
+      </div>
+      <div class="ckb-bt">
+        <button type="button" id="ckNo">Essential only</button>
+        <button type="button" class="ok" id="ckYes">Accept analytics</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    var KEY='epiaidea_consent_v1', bar=document.getElementById('ckb');
+    function get(){try{return localStorage.getItem(KEY)}catch(e){return null}}
+    function set(v){try{localStorage.setItem(KEY,v)}catch(e){}}
+
+    // Analytics loads ONLY after explicit consent. Nothing runs before this.
+    function loadAnalytics(){
+      if(window.__epiAnalyticsLoaded) return;
+      window.__epiAnalyticsLoaded=true;
+      /* Paste your analytics snippet here — it will only ever run with consent.
+         e.g. Plausible (cookieless, recommended) or GA4:
+      var s=document.createElement('script');
+      s.defer=true; s.setAttribute('data-domain','epiaidea.com');
+      s.src='https://plausible.io/js/script.js';
+      document.head.appendChild(s);
+      */
+    }
+
+    var c=get();
+    if(c==='all'){ loadAnalytics(); }
+    else if(c!=='essential'){ setTimeout(function(){bar.classList.add('show')},900); }
+
+    document.getElementById('ckYes').addEventListener('click',function(){
+      set('all'); bar.classList.remove('show'); loadAnalytics();
+    });
+    document.getElementById('ckNo').addEventListener('click',function(){
+      set('essential'); bar.classList.remove('show');
+    });
+  })();
+  </script>
+
+  <script src="assets/metrics.js"></script>
 </body>
 </html>
