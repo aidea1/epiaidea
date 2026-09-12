@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; connect-src 'self' https://eutils.ncbi.nlm.nih.gov https://api.openalex.org; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; connect-src 'self' https://eutils.ncbi.nlm.nih.gov https://api.openalex.org; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
 
@@ -20,6 +20,10 @@
   <meta property="og:title" content="Consulting &amp; Analytics | EPIAIDEA" />
   <meta property="og:description" content="Pharmacovigilance, real-world evidence, claims analytics and clinical AI validation — led by a PharmD and PhD epidemiologist with 547 publications and 98,000+ citations." />
   <meta property="og:image" content="https://epiaidea.com/assets/headshot.jpg" />
+  <meta property="og:image:secure_url" content="https://epiaidea.com/assets/headshot.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/jpeg" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Consulting &amp; Analytics | EPIAIDEA" />
   <meta name="twitter:description" content="Pharmacovigilance, RWE, claims analytics and clinical AI validation. PharmD + PhD Epidemiology." />
@@ -193,6 +197,25 @@
       .eng{grid-template-columns:1fr}
       .invite{padding:28px 22px}
     }
+  
+    /* ─── LINKEDIN / SHARE ─── */
+    .li-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+      border:1px solid rgba(10,102,194,.3);background:linear-gradient(135deg,rgba(10,102,194,.1),rgba(77,217,232,.03));
+      border-radius:16px;padding:18px 22px;margin:34px 0}
+    .li-bar .li-ico{width:38px;height:38px;border-radius:9px;background:#0a66c2;color:#fff;
+      display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;
+      font-family:'Bricolage Grotesque',sans-serif;flex-shrink:0}
+    .li-bar .li-tx{flex:1;min-width:220px}
+    .li-bar .li-tx b{display:block;font-size:14px;color:var(--text);font-weight:700;margin-bottom:3px}
+    .li-bar .li-tx span{font-size:12.5px;color:var(--muted);line-height:1.55}
+    .li-bar .li-act{display:flex;gap:9px;flex-wrap:wrap}
+    .li-btn{display:inline-flex;align-items:center;gap:7px;padding:11px 18px;border-radius:11px;
+      font-size:13px;font-weight:700;transition:all .22s;white-space:nowrap}
+    .li-btn.follow{background:#0a66c2;color:#fff}
+    .li-btn.follow:hover{background:#0954a0;transform:translateY(-2px)}
+    .li-btn.share{border:1px solid var(--card-border);background:rgba(255,255,255,.04);color:var(--text)}
+    .li-btn.share:hover{border-color:rgba(255,255,255,.22);transform:translateY(-2px)}
+
   </style>
 </head>
 <body>
@@ -207,14 +230,17 @@
       <div class="brand-tagline">Epidemiology · AI · Data · Evidence · Action</div>
     </div>
     <nav aria-label="Primary navigation">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="services.html" class="active">Consulting</a>
-      <a href="research.html">Research</a>
-      <a href="book.html">Book</a>
-      <a href="media.html">Media</a>
-      <a href="contact.html">Contact</a>
-    </nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html" class="active">Consulting</a>
+        <a href="health-law.html">Health Law</a>
+        <a href="digital-epidemiology.html">Digital Epi</a>
+        <a href="atlas.html">Atlas</a>
+        <a href="research.html">Research</a>
+        <a href="book.html">Book</a>
+        <a href="media.html">Media</a>
+        <a href="contact.html">Contact</a>
+      </nav>
   </div>
 
   <!-- HERO -->
@@ -235,7 +261,7 @@
     <div class="credbar">
       <span>PharmD · PhD Epidemiology</span>
       <span><span data-metric="publications">547</span> peer-reviewed publications</span>
-      <span><span data-metric="citations" data-format="plus">98,310+</span> citations</span>
+      <span><span data-metric="citations" data-format="plus">100,000+</span> citations</span>
       <span>h-index <span data-metric="h_index">84</span></span>
       <span>Top 2% of scientists worldwide</span>
       <span>Legal Epidemiology Fellow · Temple CPHLR</span>
@@ -270,6 +296,7 @@
           <li>Real-world evidence to support label expansion or payer dossiers</li>
           <li>Comparative safety and effectiveness studies in claims and EHR data</li>
           <li>Independent methodological review before regulatory submission</li>
+          <li><a href="atlas.html" style="color:var(--gold);font-weight:600">See a worked example: the GLP-1 Organ Atlas →</a></li>
         </ul>
       </div>
 
@@ -313,6 +340,34 @@
       </div>
     </div>
   </section>
+
+
+    <!-- FOCUS VERTICALS -->
+    <section class="sec reveal">
+      <div class="sec-head">
+        <h2>Specialist <span>Practice Areas</span></h2>
+        <span class="meta">Deep-dive pages</span>
+      </div>
+      <p class="sec-intro">
+        Two areas where I go deepest, and where the questions are distinct enough to warrant their own treatment.
+      </p>
+      <div class="sectors">
+        <a class="sector" href="health-law.html" style="display:block">
+          <span class="tag" style="color:var(--coral)">Health Law · Legal Epidemiology</span>
+          <h3>Laws change health outcomes. I measure by how much.</h3>
+          <p>Policy impact evaluation, causation assessment, and independent review of epidemiologic evidence for
+          legal, regulatory, and policy teams. Grounded in my legal epidemiology fellowship at Temple CPHLR.</p>
+          <span style="color:var(--gold);font-size:13px;font-weight:700">Explore health law consulting →</span>
+        </a>
+        <a class="sector" href="digital-epidemiology.html" style="display:block">
+          <span class="tag">Digital Epidemiology · Infodemiology</span>
+          <h3>Populations signal distress before they reach a clinic.</h3>
+          <p>Real-time surveillance from search and social data, infodemiology, outbreak signal detection, and
+          validated AI monitoring systems — built so the signal survives deployment.</p>
+          <span style="color:var(--gold);font-size:13px;font-weight:700">Explore digital epidemiology →</span>
+        </a>
+      </div>
+    </section>
 
   <!-- SERVICES -->
   <section class="sec reveal" id="services">
@@ -465,6 +520,8 @@
   <footer>
     <div>© <span id="y"></span> EPIAIDEA · <span class="accent">Epidemiology + AI + Data + Evidence + Action</span></div>
     <div style="display:flex;gap:18px;">
+      <a href="services.html">Consulting</a>
+      <a href="atlas.html">Atlas</a>
       <a href="research.html">Research</a>
       <a href="book.html">Book</a>
       <a href="contact.html">Contact</a>
@@ -549,6 +606,18 @@
       set('essential'); bar.classList.remove('show');
     });
   })();
+  </script>
+
+  <script>
+  // LinkedIn share — opens the composer with this page pre-filled
+  document.querySelectorAll('[data-li-share]').forEach(function(el){
+    el.addEventListener('click', function(e){
+      e.preventDefault();
+      var u = encodeURIComponent(window.location.href.split('?')[0] + '?utm_source=linkedin&utm_medium=social&utm_campaign=share');
+      window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + u,
+                  'li-share','width=600,height=640,noopener');
+    });
+  });
   </script>
 </body>
 </html>

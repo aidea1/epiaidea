@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- Security headers -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; connect-src 'self' https://eutils.ncbi.nlm.nih.gov https://api.openalex.org; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; connect-src 'self' https://eutils.ncbi.nlm.nih.gov https://api.openalex.org; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
 
   <title>Research Portfolio | Akshaya Bhagavathula | h-index 84 | EPIAIDEA</title>
-  <meta name="description" content="Research portfolio: 98,310+ citations, h-index 84, i-10 index 218, Top 2% globally. Infodemiology, pharmacoepidemiology, geospatial AI, telehealth, legal epidemiology, agentic AI for causal inference." />
+  <meta name="description" content="Research portfolio: 100,000+ citations, h-index 84, i-10 index 218, Top 2% globally. Infodemiology, pharmacoepidemiology, geospatial AI, telehealth, legal epidemiology, agentic AI for causal inference." />
   <meta name="robots" content="index, follow" />
   <meta name="author" content="Akshaya Bhagavathula" />
   <link rel="canonical" href="https://epiaidea.com/research.html" />
@@ -18,11 +18,15 @@
   <meta property="og:site_name" content="EPIAIDEA" />
   <meta property="og:url" content="https://epiaidea.com/research.html" />
   <meta property="og:title" content="Research Portfolio | Akshaya Bhagavathula | h-index 84 | EPIAIDEA" />
-  <meta property="og:description" content="Research portfolio: 98,310+ citations, h-index 84, i-10 index 218, Top 2% globally. Infodemiology, pharmacoepidemiology, geospatial AI, telehealth, legal epidemiology, agentic AI for causal inference." />
+  <meta property="og:description" content="Research portfolio: 100,000+ citations, h-index 84, i-10 index 218, Top 2% globally. Infodemiology, pharmacoepidemiology, geospatial AI, telehealth, legal epidemiology, agentic AI for causal inference." />
   <meta property="og:image" content="https://epiaidea.com/assets/headshot.jpg" />
+  <meta property="og:image:secure_url" content="https://epiaidea.com/assets/headshot.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/jpeg" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Research Portfolio | Akshaya Bhagavathula | h-index 84 | EPIAIDEA" />
-  <meta name="twitter:description" content="Research portfolio: 98,310+ citations, h-index 84, i-10 index 218, Top 2% globally. Infodemiology, pharmacoepidemiology, geospatial AI, telehealth, legal epidemiology, agentic AI for causal inference." />
+  <meta name="twitter:description" content="Research portfolio: 100,000+ citations, h-index 84, i-10 index 218, Top 2% globally. Infodemiology, pharmacoepidemiology, geospatial AI, telehealth, legal epidemiology, agentic AI for causal inference." />
   <meta name="twitter:image" content="https://epiaidea.com/assets/headshot.jpg" />
 
   <script type="application/ld+json">
@@ -33,7 +37,7 @@
     "url":"https://epiaidea.com",
     "image":"https://epiaidea.com/assets/headshot.jpg",
     "jobTitle":"Professor of Epidemiology",
-    "description":"Digital epidemiologist, pharmacoepidemiologist and geospatial AI researcher. h-index 84, 98,310+ citations, Top 2% of scientists worldwide. IHME GBD collaborator. Author of THE DENOMINATOR.",
+    "description":"Digital epidemiologist, pharmacoepidemiologist and geospatial AI researcher. h-index 84, 100,000+ citations, Top 2% of scientists worldwide. IHME GBD collaborator. Author of THE DENOMINATOR.",
     "affiliation":[
       {"@type":"Organization","name":"North Dakota State University","url":"https://www.ndsu.edu"},
       {"@type":"Organization","name":"Center for Public Health Law Research, Temple University","url":"https://phlr.org"}
@@ -236,6 +240,25 @@
       .impact-grid { grid-template-columns: 1fr 1fr; }
       footer { flex-direction: column; align-items: flex-start; }
     }
+  
+    /* ─── LINKEDIN / SHARE ─── */
+    .li-bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+      border:1px solid rgba(10,102,194,.3);background:linear-gradient(135deg,rgba(10,102,194,.1),rgba(77,217,232,.03));
+      border-radius:16px;padding:18px 22px;margin:34px 0}
+    .li-bar .li-ico{width:38px;height:38px;border-radius:9px;background:#0a66c2;color:#fff;
+      display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;
+      font-family:'Bricolage Grotesque',sans-serif;flex-shrink:0}
+    .li-bar .li-tx{flex:1;min-width:220px}
+    .li-bar .li-tx b{display:block;font-size:14px;color:var(--text);font-weight:700;margin-bottom:3px}
+    .li-bar .li-tx span{font-size:12.5px;color:var(--muted);line-height:1.55}
+    .li-bar .li-act{display:flex;gap:9px;flex-wrap:wrap}
+    .li-btn{display:inline-flex;align-items:center;gap:7px;padding:11px 18px;border-radius:11px;
+      font-size:13px;font-weight:700;transition:all .22s;white-space:nowrap}
+    .li-btn.follow{background:#0a66c2;color:#fff}
+    .li-btn.follow:hover{background:#0954a0;transform:translateY(-2px)}
+    .li-btn.share{border:1px solid var(--card-border);background:rgba(255,255,255,.04);color:var(--text)}
+    .li-btn.share:hover{border-color:rgba(255,255,255,.22);transform:translateY(-2px)}
+
   </style>
 </head>
 <body>
@@ -257,6 +280,9 @@
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="services.html">Consulting</a>
+        <a href="health-law.html">Health Law</a>
+        <a href="digital-epidemiology.html">Digital Epi</a>
+        <a href="atlas.html">Atlas</a>
         <a href="research.html" class="active">Research</a>
         <a href="book.html">Book</a>
         <a href="media.html">Media</a>
@@ -268,7 +294,7 @@
     <section class="page-hero">
       <div class="eyebrow"><span class="dot"></span>Academic Portfolio · Live Impact Data</div>
       <h1>Research built on<br/><span class="highlight">rigor</span> and real-world reach.</h1>
-      <p class="lead">Over <span data-metric="citations" data-format="comma">98,310</span> citations. Ranked in the top 2% of scientists worldwide. A body of work translating population data into epidemiologic inference — spanning digital epidemiology, pharmacovigilance, geospatial AI, and health equity — from initial signal detection to deployed policy tools.</p>
+      <p class="lead">Over <span data-metric="citations" data-format="comma">100,000</span> citations. Ranked in the top 2% of scientists worldwide. A body of work translating population data into epidemiologic inference — spanning digital epidemiology, pharmacovigilance, geospatial AI, and health equity — from initial signal detection to deployed policy tools.</p>
     </section>
 
     <!-- LAYOUT -->
@@ -336,7 +362,7 @@
         <div class="impact-grid reveal">
           <div class="impact-card">
             <div class="impact-label">Total Citations</div>
-            <div class="impact-value"><span data-metric="citations" data-format="short">98K+</span></div>
+            <div class="impact-value"><span data-metric="citations" data-format="short">100K+</span></div>
             <div class="impact-sub">Cumulative · updated <span data-metric="updated">Aug 26, 2026</span></div>
             <div class="impact-detail">Reflecting a sustained citation trajectory across digital epidemiology, pharmacoepidemiology, and AI methods — with accelerating growth since 2022.</div>
           </div>
@@ -519,13 +545,29 @@
     </div><!-- /research-layout -->
 
     <!-- FOOTER -->
+
+    <!-- LinkedIn -->
+    <div class="li-bar">
+      <span class="li-ico">in</span>
+      <div class="li-tx">
+        <b>Follow the work on LinkedIn</b>
+        <span>I post analysis on drug safety signals, digital epidemiology, and health policy evidence — usually before it reaches a journal.</span>
+      </div>
+      <div class="li-act">
+        <a class="li-btn follow" href="https://www.linkedin.com/in/akshayphd/" target="_blank" rel="noopener">Follow on LinkedIn</a>
+        <a class="li-btn share" href="#" data-li-share>Share this page</a>
+      </div>
+    </div>
+
     <footer>
       <div>© <span id="y"></span> EPIAIDEA · <span class="accent">Epidemiology + AI + Data + Evidence + Action</span></div>
       <div style="display:flex;gap:18px;">
-        <a href="https://www.linkedin.com/in/akshayphd/" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="contact.html">Contact</a>
-        <a href="index.html">Home</a>
-      </div>
+      <a href="services.html">Consulting</a>
+      <a href="atlas.html">Atlas</a>
+      <a href="research.html">Research</a>
+      <a href="book.html">Book</a>
+      <a href="contact.html">Contact</a>
+    </div>
     </footer>
 
   </div>
@@ -801,5 +843,17 @@
   </script>
 
   <script src="assets/metrics.js"></script>
+
+  <script>
+  // LinkedIn share — opens the composer with this page pre-filled
+  document.querySelectorAll('[data-li-share]').forEach(function(el){
+    el.addEventListener('click', function(e){
+      e.preventDefault();
+      var u = encodeURIComponent(window.location.href.split('?')[0] + '?utm_source=linkedin&utm_medium=social&utm_campaign=share');
+      window.open('https://www.linkedin.com/sharing/share-offsite/?url=' + u,
+                  'li-share','width=600,height=640,noopener');
+    });
+  });
+  </script>
 </body>
 </html>
