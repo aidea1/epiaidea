@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; connect-src 'self' https://eutils.ncbi.nlm.nih.gov https://api.openalex.org; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; connect-src 'self' https://eutils.ncbi.nlm.nih.gov https://api.openalex.org https://raw.githubusercontent.com; base-uri 'self'; form-action 'self'" />
 <meta http-equiv="X-Content-Type-Options" content="nosniff" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 
@@ -58,8 +58,8 @@ background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='htt
 .wordmark .w{color:var(--text)}.wordmark .ai{color:var(--gold);position:relative;text-shadow:0 0 24px rgba(242,201,76,.4)}
 .wordmark .ai::after{content:'';position:absolute;bottom:-3px;left:0;right:0;height:2px;background:var(--gold);border-radius:2px;box-shadow:0 0 8px var(--gold)}
 .brand-tagline{font-size:11px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase}
-nav{display:flex;gap:4px;flex-wrap:wrap}
-nav a{color:var(--muted);padding:8px 14px;border-radius:10px;font-size:14px;font-weight:500;border:1px solid transparent;transition:all .2s}
+nav{display:flex; flex-wrap: wrap;gap:3px;flex-wrap:wrap}
+nav a{color:var(--muted);padding:8px 9px;border-radius:10px;font-size:14px;font-weight:500;border:1px solid transparent;transition:all .2s}
 nav a:hover{color:var(--text);border-color:var(--card-border);background:var(--card)}
 nav a.active{color:var(--gold);border-color:rgba(242,201,76,.25);background:rgba(242,201,76,.06)}
 .crumb{font-size:12px;color:var(--muted);padding:22px 0 0}
@@ -144,13 +144,13 @@ a:focus-visible,.btn:focus-visible{outline:2px solid var(--gold);outline-offset:
       <div class="brand-tagline">Epidemiology · AI · Data · Evidence · Action</div>
     </div>
     <nav aria-label="Primary navigation">
-        <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="services.html">Consulting</a>
         <a href="health-law.html" class="active">Health Law</a>
         <a href="digital-epidemiology.html">Digital Epi</a>
         <a href="atlas.html">Atlas</a>
         <a href="research.html">Research</a>
+    <a href="insights.html">Insights</a>
         <a href="book.html">Book</a>
         <a href="media.html">Media</a>
         <a href="contact.html">Contact</a>
@@ -182,7 +182,7 @@ a:focus-visible,.btn:focus-visible{outline:2px solid var(--gold);outline-offset:
     </div>
 
     <div class="cta-row">
-      <a class="btn primary" href="mailto:info@epiaidea.com?subject=Health%20law%20consulting%20enquiry">Discuss a matter →</a>
+      <a class="btn primary" href="mailto:akshaya.bhagavathula@gmail.com?subject=Health%20law%20consulting%20enquiry">Discuss a matter →</a>
       <a class="btn" href="#work">What this looks like ↓</a>
     </div>
   </section>
@@ -276,7 +276,7 @@ a:focus-visible,.btn:focus-visible{outline:2px solid var(--gold);outline-offset:
         <strong>There's no obligation in asking.</strong>
       </p>
       <div class="cta-row">
-        <a class="btn primary" href="mailto:info@epiaidea.com?subject=Health%20law%20consulting%20enquiry">Email info@epiaidea.com →</a>
+        <a class="btn primary" href="mailto:akshaya.bhagavathula@gmail.com?subject=Health%20law%20consulting%20enquiry">Email akshaya.bhagavathula@gmail.com →</a>
         <a class="btn" href="services.html">All consulting services</a>
       </div>
     </div>
@@ -295,11 +295,12 @@ a:focus-visible,.btn:focus-visible{outline:2px solid var(--gold);outline-offset:
   </div>
 
   <footer>
-    <div>© <span id="y"></span> EPIAIDEA · <span class="accent">Epidemiology + AI + Data + Evidence + Action</span></div>
+    <div>© <span id="y"></span> Akshaya Bhagavathula · EPIAIDEA · <span class="accent">Epidemiology + AI + Data + Evidence + Action</span><br/><span style="opacity:.75;">All rights reserved. The text, data, figures, analyses and visualisations on this site are the copyrighted work of Akshaya Bhagavathula and may not be reproduced, republished or used to train automated systems without written permission. Quotation with attribution and a link is welcome.</span></div>
     <div style="display:flex;gap:18px;">
       <a href="services.html">Consulting</a>
       <a href="atlas.html">Atlas</a>
       <a href="research.html">Research</a>
+      <a href="insights.html">Insights</a>
       <a href="book.html">Book</a>
       <a href="contact.html">Contact</a>
     </div>
@@ -345,13 +346,13 @@ document.querySelectorAll('[data-li-share]').forEach(function(el){
     <div class="ckb-in">
       <div class="ckb-tx">
         <b>Cookies on this site</b>
-        This site uses essential cookies to function. With your consent it also uses analytics
-        cookies to understand which pages are useful. No advertising or third-party tracking cookies
-        are set, and nothing is sold or shared.
+        This site uses a small number of essential cookies to work. With your consent it also uses
+        analytics cookies to see which pages are useful. No advertising or third-party tracking
+        cookies are set, and nothing is sold or shared. Rejecting keeps the essential ones only.
       </div>
       <div class="ckb-bt">
-        <button type="button" id="ckNo">Essential only</button>
-        <button type="button" class="ok" id="ckYes">Accept analytics</button>
+        <button type="button" id="ckNo">Reject cookies</button>
+        <button type="button" class="ok" id="ckYes">Accept cookies</button>
       </div>
     </div>
   </div>

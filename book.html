@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!-- Security -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; connect-src 'self' https://eutils.ncbi.nlm.nih.gov https://api.openalex.org; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; connect-src 'self' https://eutils.ncbi.nlm.nih.gov https://api.openalex.org https://raw.githubusercontent.com; base-uri 'self'; form-action 'self'" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
 
-  <title>The Denominator — A Memoir by Akshaya Bhagavathula | EPIAIDEA</title>
-  <meta name="description" content="THE DENOMINATOR: Some People Are Counted. Most Are Not. A memoir by epidemiologist Akshaya Bhagavathula — eleven years counting the dead in the worst places on earth, and what honest numbers cost. Paperback $29.99." />
+  <title>The Denominator — A Novel by Akshaya Bhagavathula | EPIAIDEA</title>
+  <meta name="description" content="THE DENOMINATOR: Some People Are Counted. Most Are Not. A debut novel by epidemiologist Akshaya Bhagavathula — a thriller inspired by true events, about eleven years counting the dead in the worst places on earth and what honest numbers cost. Paperback $29.99, audiobook available." />
   <meta name="robots" content="index, follow" />
   <meta name="author" content="Akshaya Bhagavathula" />
   <link rel="canonical" href="https://epiaidea.com/book.html" />
@@ -19,14 +19,14 @@
   <meta property="og:site_name" content="EPIAIDEA" />
   <meta property="og:url" content="https://epiaidea.com/book.html" />
   <meta property="og:title" content="The Denominator — Some People Are Counted. Most Are Not." />
-  <meta property="og:description" content="A memoir by epidemiologist Akshaya Bhagavathula. Eleven years counting the dead across Africa and the Middle East — and what it costs to insist the numbers are honest." />
+  <meta property="og:description" content="A debut novel by epidemiologist Akshaya Bhagavathula — a thriller inspired by true events. Eleven years counting the dead across Africa and the Middle East, and what it costs to insist the numbers are honest. Now also an audiobook." />
   <meta property="og:image" content="https://cdn.shopify.com/s/files/1/0674/5433/7265/files/9798182528856_p0.jpg" />
   <meta property="og:image:secure_url" content="https://cdn.shopify.com/s/files/1/0674/5433/7265/files/9798182528856_p0.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:type" content="image/jpeg" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="The Denominator — A Memoir by Akshaya Bhagavathula" />
+  <meta name="twitter:title" content="The Denominator — A Novel by Akshaya Bhagavathula" />
   <meta name="twitter:description" content="Eleven years counting the dead across Africa and the Middle East — and what it costs to insist the numbers are honest." />
   <meta name="twitter:image" content="https://cdn.shopify.com/s/files/1/0674/5433/7265/files/9798182528856_p0.jpg" />
 
@@ -47,15 +47,30 @@
     "isbn": "9798182528856",
     "bookFormat": "https://schema.org/Paperback",
     "inLanguage": "en",
-    "genre": ["Memoir", "Public Health", "Global Health"],
+    "genre": ["Fiction", "Thriller", "Medical Thriller"],
     "image": "https://cdn.shopify.com/s/files/1/0674/5433/7265/files/9798182528856_p0.jpg",
-    "description": "A memoir of eleven years as a frontline epidemiologist across Africa and the Middle East, and the cost of insisting that the dead be counted honestly.",
+    "description": "A debut novel — a thriller inspired by true events — following eleven years of a frontline epidemiologist's work across Africa and the Middle East, and the cost of insisting that the dead be counted honestly.",
     "offers": {
       "@type": "Offer",
       "price": "29.99",
       "priceCurrency": "USD",
       "availability": "https://schema.org/InStock",
       "url": "https://www.barnesandnoble.com/w/the-denominator-akshaya-bhagavathula/1150819011"
+    },
+    "workExample": {
+      "@type": "Audiobook",
+      "name": "THE DENOMINATOR: Some People Are Counted. Most Are Not. (Audiobook)",
+      "bookFormat": "https://schema.org/AudiobookFormat",
+      "inLanguage": "en",
+      "abridged": false,
+      "url": "https://epiaidea.com/book.html#audiobook",
+      "author": { "@type": "Person", "name": "Akshaya Bhagavathula" },
+      "associatedMedia": {
+        "@type": "AudioObject",
+        "name": "The Denominator — audiobook sample",
+        "encodingFormat": "audio/mpeg",
+        "contentUrl": "https://epiaidea.com/assets/audio/the-denominator-sample.mp3"
+      }
     }
   }
   </script>
@@ -105,8 +120,8 @@
     .wordmark .ai { color:var(--gold); position:relative; text-shadow:0 0 24px rgba(242,201,76,.4); }
     .wordmark .ai::after { content:''; position:absolute; bottom:-3px; left:0; right:0; height:2px; background:var(--gold); border-radius:2px; box-shadow:0 0 8px var(--gold); }
     .brand-tagline { font-size:11px; letter-spacing:1.5px; color:var(--muted); text-transform:uppercase; }
-    nav { display:flex; gap:4px; flex-wrap:wrap; }
-    nav a { color:var(--muted); padding:8px 14px; border-radius:10px; font-size:14px; font-weight:500; border:1px solid transparent; transition:all .2s; }
+    nav { display:flex; flex-wrap: wrap; gap:3px; flex-wrap:wrap; }
+    nav a { color:var(--muted); padding:8px 9px; border-radius:10px; font-size:14px; font-weight:500; border:1px solid transparent; transition:all .2s; }
     nav a:hover { color:var(--text); border-color:var(--card-border); background:var(--card); }
     nav a.active { color:var(--gold); border-color:rgba(242,201,76,.25); background:rgba(242,201,76,.06); }
 
@@ -300,6 +315,29 @@
     .li-btn.share{border:1px solid var(--card-border);background:rgba(255,255,255,.04);color:var(--text)}
     .li-btn.share:hover{border-color:rgba(255,255,255,.22);transform:translateY(-2px)}
 
+    /* ── Audiobook ── */
+    .abk { background: linear-gradient(135deg, rgba(242,201,76,.06), rgba(77,217,232,.04));
+      border: 1px solid rgba(242,201,76,.22); border-radius: 20px; padding: 34px 36px;
+      margin: 48px auto 0; max-width: 860px; }
+    .abk-top { display: flex; align-items: center; gap: 14px; margin-bottom: 6px; flex-wrap: wrap; }
+    .abk-ico { width: 38px; height: 38px; border-radius: 10px; flex: none;
+      background: linear-gradient(135deg,#f2c94c,#ffb340); color: #0b1220;
+      display: grid; place-items: center; font-size: 19px; }
+    .abk-flag { display:inline-block; background: rgba(242,201,76,.14); color: var(--gold);
+      border: 1px solid rgba(242,201,76,.3); border-radius: 999px; padding: 4px 12px;
+      font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+    .abk h3 { font-family:'Bricolage Grotesque',sans-serif; color: var(--text); margin: 0; }
+    .abk p { color: var(--muted); max-width: 62ch; margin: 12px 0 0; }
+    .abk audio { width: 100%; margin: 22px 0 6px; border-radius: 10px;
+      /* Native controls kept for accessibility and broad support; inverted so the
+         default white chrome sits on the dark page instead of glaring against it. */
+      filter: invert(1) hue-rotate(180deg) saturate(.7); opacity: .92; }
+    .abk audio:hover { opacity: 1; }
+    .abk-specs { display: flex; flex-wrap: wrap; gap: 10px 26px; margin-top: 18px;
+      padding-top: 18px; border-top: 1px solid rgba(255,255,255,.08); color: var(--muted); }
+    .abk-specs b { color: var(--text); font-weight: 600; }
+    .abk-row { display:flex; gap:12px; flex-wrap:wrap; margin-top: 22px; }
+
   </style>
 </head>
 <body>
@@ -315,13 +353,13 @@
         <div class="brand-tagline">Epidemiology · AI · Data · Evidence · Action</div>
       </div>
       <nav aria-label="Primary navigation">
-        <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="services.html">Consulting</a>
         <a href="health-law.html">Health Law</a>
         <a href="digital-epidemiology.html">Digital Epi</a>
         <a href="atlas.html">Atlas</a>
         <a href="research.html">Research</a>
+    <a href="insights.html">Insights</a>
         <a href="book.html" class="active">Book</a>
         <a href="media.html">Media</a>
         <a href="contact.html">Contact</a>
@@ -334,13 +372,13 @@
         <div class="cover-frame">
           <div class="cover-glow"></div>
           <img src="https://cdn.shopify.com/s/files/1/0674/5433/7265/files/9798182528856_p0.jpg"
-               alt="Cover of The Denominator: Some People Are Counted. Most Are Not., a memoir by Akshaya Bhagavathula" />
+               alt="Cover of The Denominator: Some People Are Counted. Most Are Not., a novel by Akshaya Bhagavathula" />
         </div>
         <div class="cover-meta">
           <div>Format <span>Paperback</span></div>
           <div>Price <span>$29.99</span></div>
           <div>ISBN <span>9798182528856</span></div>
-          <div>Genre <span>Memoir · Global Health</span></div>
+          <div>Genre <span>Fiction · Medical Thriller</span></div>
         </div>
       </div>
 
@@ -359,9 +397,48 @@
 
         <div class="buy-row">
           <a class="btn primary" href="https://www.barnesandnoble.com/w/the-denominator-akshaya-bhagavathula/1150819011" target="_blank" rel="noopener">Buy the paperback — $29.99</a>
+          <a class="btn" href="#audiobook">Listen to the audiobook ↓</a>
           <a class="btn" href="#inside">Read an excerpt ↓</a>
         </div>
-        <div class="buy-note"><span class="g"></span>Available now from Barnes &amp; Noble · Ships worldwide</div>
+        <div class="buy-note"><span class="g"></span>Paperback from Barnes &amp; Noble · Ships worldwide · <strong style="color:var(--gold);">Audiobook out now</strong></div>
+      </div>
+    </section>
+
+
+    <!-- AUDIOBOOK -->
+    <section class="abk reveal" id="audiobook">
+      <div class="abk-top">
+        <div class="abk-ico" aria-hidden="true">&#9834;</div>
+        <h3>The Denominator, narrated</h3>
+        <span class="abk-flag">New — Audiobook</span>
+      </div>
+
+      <p>
+        The full book is now available as an audiobook, narrated end to end. If you spend
+        your commute or your fieldwork listening rather than reading, this is the version
+        for you.
+      </p>
+
+      <audio controls preload="none" src="assets/audio/the-denominator-sample.mp3">
+        Your browser does not support audio playback.
+        <a href="assets/audio/the-denominator-sample.mp3">Download the sample (MP3)</a>.
+      </audio>
+      <div style="color:var(--muted);font-size:13px;">Sample — the book's opening.</div>
+
+      <div class="abk-specs">
+        <div>Format <b>Audiobook &middot; MP3 and M4B</b></div>
+        <div>Narration <b>Unabridged</b></div>
+        <div>Author <b>Akshaya Bhagavathula</b></div>
+      </div>
+
+      <div class="abk-row">
+        <!-- ===================================================================
+             REPLACE the href below with your audiobook listing once it is live
+             (Audible, Google Play Books, Spotify, Kobo, or your own store).
+             Until then it opens an email enquiry.
+             =================================================================== -->
+        <a class="btn primary" href="mailto:akshaya.bhagavathula@gmail.com?subject=The%20Denominator%20%E2%80%94%20audiobook">Get the audiobook &rarr;</a>
+        <a class="btn" href="https://www.barnesandnoble.com/w/the-denominator-akshaya-bhagavathula/1150819011" target="_blank" rel="noopener">Prefer the paperback?</a>
       </div>
     </section>
 
@@ -388,14 +465,14 @@
     <section class="sec reveal" id="inside">
       <div class="sec-head">
         <h2>Inside the <span>Book</span></h2>
-        <span class="meta">Memoir · 11 years · 3 continents</span>
+        <span class="meta">Fiction · 11 years · 3 continents</span>
       </div>
       <div class="prose">
         <p>
-          <strong>The Denominator</strong> is a field memoir about the unglamorous machinery of global health: the tally sheets, the refrigerated vaccine boxes, the census that was never taken, the outbreak line list assembled by candlelight. It follows the work that happens long before a number reaches a journal or a headline.
+          <strong>The Denominator</strong> is a novel — a thriller inspired by true events — about the unglamorous machinery of global health: the tally sheets, the refrigerated vaccine boxes, the census that was never taken, the outbreak line list assembled by candlelight. It follows the work that happens long before a number reaches a journal or a headline.
         </p>
         <p>
-          It is also an argument. Bhagavathula's career has been built on the premise that measurement is a moral act — that deciding who enters the denominator is a decision about whose life registers as a life. The book traces what happens when that premise meets institutions that would prefer a cleaner number, governments that would prefer a smaller one, and the ordinary exhaustion of a person who keeps insisting on the true one.
+          It is also an argument. The premise the book is built on — one Bhagavathula has spent his own career defending — is that measurement is a moral act: deciding who enters the denominator is a decision about whose life registers as a life. The story traces what happens when that premise meets institutions that would prefer a cleaner number, governments that would prefer a smaller one, and the ordinary exhaustion of a man who keeps insisting on the true one. The events are invented. The machinery is not.
         </p>
 
         <div class="pull">
@@ -461,7 +538,7 @@
           Available for book talks, university lectures, conference keynotes, and podcast interviews on global health measurement, the ethics of counting, and what frontline epidemiology actually looks like. Bulk copies available for course adoption and institutional events.
         </p>
         <a class="btn primary" href="contact.html">Request a speaking date →</a>
-        <a class="btn" href="mailto:info@epiaidea.com?subject=The%20Denominator%20—%20media%20enquiry">Media enquiries</a>
+        <a class="btn" href="mailto:akshaya.bhagavathula@gmail.com?subject=The%20Denominator%20—%20media%20enquiry">Media enquiries</a>
       </div>
     </section>
 
@@ -480,11 +557,12 @@
     </div>
 
     <footer>
-      <div>© <span id="y"></span> EPIAIDEA · <span class="accent">Epidemiology + AI + Data + Evidence + Action</span></div>
+      <div>© <span id="y"></span> Akshaya Bhagavathula · EPIAIDEA · <span class="accent">Epidemiology + AI + Data + Evidence + Action</span><br/><span style="opacity:.75;">All rights reserved. The text, data, figures, analyses and visualisations on this site are the copyrighted work of Akshaya Bhagavathula and may not be reproduced, republished or used to train automated systems without written permission. Quotation with attribution and a link is welcome.</span></div>
       <div style="display:flex;gap:18px;">
       <a href="services.html">Consulting</a>
       <a href="atlas.html">Atlas</a>
       <a href="research.html">Research</a>
+      <a href="insights.html">Insights</a>
       <a href="book.html">Book</a>
       <a href="contact.html">Contact</a>
     </div>
@@ -594,13 +672,13 @@
     <div class="ckb-in">
       <div class="ckb-tx">
         <b>Cookies on this site</b>
-        This site uses essential cookies to function. With your consent it also uses analytics
-        cookies to understand which pages are useful. No advertising or third-party tracking cookies
-        are set, and nothing is sold or shared.
+        This site uses a small number of essential cookies to work. With your consent it also uses
+        analytics cookies to see which pages are useful. No advertising or third-party tracking
+        cookies are set, and nothing is sold or shared. Rejecting keeps the essential ones only.
       </div>
       <div class="ckb-bt">
-        <button type="button" id="ckNo">Essential only</button>
-        <button type="button" class="ok" id="ckYes">Accept analytics</button>
+        <button type="button" id="ckNo">Reject cookies</button>
+        <button type="button" class="ok" id="ckYes">Accept cookies</button>
       </div>
     </div>
   </div>

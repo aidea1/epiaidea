@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- Security headers -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; connect-src 'self' https://eutils.ncbi.nlm.nih.gov https://api.openalex.org; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; connect-src 'self' https://eutils.ncbi.nlm.nih.gov https://api.openalex.org https://raw.githubusercontent.com; base-uri 'self'; form-action 'self'" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
 
@@ -189,10 +189,10 @@
       font-weight: 400;
     }
 
-    nav { display: flex; gap: 4px; }
+    nav { display: flex; flex-wrap: wrap; gap:3px; }
     nav a {
       color: var(--muted);
-      padding: 8px 14px;
+      padding: 8px 9px;
       border-radius: 10px;
       font-size: 14px;
       font-weight: 500;
@@ -886,13 +886,13 @@
       </div>
 
       <nav aria-label="Primary navigation">
-        <a href="index.html" class="active">Home</a>
         <a href="about.html">About</a>
         <a href="services.html">Consulting</a>
         <a href="health-law.html">Health Law</a>
         <a href="digital-epidemiology.html">Digital Epi</a>
         <a href="atlas.html">Atlas</a>
         <a href="research.html">Research</a>
+    <a href="insights.html">Insights</a>
         <a href="book.html">Book</a>
         <a href="media.html">Media</a>
         <a href="contact.html">Contact</a>
@@ -932,7 +932,7 @@
           <div class="bb-flag">New book</div>
           <div class="bb-title">The Denominator</div>
           <div class="bb-sub">Some people are counted. Most are not.</div>
-          <div class="bb-desc">A memoir of eleven years as a frontline epidemiologist across Africa and the Middle East — and what it costs to insist the dead be counted honestly.</div>
+          <div class="bb-desc">A debut novel — a thriller inspired by true events — about eleven years as a frontline epidemiologist across Africa and the Middle East, and what it costs to insist the dead be counted honestly. <strong style="color:var(--gold);">Now also an audiobook.</strong></div>
         </div>
         <span class="bb-cta">Read more →</span>
       </a>
@@ -1044,7 +1044,6 @@
           <div class="spotlight-meta">
             <span><strong>Data inputs:</strong> NOAA heat index records, FEMA shelter registries, Census structural data</span>
             <span><strong>Status:</strong> Active (2026) · Stanford APSO Partnership</span>
-            <a href="https://aidea1.github.io/Digital-Epidemiology-Heat-Resilience/" target="_blank" rel="noopener">View Interactive Resilience Map →</a>
           </div>
         </div>
 
@@ -1059,7 +1058,6 @@
           <div class="spotlight-meta">
             <span><strong>Data inputs:</strong> Google Trends API, CMS provider registries, California OSHPD discharge data</span>
             <span><strong>Status:</strong> Live Pilot (2019–2025) · Ongoing validation</span>
-            <a href="https://aidea1.github.io/aspo-fibroid-california/" target="_blank" rel="noopener">View Live Observatory →</a>
           </div>
         </div>
       </div>
@@ -1083,7 +1081,6 @@
             <span class="impl-tag">ArcGIS FeatureServer</span>
             <span class="impl-tag">Grouped Expressions</span>
           </div>
-          <a class="impl-link" href="https://aidea1.github.io/hantavirus/" target="_blank" rel="noopener">Launch Command Center →</a>
         </div>
 
         <div class="impl-card">
@@ -1095,7 +1092,6 @@
             <span class="impl-tag">Medicaid policy</span>
             <span class="impl-tag">Multi-state</span>
           </div>
-          <a class="impl-link" href="https://aidea1.github.io/telehealth-sud-payment-parity-dashboard/" target="_blank" rel="noopener">Launch Platform →</a>
         </div>
 
         <div class="impl-card">
@@ -1107,7 +1103,6 @@
             <span class="impl-tag">Overdose prevention</span>
             <span class="impl-tag">Rural health</span>
           </div>
-          <a class="impl-link" href="https://aidea1.github.io/nd-harmreduction-map/" target="_blank" rel="noopener">Launch Platform →</a>
         </div>
 
         <div class="impl-card">
@@ -1119,7 +1114,6 @@
             <span class="impl-tag">GLP-1 / Ozempic</span>
             <span class="impl-tag">Risk communication</span>
           </div>
-          <a class="impl-link" href="https://aidea1.github.io/weightloss-misinformation-dashboard/" target="_blank" rel="noopener">View Analytics →</a>
         </div>
 
         <div class="impl-card">
@@ -1131,7 +1125,6 @@
             <span class="impl-tag">Youth access</span>
             <span class="impl-tag">Licensing policy</span>
           </div>
-          <a class="impl-link" href="https://aidea1.github.io/nd-school-tobacco-proximity/" target="_blank" rel="noopener">View State Map →</a>
         </div>
 
         <div class="impl-card">
@@ -1143,7 +1136,6 @@
             <span class="impl-tag">Toxicology data</span>
             <span class="impl-tag">50-state view</span>
           </div>
-          <a class="impl-link" href="https://aidea1.github.io/US-Cannabis-Polysubstance-Fatalities/" target="_blank" rel="noopener">View Live Map →</a>
         </div>
 
         <div class="impl-card">
@@ -1155,7 +1147,6 @@
             <span class="impl-tag">Climate resilience</span>
             <span class="impl-tag">Rural access</span>
           </div>
-          <a class="impl-link" href="https://aidea1.github.io/winter-blizzard-health-access/" target="_blank" rel="noopener">Launch Platform →</a>
         </div>
 
         <div class="impl-card">
@@ -1170,6 +1161,17 @@
           <a class="impl-link" href="https://github.com/aidea1/agent-epidemiology" target="_blank" rel="noopener">View on GitHub →</a>
         </div>
 
+      </div>
+
+      <p style="max-width:62ch;margin:2.5rem auto 0;text-align:center;color:var(--muted);">
+        Each of these was built for a decision someone had to make — a licensing
+        reform, a Medicaid parity comparison, a shelter-capacity investment. If
+        you are facing a question of that shape, the method transfers.
+      </p>
+
+      <div class="cta">
+        <a href="services.html" class="btn primary">Discuss a project →</a>
+        <a href="insights.html" class="btn">Read the methods notes</a>
       </div>
     </section>
 
@@ -1190,13 +1192,15 @@
 
     <footer>
       <div>
-        © <span id="y"></span> EPIAIDEA ·
+        © <span id="y"></span> Akshaya Bhagavathula · EPIAIDEA ·
         <span class="accent">Epidemiology + AI + Data + Evidence + Action</span>
+        <br/><span style="opacity:.75;">All rights reserved. The text, data, figures, analyses and visualisations on this site are the copyrighted work of Akshaya Bhagavathula and may not be reproduced, republished or used to train automated systems without written permission. Quotation with attribution and a link is welcome.</span>
       </div>
       <div style="display:flex;gap:18px;">
         <a href="services.html">Consulting</a>
         <a href="atlas.html">Atlas</a>
         <a href="research.html">Research</a>
+      <a href="insights.html">Insights</a>
         <a href="book.html">Book</a>
         <a href="contact.html">Contact</a>
       </div>
@@ -1378,13 +1382,13 @@
     <div class="ckb-in">
       <div class="ckb-tx">
         <b>Cookies on this site</b>
-        This site uses essential cookies to function. With your consent it also uses analytics
-        cookies to understand which pages are useful. No advertising or third-party tracking cookies
-        are set, and nothing is sold or shared.
+        This site uses a small number of essential cookies to work. With your consent it also uses
+        analytics cookies to see which pages are useful. No advertising or third-party tracking
+        cookies are set, and nothing is sold or shared. Rejecting keeps the essential ones only.
       </div>
       <div class="ckb-bt">
-        <button type="button" id="ckNo">Essential only</button>
-        <button type="button" class="ok" id="ckYes">Accept analytics</button>
+        <button type="button" id="ckNo">Reject cookies</button>
+        <button type="button" class="ok" id="ckYes">Accept cookies</button>
       </div>
     </div>
   </div>

@@ -9,7 +9,7 @@
 <meta name="author" content="Akshaya Bhagavathula" />
 <link rel="canonical" href="https://epiaidea.com/atlas.html" />
 
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; connect-src 'self' https://eutils.ncbi.nlm.nih.gov https://api.openalex.org; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; connect-src 'self' https://eutils.ncbi.nlm.nih.gov https://api.openalex.org https://raw.githubusercontent.com; base-uri 'self'; form-action 'self'" />
 <meta http-equiv="X-Content-Type-Options" content="nosniff" />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 
@@ -164,8 +164,8 @@ h1{font-size:clamp(30px,4.6vw,48px);line-height:1.02;letter-spacing:-.015em;}
 .sn-mark{font-family:"Newsreader",Georgia,serif;font-weight:600;font-size:34px;letter-spacing:-.02em;line-height:1;color:var(--ink)}
 .sn-mark i{font-style:normal;color:var(--accent)}
 .sn-tag{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
-.sn-links{display:flex;gap:3px;flex-wrap:wrap}
-.sn-links a{color:var(--muted);padding:7px 12px;border-radius:9px;font-size:13px;font-weight:500;
+.sn-links{display: flex; flex-wrap: wrap;gap:3px;flex-wrap:wrap}
+.sn-links a{color:var(--muted);padding:7px 9px;border-radius:9px;font-size:13px;font-weight:500;
   text-decoration:none;border:1px solid transparent;transition:all .2s}
 .sn-links a:hover{color:var(--ink);border-color:var(--line);background:rgba(255,255,255,.04)}
 .sn-links a.on{color:var(--accent);border-color:rgba(242,201,76,.28);background:rgba(242,201,76,.07)}
@@ -212,13 +212,13 @@ h1{font-size:clamp(30px,4.6vw,48px);line-height:1.02;letter-spacing:-.015em;}
     <span class="sn-tag">Epidemiology · AI · Data · Evidence · Action</span>
   </a>
   <nav class="sn-links" aria-label="Primary navigation">
-    <a href="index.html">Home</a>
     <a href="about.html">About</a>
     <a href="services.html">Consulting</a>
     <a href="health-law.html">Health Law</a>
     <a href="digital-epidemiology.html">Digital Epi</a>
     <a href="atlas.html" class="on">Atlas</a>
     <a href="research.html">Research</a>
+    <a href="insights.html">Insights</a>
     <a href="book.html">Book</a>
     <a href="media.html">Media</a>
     <a href="contact.html">Contact</a>
@@ -314,11 +314,12 @@ h1{font-size:clamp(30px,4.6vw,48px);line-height:1.02;letter-spacing:-.015em;}
   </div>
 
 <div class="site-foot">
-  <div>© <span id="yr"></span> EPIAIDEA · <span class="gold">Epidemiology + AI + Data + Evidence + Action</span></div>
+  <div>© <span id="yr"></span> Akshaya Bhagavathula · EPIAIDEA · <span class="gold">Epidemiology + AI + Data + Evidence + Action</span><br/><span style="opacity:.75;">All rights reserved. The text, data, figures, analyses and visualisations on this site are the copyrighted work of Akshaya Bhagavathula and may not be reproduced, republished or used to train automated systems without written permission. Quotation with attribution and a link is welcome.</span></div>
   <div style="display:flex;gap:18px;">
     <a href="services.html">Consulting</a>
     <a href="atlas.html">Atlas</a>
     <a href="research.html">Research</a>
+    <a href="insights.html">Insights</a>
     <a href="book.html">Book</a>
     <a href="contact.html">Contact</a>
   </div>
@@ -2096,13 +2097,13 @@ refresh();
     <div class="ckb-in">
       <div class="ckb-tx">
         <b>Cookies on this site</b>
-        This site uses essential cookies to function. With your consent it also uses analytics
-        cookies to understand which pages are useful. No advertising or third-party tracking cookies
-        are set, and nothing is sold or shared.
+        This site uses a small number of essential cookies to work. With your consent it also uses
+        analytics cookies to see which pages are useful. No advertising or third-party tracking
+        cookies are set, and nothing is sold or shared. Rejecting keeps the essential ones only.
       </div>
       <div class="ckb-bt">
-        <button type="button" id="ckNo">Essential only</button>
-        <button type="button" class="ok" id="ckYes">Accept analytics</button>
+        <button type="button" id="ckNo">Reject cookies</button>
+        <button type="button" class="ok" id="ckYes">Accept cookies</button>
       </div>
     </div>
   </div>

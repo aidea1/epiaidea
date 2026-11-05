@@ -11,7 +11,7 @@ Everything technical is already in place. This is the part that depends on you.
 LinkedIn post, it renders as a large image card with your headshot, the page
 title, and the description — instead of a bare blue link.
 
-**Follow + share bar** on all nine pages, above the footer. One button follows
+**Follow + share bar** on all thirteen pages, above the footer. One button follows
 your profile; the other opens LinkedIn's composer pre-filled with that page.
 
 **UTM tracking.** Shared links carry
@@ -77,8 +77,8 @@ posts a month, consistently, beats a burst and silence.
   Practitioners share this kind of post. Links to `digital-epidemiology.html`.
 - *A policy result.* What happened when a state changed a law, and how you'd
   measure it. Links to `health-law.html`.
-- *A passage from the book.* The memoir gives you something almost no academic
-  has — narrative. Links to `book.html`.
+- *A passage from the book, or a clip from the audiobook.* The novel gives you
+  something almost no academic has — narrative, and now audio. Links to `book.html`.
 - *A new paper, translated.* Not the abstract. What it means for someone making
   a decision this week.
 
@@ -98,7 +98,7 @@ Once analytics is live, watch three things:
 1. **Sessions with `utm_source=linkedin`** — is posting working at all?
 2. **Which landing page they hit** — tells you which topic attracts buyers
    rather than peers.
-3. **Email clicks on `info@epiaidea.com`** — the only number that matters.
+3. **Email clicks on `akshaya.bhagavathula@gmail.com`** — the only number that matters.
 
 If a topic drives traffic but no enquiries, you are reaching academics. If a
 quieter topic drives enquiries, post more of that.

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- Security headers -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; connect-src 'self' https://eutils.ncbi.nlm.nih.gov https://api.openalex.org; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; connect-src 'self' https://eutils.ncbi.nlm.nih.gov https://api.openalex.org https://raw.githubusercontent.com; base-uri 'self'; form-action 'self'" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
 
@@ -139,9 +139,9 @@
     }
     .brand-tagline { font-size: 11px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; }
 
-    nav { display: flex; gap: 4px; }
+    nav { display: flex; flex-wrap: wrap; gap:3px; }
     nav a {
-      color: var(--muted); padding: 8px 14px; border-radius: 10px;
+      color: var(--muted); padding: 8px 9px; border-radius: 10px;
       font-size: 14px; font-weight: 500; border: 1px solid transparent;
       transition: all 0.2s ease;
     }
@@ -392,13 +392,13 @@
         <div class="brand-tagline">Epidemiology · AI · Data · Evidence · Action</div>
       </div>
       <nav aria-label="Primary navigation">
-        <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="services.html">Consulting</a>
         <a href="health-law.html">Health Law</a>
         <a href="digital-epidemiology.html">Digital Epi</a>
         <a href="atlas.html">Atlas</a>
         <a href="research.html">Research</a>
+    <a href="insights.html">Insights</a>
         <a href="book.html">Book</a>
         <a href="media.html" class="active">Media</a>
         <a href="contact.html">Contact</a>
@@ -678,11 +678,12 @@
     </div>
 
     <footer>
-      <div>© <span id="y"></span> EPIAIDEA · <span class="accent">Epidemiology + AI + Data + Evidence + Action</span></div>
+      <div>© <span id="y"></span> Akshaya Bhagavathula · EPIAIDEA · <span class="accent">Epidemiology + AI + Data + Evidence + Action</span><br/><span style="opacity:.75;">All rights reserved. The text, data, figures, analyses and visualisations on this site are the copyrighted work of Akshaya Bhagavathula and may not be reproduced, republished or used to train automated systems without written permission. Quotation with attribution and a link is welcome.</span></div>
       <div style="display:flex;gap:18px;">
       <a href="services.html">Consulting</a>
       <a href="atlas.html">Atlas</a>
       <a href="research.html">Research</a>
+      <a href="insights.html">Insights</a>
       <a href="book.html">Book</a>
       <a href="contact.html">Contact</a>
     </div>
@@ -792,13 +793,13 @@
     <div class="ckb-in">
       <div class="ckb-tx">
         <b>Cookies on this site</b>
-        This site uses essential cookies to function. With your consent it also uses analytics
-        cookies to understand which pages are useful. No advertising or third-party tracking cookies
-        are set, and nothing is sold or shared.
+        This site uses a small number of essential cookies to work. With your consent it also uses
+        analytics cookies to see which pages are useful. No advertising or third-party tracking
+        cookies are set, and nothing is sold or shared. Rejecting keeps the essential ones only.
       </div>
       <div class="ckb-bt">
-        <button type="button" id="ckNo">Essential only</button>
-        <button type="button" class="ok" id="ckYes">Accept analytics</button>
+        <button type="button" id="ckNo">Reject cookies</button>
+        <button type="button" class="ok" id="ckYes">Accept cookies</button>
       </div>
     </div>
   </div>

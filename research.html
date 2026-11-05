@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- Security headers -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; connect-src 'self' https://eutils.ncbi.nlm.nih.gov https://api.openalex.org; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; connect-src 'self' https://eutils.ncbi.nlm.nih.gov https://api.openalex.org https://raw.githubusercontent.com; base-uri 'self'; form-action 'self'" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
 
@@ -88,8 +88,8 @@
     .wordmark .ai { color: var(--gold); position: relative; text-shadow: 0 0 24px rgba(242,201,76,0.4); }
     .wordmark .ai::after { content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 2px; background: var(--gold); border-radius: 2px; box-shadow: 0 0 8px var(--gold); }
     .brand-tagline { font-size: 11px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; font-weight: 400; }
-    nav { display: flex; gap: 4px; }
-    nav a { color: var(--muted); padding: 8px 14px; border-radius: 10px; font-size: 14px; font-weight: 500; border: 1px solid transparent; transition: all .2s ease; }
+    nav { display: flex; flex-wrap: wrap; gap:3px; }
+    nav a { color: var(--muted); padding: 8px 9px; border-radius: 10px; font-size: 14px; font-weight: 500; border: 1px solid transparent; transition: all .2s ease; }
     nav a:hover { color: var(--text); border-color: var(--card-border); background: var(--card); }
     nav a.active { color: var(--gold); border-color: rgba(242,201,76,.25); background: rgba(242,201,76,.06); }
 
@@ -277,13 +277,13 @@
         <div class="brand-tagline">Epidemiology · AI · Data · Evidence · Action</div>
       </div>
       <nav aria-label="Primary navigation">
-        <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="services.html">Consulting</a>
         <a href="health-law.html">Health Law</a>
         <a href="digital-epidemiology.html">Digital Epi</a>
         <a href="atlas.html">Atlas</a>
         <a href="research.html" class="active">Research</a>
+    <a href="insights.html">Insights</a>
         <a href="book.html">Book</a>
         <a href="media.html">Media</a>
         <a href="contact.html">Contact</a>
@@ -370,13 +370,13 @@
             <div class="impact-label">h-index</div>
             <div class="impact-value"><span data-metric="h_index">84</span></div>
             <div class="impact-sub">i-10 index: <span data-metric="i10_index">218</span> · Google Scholar</div>
-            <div class="impact-detail">An h-index of 84 means 84 publications each carrying 84+ citations — consistent high-impact output across infodemiology, pharmacoepidemiology, digital epidemiology, and burden of disease, not a single viral paper.</div>
+            <div class="impact-detail">An h-index of <span data-metric="h_index">84</span> means that many publications each carrying as many citations — consistent high-impact output across infodemiology, pharmacoepidemiology, digital epidemiology, and burden of disease, not a single viral paper.</div>
           </div>
           <div class="impact-card">
             <div class="impact-label">Publications &amp; Rank</div>
             <div class="impact-value"><span data-metric="publications" data-format="plus">547+</span></div>
             <div class="impact-sub">Top 2% globally · Top SCINET</div>
-            <div class="impact-detail">Over 547 peer-reviewed publications. Ranked in the top 2% of scientists worldwide by Top SCINET's field-normalised composite score. Associate Editor, JMIR Public Health &amp; Surveillance.</div>
+            <div class="impact-detail">Over <span data-metric="publications">547</span> peer-reviewed publications. Ranked in the top 2% of scientists worldwide by Top SCINET's field-normalised composite score. Associate Editor, JMIR Public Health &amp; Surveillance.</div>
           </div>
         </div>
 
@@ -560,11 +560,12 @@
     </div>
 
     <footer>
-      <div>© <span id="y"></span> EPIAIDEA · <span class="accent">Epidemiology + AI + Data + Evidence + Action</span></div>
+      <div>© <span id="y"></span> Akshaya Bhagavathula · EPIAIDEA · <span class="accent">Epidemiology + AI + Data + Evidence + Action</span><br/><span style="opacity:.75;">All rights reserved. The text, data, figures, analyses and visualisations on this site are the copyrighted work of Akshaya Bhagavathula and may not be reproduced, republished or used to train automated systems without written permission. Quotation with attribution and a link is welcome.</span></div>
       <div style="display:flex;gap:18px;">
       <a href="services.html">Consulting</a>
       <a href="atlas.html">Atlas</a>
       <a href="research.html">Research</a>
+      <a href="insights.html">Insights</a>
       <a href="book.html">Book</a>
       <a href="contact.html">Contact</a>
     </div>
@@ -636,13 +637,25 @@
       const w = chartCtx && chartCtx.parentElement;
       if (w) w.innerHTML = '<div style="padding:28px;text-align:center;color:var(--muted);font-size:13px;line-height:1.7">Citation trend chart unavailable offline.<br/><a href="https://scholar.google.com/citations?user=mtufk2wAAAAJ" target="_blank" rel="noopener" style="color:var(--gold)">View live citation metrics on Google Scholar →</a></div>';
     } else {
-    new Chart(chartCtx, {
+    // Historical points are fixed; the final point is the CURRENT year and is
+    // driven by the live metrics feed, so the chart cannot go stale again.
+    const HISTORY = {
+      "2019": 12000, "2020": 17500, "2021": 24000, "2022": 33000,
+      "2023": 44000, "2024": 57000, "2025": 78000
+    };
+    const THIS_YEAR = String(new Date().getFullYear());
+    const SEED_CURRENT = 100000;   // replaced on load by the live figure
+
+    const chartLabels = Object.keys(HISTORY).concat([THIS_YEAR]);
+    const chartValues = Object.values(HISTORY).concat([SEED_CURRENT]);
+
+    const citationChart = new Chart(chartCtx, {
       type: 'line',
       data: {
-        labels: ["2019","2020","2021","2022","2023","2024","2025","2026"],
+        labels: chartLabels,
         datasets: [{
           label: 'Cumulative Citations',
-          data: [12000,17500,24000,33000,44000,57000,78000,98310],
+          data: chartValues,
           borderColor: '#f2c94c', borderWidth: 2.5,
           pointBackgroundColor: '#f2c94c', pointBorderColor: 'rgba(242,201,76,0.4)',
           pointBorderWidth: 4, pointRadius: 4, tension: 0.35, fill: true,
@@ -669,6 +682,19 @@
           x: { ticks: { color: '#96aacf', font: { family: 'Instrument Sans', size: 11 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
           y: { ticks: { color: '#96aacf', font: { family: 'Instrument Sans', size: 11 }, callback: v => v>=1000?(v/1000).toFixed(0)+'K':v }, grid: { color: 'rgba(255,255,255,0.05)' } }
         }
+      }
+    });
+
+    // metrics.js fires this once it has resolved the live figures. Raise the
+    // final point to match, so the chart and the headline number never disagree.
+    document.addEventListener('epiaidea:metrics', function (e) {
+      const live = e.detail && e.detail.citations;
+      if (typeof live !== 'number' || !isFinite(live)) return;
+      const ds = citationChart.data.datasets[0];
+      const last = ds.data.length - 1;
+      if (live > ds.data[last]) {
+        ds.data[last] = live;
+        citationChart.update('none');
       }
     });
     }
@@ -740,14 +766,14 @@
         esUrl.searchParams.set("db","pubmed");esUrl.searchParams.set("term",PUBMED_TERM);
         esUrl.searchParams.set("retmax","30");esUrl.searchParams.set("sort","pub+date");
         esUrl.searchParams.set("retmode","json");esUrl.searchParams.set("tool","epiaidea");
-        esUrl.searchParams.set("email","info@epiaidea.com");
+        esUrl.searchParams.set("email","akshaya.bhagavathula@gmail.com");
         const sr=await fetch(esUrl.toString());if(!sr.ok)throw new Error("esearch failed");
         const sj=await sr.json();const ids=sj?.esearchresult?.idlist||[];
         if(!ids.length){pubStatus.textContent="No results found.";return;}
         const emUrl=new URL("https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi");
         emUrl.searchParams.set("db","pubmed");emUrl.searchParams.set("id",ids.join(","));
         emUrl.searchParams.set("retmode","json");emUrl.searchParams.set("tool","epiaidea");
-        emUrl.searchParams.set("email","info@epiaidea.com");
+        emUrl.searchParams.set("email","akshaya.bhagavathula@gmail.com");
         const er=await fetch(emUrl.toString());if(!er.ok)throw new Error("esummary failed");
         const ej=await er.json();const result=ej?.result||{};
         pubList.innerHTML="";
@@ -799,13 +825,13 @@
     <div class="ckb-in">
       <div class="ckb-tx">
         <b>Cookies on this site</b>
-        This site uses essential cookies to function. With your consent it also uses analytics
-        cookies to understand which pages are useful. No advertising or third-party tracking cookies
-        are set, and nothing is sold or shared.
+        This site uses a small number of essential cookies to work. With your consent it also uses
+        analytics cookies to see which pages are useful. No advertising or third-party tracking
+        cookies are set, and nothing is sold or shared. Rejecting keeps the essential ones only.
       </div>
       <div class="ckb-bt">
-        <button type="button" id="ckNo">Essential only</button>
-        <button type="button" class="ok" id="ckYes">Accept analytics</button>
+        <button type="button" id="ckNo">Reject cookies</button>
+        <button type="button" class="ok" id="ckYes">Accept cookies</button>
       </div>
     </div>
   </div>
