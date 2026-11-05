@@ -1,139 +1,65 @@
-# EPIAIDEA — Website
+# scholar-metrics
 
-Complete site: 10 pages, assets, SEO files, security headers, and the
-automated Google Scholar metrics system.
-
----
-
-## Files
+One JSON file holding Akshaya Bhagavathula's current Google Scholar figures,
+refreshed automatically twice a week. `epiaidea.com` reads it at page load, so
+the citation count and h-index on the website update themselves without the
+site being redeployed.
 
 ```
-index.html          Homepage — hero, book banner, stats, implementations
-about.html          Background and methodology
-services.html       Consulting & analytics  ← revenue page
-health-law.html     Health law / legal epidemiology vertical
-digital-epidemiology.html   Digital epi / infodemiology vertical
-research.html       Research portfolio, live PubMed feed, citation chart
-book.html           THE DENOMINATOR — book landing page
-media.html          Press coverage and press kit
-contact.html        Contact, collaboration areas, FAQ
-
-assets/
-  headshot.jpg              600×600 profile photo
-  headshot_sm.jpg           200×200 thumbnail
-  epiaidea_logo.png/.svg    Logo (title image)
-  metrics.js                Site-wide metric updater
-  scholar-metrics.json      ← THE ONLY FILE YOU EDIT FOR NUMBERS
-
-LINKEDIN-PLAYBOOK.md  How to drive traffic from LinkedIn
-sitemap.xml         Submit to Google Search Console
-robots.txt          Search engine directives
-_headers            Server security headers (Netlify / Cloudflare Pages)
-
-.github/workflows/
-  scholar-metrics.yml       Weekly automatic Scholar refresh
+https://raw.githubusercontent.com/aidea1/scholar-metrics/main/metrics.json
 ```
 
----
+## Why this repo exists separately from the site
 
-## Deploying
+Google Scholar publishes no API, disallows crawling in `robots.txt`, and sends
+no CORS header. A browser cannot read it — any in-page `fetch()` of
+`scholar.google.com` fails silently. The only reliable route is a scheduled
+job running on a server, writing the numbers somewhere the browser *can* read.
 
-Upload the whole folder to your host, keeping the structure intact.
-`assets/` must stay a subfolder next to the HTML files.
+`raw.githubusercontent.com` sends `Access-Control-Allow-Origin: *`, so the
+website can read this file from any host — GitHub Pages, Netlify, Cloudflare,
+cPanel, anywhere. That is the whole point of keeping it here rather than in the
+site folder: **the numbers update even if the website is never redeployed.**
 
-**Netlify or Cloudflare Pages** — drag the folder in. `_headers` works
-automatically and applies HSTS, X-Frame-Options and Permissions-Policy.
+## Setup — once, about five minutes
 
-**Apache** — `_headers` won't work. Add this to `.htaccess` instead:
+1. Create a new **public** repo under the `aidea1` account named
+   `scholar-metrics`. Public matters: `raw.githubusercontent.com` will not serve
+   a private repo to a browser.
+2. Upload the contents of this folder (`metrics.json`, `scripts/`,
+   `.github/workflows/`) and commit.
+3. Open the **Actions** tab, select *Refresh Google Scholar metrics*, and click
+   **Run workflow**. This both proves it works and writes today's real figures.
+4. Open the raw URL above in a browser. If you see JSON, the website is done —
+   nothing to change on `epiaidea.com`.
 
-```apache
-Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains"
-Header always set X-Frame-Options "DENY"
-Header always set X-Content-Type-Options "nosniff"
-Header always set Referrer-Policy "strict-origin-when-cross-origin"
-Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
-```
+If step 3 reports that Scholar blocked the scrape, re-run it; GitHub's IP
+ranges get rate-limited intermittently. If it keeps failing, add a
+[SerpAPI](https://serpapi.com) key under **Settings → Secrets and variables →
+Actions** as `SERPAPI_KEY`; the script uses it automatically as a fallback.
 
-**Nginx** — add each as `add_header ... always;` inside your server block.
+## What the website does with it
 
----
+`assets/metrics.js` fetches this file, the site's own
+`assets/scholar-metrics.json`, and the last values it cached in the browser,
+then displays **whichever is highest**. Two consequences worth knowing:
 
-## Updating your citation numbers
+- A figure is never blank and never flickers, even offline.
+- A number can only go up. A failed scrape that returns `0`, or a source that
+  has only partially indexed the profile, cannot pull the displayed figure down.
 
-Edit **`assets/scholar-metrics.json`** only. Every page reads from it —
-homepage stats, research impact cards, consulting credential bar,
-contact sidebar, and the book page all update together.
+The scraper applies the same rule server-side: a value more than 10% below
+what is already on file is rejected as a bad scrape rather than committed.
 
-```json
-{
-  "citations": 100000,
-  "h_index": 84,
-  "i10_index": 218,
-  "publications": 547
-}
-```
+## Updating the figures by hand
 
-### Making it automatic
+Editing `metrics.json` in the GitHub web editor and committing is enough. The
+website picks it up within the hour (`metrics.js` cache-busts hourly).
 
-Put this folder in a GitHub repository. `.github/workflows/scholar-metrics.yml`
-runs **twice a week** (Monday and Thursday, 06:00 UTC) and on demand from the
-repo's **Actions** tab. Each run:
+## What this does *not* update
 
-1. Reads your Scholar profile (3 retries, since Google rate-limits).
-2. Writes `assets/scholar-metrics.json`.
-3. Rewrites the numbers in every `.html` title/meta tag and the
-   `assets/metrics.js` fallback, then commits.
-
-Step 3 matters: JavaScript updates what **visitors** see, but Google reads the
-raw HTML, so page titles and meta descriptions have to be rewritten in the file
-or your search snippets go stale.
-
-**Safety guards.** A value that is zero, missing, or more than 10% below the
-current figure is rejected — a partial scrape looks like a huge drop, and this
-stops it wiping your numbers. If every source fails, nothing changes.
-
-**If Google blocks it.** Scraping from GitHub's IPs fails sometimes. Get a
-SerpAPI key, add it as a repo secret named `SERPAPI_KEY`
-(Settings → Secrets and variables → Actions), and the workflow falls back to it
-automatically. No other change needed.
-
-> Google Scholar publishes no API and blocks cross-origin browser requests, so
-> the numbers cannot be read live from the page. This scheduled job is the only
-> reliable route.
-
-OpenAlex is also queried live in the browser as a secondary source, but it can
-only *raise* a number, never lower it — it indexes far less than Scholar.
-
-### Changing the numbers by hand
-
-Edit `assets/scholar-metrics.json` and commit. Every page follows.
-
-## Before you go live
-
-- [ ] Download the book cover from Barnes & Noble and save it as
-      `assets/book-cover.jpg`, then replace the two `cdn.shopify.com`
-      URLs in `index.html` and `book.html`. Right now it is hot-linked
-      and will break if B&N changes it.
-- [ ] Add consulting prices to `services.html` — the biggest remaining
-      conversion gap.
-- [ ] Add a booking link (Cal.com or Calendly) to the consulting CTAs.
-- [ ] Submit `sitemap.xml` in Google Search Console.
-- [ ] Run every URL through https://www.linkedin.com/post-inspector/ once,
-      to clear LinkedIn's cached link previews.
-- [ ] Set your LinkedIn profile website field to `epiaidea.com/services.html`.
-- [ ] Paste an analytics snippet into the marked placeholder in the cookie
-      banner script. It only runs after consent. Plausible is cookieless
-      and would let you drop the banner entirely.
-- [ ] Enable 2FA on your domain registrar and hosting, and turn on
-      registrar domain lock. This matters more than anything on the page.
-
----
-
-## Notes
-
-Consulting is positioned independently — no university is named anywhere on
-the site, which avoids implying institutional endorsement of private work.
-
-The research page seeds five real publications immediately, then replaces
-them with the live PubMed feed when it loads. Chart.js is guarded, so a CDN
-failure degrades one panel instead of blanking the page.
+The citation figures inside `<title>`, `<meta name="description">` and the
+JSON-LD blocks in each page's `<head>`. Those are read by Google and LinkedIn
+from the raw HTML before any JavaScript runs, so they have to be rewritten in
+the files themselves. Run `refresh-meta.py` in the site folder when you
+redeploy — see the site's `START-HERE.md`.
