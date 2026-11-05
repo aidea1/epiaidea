@@ -1,43 +1,57 @@
 /* ============================================================
-   EPIAIDEA — live scholarly metrics
+   EPIAIDEA — live scholarly metrics  (v2)
    ------------------------------------------------------------
-   Updates every metric on every page from ONE source.
+   One number, updated in one place, reflected on every page.
 
-   Resolution order:
-     1. assets/scholar-metrics.json  (real Google Scholar figures,
-        refreshed weekly by GitHub Actions)
-     2. OpenAlex API                 (live, free, no key — used only
-        to ratchet a number UPWARD if it is higher than the file)
-     3. Hard-coded FALLBACK below    (so the page is never blank)
+   Resolution order (first success wins, then ratcheted upward):
+     1. REMOTE  — metrics.json in a GitHub repo, served over
+                  raw.githubusercontent.com. Updated twice weekly by
+                  a GitHub Action that scrapes Google Scholar.
+                  This is the source that makes the site update
+                  itself NO MATTER WHERE epiaidea.com is hosted.
+     2. LOCAL   — /assets/scholar-metrics.json, deployed with the site.
+                  Used when REMOTE is unreachable, and as the seed on
+                  a first visit.
+     3. CACHE   — the last good values, kept in localStorage.
+     4. FALLBACK— hard-coded below, so a figure is never blank.
 
-   Why not read Google Scholar directly?
-   Scholar publishes no API and blocks cross-origin browser requests.
-   Any in-page fetch of scholar.google.com fails silently. The JSON
-   file + scheduled job is the only reliable way to keep real Scholar
-   numbers current.
+   Ratchet rule: a source may only RAISE a value, never lower it.
+   Citation counts do not go down; a lower number means a failed
+   scrape or a partially-indexed source, not a real decline.
 
-   Markup usage:
-     <span data-metric="citations"></span>
-     <span data-metric="h_index"></span>
+   Why not read Google Scholar from the page?
+   Scholar publishes no API, disallows crawling in robots.txt, and
+   sends no CORS header, so any in-page fetch fails silently. A
+   scheduled server-side job writing to a JSON file is the only
+   reliable route. That job is .github/workflows/scholar-metrics.yml.
+
+   Markup:
+     <span data-metric="citations"    data-format="plus"></span>
+     <span data-metric="h_index"      data-prefix="h-index "></span>
      <span data-metric="i10_index"></span>
      <span data-metric="publications"></span>
      <span data-metric="updated"></span>
-   Optional: data-format="plus"   → 98,310+
-             data-format="short"  → 98K+
-             data-prefix="h-index "
+   Formats: data-format="plus" → 100,000+ · "short" → 100K+
    ============================================================ */
 (function () {
   'use strict';
 
+  /* ---- EDIT THIS ONE LINE if you rename the metrics repo ---- */
+  var REMOTE = 'https://raw.githubusercontent.com/aidea1/scholar-metrics/main/metrics.json';
+  /* ----------------------------------------------------------- */
+
+  var LOCAL    = '/assets/scholar-metrics.json';
+  var LOCAL_REL= 'assets/scholar-metrics.json';   // if the site is served from a subpath
+  var CACHE_KEY = 'epiaidea_metrics_v2';
+  var KEYS = ['citations', 'h_index', 'i10_index', 'publications'];
+
   var FALLBACK = {
-    citations: 98310,
+    citations: 100000,
     h_index: 84,
     i10_index: 218,
     publications: 547,
-    last_updated: '2026-08-26'
+    last_updated: '2026-11-05'
   };
-
-  var ORCID = '0000-0002-0581-7808';
 
   // ---------- formatting ----------
   function comma(n) { return n.toLocaleString('en-US'); }
@@ -56,7 +70,8 @@
 
   // ---------- animated count-up ----------
   function countUp(el, target, mode, prefix) {
-    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var reduced = window.matchMedia &&
+                  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduced || target < 100) {
       el.textContent = prefix + format(target, mode);
       return;
@@ -65,7 +80,7 @@
     function step(ts) {
       if (!start) start = ts;
       var p = Math.min((ts - start) / DUR, 1);
-      var eased = 1 - Math.pow(1 - p, 3);           // easeOutCubic
+      var eased = 1 - Math.pow(1 - p, 3);            // easeOutCubic
       el.textContent = prefix + format(Math.floor(target * eased), mode);
       if (p < 1) requestAnimationFrame(step);
       else el.textContent = prefix + format(target, mode);
@@ -74,13 +89,15 @@
   }
 
   // ---------- paint values into the DOM ----------
+  var animated = [];   // elements already counted up, so a later repaint is silent
+
   function paint(data) {
     var nodes = document.querySelectorAll('[data-metric]');
     if (!nodes.length) return;
 
-    nodes.forEach(function (el) {
-      var key = el.getAttribute('data-metric');
-      var mode = el.getAttribute('data-format') || 'comma';
+    Array.prototype.forEach.call(nodes, function (el) {
+      var key    = el.getAttribute('data-metric');
+      var mode   = el.getAttribute('data-format') || 'comma';
       var prefix = el.getAttribute('data-prefix') || '';
 
       if (key === 'updated') {
@@ -96,82 +113,121 @@
       var val = data[key];
       if (typeof val !== 'number' || !isFinite(val)) return;
 
-      // Animate only when scrolled into view
+      // Already animated once? Just swap the text in, no second animation.
+      if (animated.indexOf(el) !== -1) {
+        el.textContent = prefix + format(val, mode);
+        return;
+      }
+
+      el.textContent = prefix + format(val, mode);   // correct value is in the DOM immediately
+
       if ('IntersectionObserver' in window) {
-        var seen = false;
         var io = new IntersectionObserver(function (entries) {
           entries.forEach(function (e) {
-            if (e.isIntersecting && !seen) {
-              seen = true;
-              countUp(el, val, mode, prefix);
-              io.disconnect();
-            }
+            if (!e.isIntersecting) return;
+            io.disconnect();
+            if (animated.indexOf(el) !== -1) return;
+            animated.push(el);
+            countUp(el, val, mode, prefix);
           });
         }, { threshold: 0.25 });
         io.observe(el);
-        el.textContent = prefix + format(val, mode); // immediate value if JS observer never fires
-      } else {
-        el.textContent = prefix + format(val, mode);
       }
     });
 
-    document.dispatchEvent(new CustomEvent('epiaidea:metrics', { detail: data }));
+    try {
+      document.dispatchEvent(new CustomEvent('epiaidea:metrics', { detail: data }));
+    } catch (e) { /* older browsers */ }
   }
 
-  // ---------- data sources ----------
-  function fromFile() {
-    return fetch('assets/scholar-metrics.json', { cache: 'no-cache' })
-      .then(function (r) { if (!r.ok) throw new Error('no file'); return r.json(); });
-  }
-
-  function fromOpenAlex() {
-    // Free, CORS-enabled, no API key. Indexes differently from Scholar
-    // (generally lower), so it is only ever used to RAISE a value.
-    return fetch('https://api.openalex.org/authors/orcid:' + ORCID +
-                 '?select=cited_by_count,works_count,summary_stats')
-      .then(function (r) { if (!r.ok) throw new Error('openalex'); return r.json(); })
-      .then(function (j) {
-        var s = j.summary_stats || {};
-        return {
-          citations: j.cited_by_count,
-          publications: j.works_count,
-          h_index: s.h_index,
-          i10_index: s.i10_index
-        };
-      });
-  }
-
+  // ---------- ratchet ----------
   function merge(base, extra) {
     var out = {};
     Object.keys(base).forEach(function (k) { out[k] = base[k]; });
     if (!extra) return out;
-    // Ratchet: only take the live number if it is genuinely higher.
-    ['citations', 'h_index', 'i10_index', 'publications'].forEach(function (k) {
-      if (typeof extra[k] === 'number' && extra[k] > (out[k] || 0)) out[k] = extra[k];
+    KEYS.forEach(function (k) {
+      var v = extra[k];
+      if (typeof v === 'number' && isFinite(v) && v > (out[k] || 0)) out[k] = v;
     });
+    // Keep the most recent date we have seen.
+    if (extra.last_updated && (!out.last_updated || extra.last_updated > out.last_updated)) {
+      out.last_updated = extra.last_updated;
+    }
     return out;
+  }
+
+  // ---------- cache ----------
+  // Upper bounds purely as a corruption guard. The ratchet means a bad high
+  // value would otherwise persist in one visitor's browser indefinitely.
+  var CEILING = { citations: 5000000, h_index: 300, i10_index: 5000, publications: 5000 };
+
+  function sane(data) {
+    if (!data || typeof data !== 'object') return null;
+    var out = {}, any = false;
+    KEYS.forEach(function (k) {
+      var v = data[k];
+      if (typeof v === 'number' && isFinite(v) && v > 0 && v <= CEILING[k]) {
+        out[k] = v; any = true;
+      }
+    });
+    if (data.last_updated) out.last_updated = data.last_updated;
+    return any ? out : null;
+  }
+
+  function readCache() {
+    try {
+      var raw = localStorage.getItem(CACHE_KEY);
+      return raw ? sane(JSON.parse(raw)) : null;
+    } catch (e) { return null; }
+  }
+
+  function writeCache(data) {
+    try { localStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch (e) { /* private mode */ }
+  }
+
+  // ---------- fetch helpers ----------
+  function getJSON(url, opts) {
+    return fetch(url, opts || {}).then(function (r) {
+      if (!r.ok) throw new Error(url + ' → ' + r.status);
+      return r.json();
+    });
+  }
+
+  function fromRemote() {
+    // Cache-bust per hour: fresh enough to matter, cheap enough for the CDN.
+    var bust = Math.floor(Date.now() / 3600000);
+    return getJSON(REMOTE + '?v=' + bust, { cache: 'no-cache', mode: 'cors' });
+  }
+
+  function fromLocal() {
+    return getJSON(LOCAL, { cache: 'no-cache' })
+      .catch(function () { return getJSON(LOCAL_REL, { cache: 'no-cache' }); });
   }
 
   // ---------- run ----------
   function init() {
-    paint(FALLBACK); // paint instantly so nothing is ever blank
+    // Best value we can show with zero network: cache, else fallback.
+    var current = merge(FALLBACK, readCache());
+    paint(current);
 
-    fromFile()
-      .catch(function () { return FALLBACK; })
-      .then(function (fileData) {
-        var base = merge(FALLBACK, fileData);
-        base.last_updated = fileData.last_updated || FALLBACK.last_updated;
-        paint(base);
+    // Local file and remote file in parallel; whichever is higher wins.
+    var settled = 0;
+    function done(data) {
+      settled++;
+      if (data) {
+        var next = merge(current, data);
+        if (JSON.stringify(next) !== JSON.stringify(current)) {
+          current = next;
+          paint(current);
+        }
+      }
+      if (settled === 2) writeCache(current);
+    }
 
-        return fromOpenAlex()
-          .then(function (live) {
-            var merged = merge(base, live);
-            merged.last_updated = base.last_updated;
-            if (JSON.stringify(merged) !== JSON.stringify(base)) paint(merged);
-          })
-          .catch(function () { /* offline or blocked — file values stand */ });
-      })
-      .catch(function () { /* everything failed — FALLBACK already painted */ });
+    fromLocal().then(function (d) { done(sane(d) && Object.assign(sane(d), { last_updated: d.last_updated })); },
+              function () { done(null); });
+    fromRemote().then(function (d) { done(sane(d) && Object.assign(sane(d), { last_updated: d.last_updated })); },
+               function () { done(null); });
   }
 
   if (document.readyState === 'loading') {
