@@ -64,13 +64,7 @@
       "inLanguage": "en",
       "abridged": false,
       "url": "https://epiaidea.com/book.html#audiobook",
-      "author": { "@type": "Person", "name": "Akshaya Bhagavathula" },
-      "associatedMedia": {
-        "@type": "AudioObject",
-        "name": "The Denominator — audiobook sample",
-        "encodingFormat": "audio/mpeg",
-        "contentUrl": "https://epiaidea.com/assets/audio/the-denominator-sample.mp3"
-      }
+      "author": { "@type": "Person", "name": "Akshaya Bhagavathula" }
     }
   }
   </script>
@@ -328,11 +322,6 @@
       font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
     .abk h3 { font-family:'Bricolage Grotesque',sans-serif; color: var(--text); margin: 0; }
     .abk p { color: var(--muted); max-width: 62ch; margin: 12px 0 0; }
-    .abk audio { width: 100%; margin: 22px 0 6px; border-radius: 10px;
-      /* Native controls kept for accessibility and broad support; inverted so the
-         default white chrome sits on the dark page instead of glaring against it. */
-      filter: invert(1) hue-rotate(180deg) saturate(.7); opacity: .92; }
-    .abk audio:hover { opacity: 1; }
     .abk-specs { display: flex; flex-wrap: wrap; gap: 10px 26px; margin-top: 18px;
       padding-top: 18px; border-top: 1px solid rgba(255,255,255,.08); color: var(--muted); }
     .abk-specs b { color: var(--text); font-weight: 600; }
@@ -397,7 +386,7 @@
 
         <div class="buy-row">
           <a class="btn primary" href="https://www.barnesandnoble.com/w/the-denominator-akshaya-bhagavathula/1150819011" target="_blank" rel="noopener">Buy the paperback — $29.99</a>
-          <a class="btn" href="#audiobook">Listen to the audiobook ↓</a>
+          <a class="btn" href="#audiobook">Audiobook ↓</a>
           <a class="btn" href="#inside">Read an excerpt ↓</a>
         </div>
         <div class="buy-note"><span class="g"></span>Paperback from Barnes &amp; Noble · Ships worldwide · <strong style="color:var(--gold);">Audiobook out now</strong></div>
@@ -414,66 +403,11 @@
       </div>
 
       <p>
-        The full book is now available as an audiobook, narrated end to end. If you spend
-        your commute or your fieldwork listening rather than reading, this is the version
-        for you.
+        The full book is now available as an audiobook, unabridged and narrated end to
+        end. If you spend your commute or your fieldwork listening rather than reading,
+        this is the version for you.
       </p>
 
-      <audio id="abkPlayer" controls preload="metadata" src="assets/audio/the-denominator-sample.mp3">
-        Your browser does not support audio playback.
-        <a href="assets/audio/the-denominator-sample.mp3">Download the sample (MP3)</a>.
-      </audio>
-      <div id="abkNote" style="color:var(--muted);font-size:13px;">Sample — the book's opening.</div>
-
-      <script>
-      /* A missing audio file otherwise fails silently: the player renders, shows
-         0:00, and does nothing when clicked. This replaces it with a message
-         naming the exact file that is missing. */
-      (function () {
-        var a = document.getElementById('abkPlayer');
-        var note = document.getElementById('abkNote');
-        if (!a || !note) return;
-        var settled = false;
-
-        function ok() {
-          if (settled) return;
-          if (!isFinite(a.duration) || a.duration <= 0) return;
-          settled = true;
-          var m = Math.floor(a.duration / 60), sec = Math.round(a.duration % 60);
-          note.textContent = "Sample — the book's opening (" + m + ":" +
-                             String(sec).padStart(2, '0') + ").";
-        }
-
-        function fail() {
-          if (settled) return;
-          settled = true;
-          a.style.display = 'none';
-          note.innerHTML =
-            '<div style="background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.35);' +
-            'border-radius:12px;padding:16px 18px;color:#ff9b9b;line-height:1.6;">' +
-            '<strong style="color:#ffc2c2;">The audio file is not on the server.</strong><br/>' +
-            'This page is looking for <code style="color:#fff;">assets/audio/' +
-            'the-denominator-sample.mp3</code> and the server did not return it. ' +
-            'Upload the <code style="color:#fff;">assets/audio/</code> folder alongside your ' +
-            'HTML files, then reload this page.' +
-            '</div>';
-        }
-
-        a.addEventListener('loadedmetadata', ok);
-        a.addEventListener('canplay', ok);
-        a.addEventListener('error', fail);
-
-        // The events above may already have fired before this script ran, so
-        // check the element's current state as well rather than only waiting.
-        function poll(triesLeft) {
-          if (settled) return;
-          if (a.error || a.networkState === 3 /* NETWORK_NO_SOURCE */) { fail(); return; }
-          if (a.readyState >= 1 /* HAVE_METADATA */) { ok(); return; }
-          if (triesLeft > 0) setTimeout(function () { poll(triesLeft - 1); }, 300);
-        }
-        poll(20);   // give the file up to ~6s on a slow connection
-      })();
-      </script>
 
       <div class="abk-specs">
         <div>Format <b>Audiobook &middot; MP3 and M4B</b></div>
