@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!-- Security -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; connect-src 'self' https://eutils.ncbi.nlm.nih.gov https://api.openalex.org https://raw.githubusercontent.com; base-uri 'self'; form-action 'self'" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; media-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; connect-src 'self' https://eutils.ncbi.nlm.nih.gov https://api.openalex.org https://raw.githubusercontent.com; base-uri 'self'; form-action 'self'" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
 
@@ -419,11 +419,61 @@
         for you.
       </p>
 
-      <audio controls preload="none" src="assets/audio/the-denominator-sample.mp3">
+      <audio id="abkPlayer" controls preload="metadata" src="assets/audio/the-denominator-sample.mp3">
         Your browser does not support audio playback.
         <a href="assets/audio/the-denominator-sample.mp3">Download the sample (MP3)</a>.
       </audio>
-      <div style="color:var(--muted);font-size:13px;">Sample — the book's opening.</div>
+      <div id="abkNote" style="color:var(--muted);font-size:13px;">Sample — the book's opening.</div>
+
+      <script>
+      /* A missing audio file otherwise fails silently: the player renders, shows
+         0:00, and does nothing when clicked. This replaces it with a message
+         naming the exact file that is missing. */
+      (function () {
+        var a = document.getElementById('abkPlayer');
+        var note = document.getElementById('abkNote');
+        if (!a || !note) return;
+        var settled = false;
+
+        function ok() {
+          if (settled) return;
+          if (!isFinite(a.duration) || a.duration <= 0) return;
+          settled = true;
+          var m = Math.floor(a.duration / 60), sec = Math.round(a.duration % 60);
+          note.textContent = "Sample — the book's opening (" + m + ":" +
+                             String(sec).padStart(2, '0') + ").";
+        }
+
+        function fail() {
+          if (settled) return;
+          settled = true;
+          a.style.display = 'none';
+          note.innerHTML =
+            '<div style="background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.35);' +
+            'border-radius:12px;padding:16px 18px;color:#ff9b9b;line-height:1.6;">' +
+            '<strong style="color:#ffc2c2;">The audio file is not on the server.</strong><br/>' +
+            'This page is looking for <code style="color:#fff;">assets/audio/' +
+            'the-denominator-sample.mp3</code> and the server did not return it. ' +
+            'Upload the <code style="color:#fff;">assets/audio/</code> folder alongside your ' +
+            'HTML files, then reload this page.' +
+            '</div>';
+        }
+
+        a.addEventListener('loadedmetadata', ok);
+        a.addEventListener('canplay', ok);
+        a.addEventListener('error', fail);
+
+        // The events above may already have fired before this script ran, so
+        // check the element's current state as well rather than only waiting.
+        function poll(triesLeft) {
+          if (settled) return;
+          if (a.error || a.networkState === 3 /* NETWORK_NO_SOURCE */) { fail(); return; }
+          if (a.readyState >= 1 /* HAVE_METADATA */) { ok(); return; }
+          if (triesLeft > 0) setTimeout(function () { poll(triesLeft - 1); }, 300);
+        }
+        poll(20);   // give the file up to ~6s on a slow connection
+      })();
+      </script>
 
       <div class="abk-specs">
         <div>Format <b>Audiobook &middot; MP3 and M4B</b></div>
