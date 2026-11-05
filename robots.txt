@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://epiaidea.com/sitemap.xml
